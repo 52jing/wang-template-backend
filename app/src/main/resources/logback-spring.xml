@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- 日志名称 -->
+    <springProperty scope="context" name="log.name" source="app.namespace" defaultValue="wangboot"/>
+    <!-- 日志存放路径 -->
+    <springProperty scope="context" name="log.path" source="logging.path" defaultValue="./logs"/>
+    <!-- 日志总体限制大小 -->
+    <springProperty scope="context" name="log.totalSizeCap" source="logging.totalSizeCap" defaultValue="100MB"/>
+    <!-- 日志存放天数 -->
+    <springProperty scope="context" name="log.retain" source="logging.retain" defaultValue="10"/>
+    <!-- 时区-->
+    <springProperty scope="context" name="log.tz" source="app.timezone" defaultValue="UTC"/>
+
+	<!-- 控制台输出 JSON 格式 -->
+	<appender name="console_json" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                  <timeZone>${log.tz}</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                    {
+                      "service": "${log.name}",
+                      "level": "%level",
+                      "thread": "%thread",
+                      "class": "%logger{40}",
+                      "line": "%line",
+                      "message": "%message"
+                    }
+                    </pattern>
+                </pattern>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>100</maxDepthPerThrowable>
+                        <maxLength>20480</maxLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                </stackTrace>
+            </providers>
+        </encoder>
+    </appender>
+
+    <!-- 控制台输出 彩色格式 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+	<!-- 文件输出 JSON 格式 -->
+    <appender name="file_json" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/${log.name}.log</file>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}/${log.name}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 总大小限制 -->
+            <totalSizeCap>${log.totalSizeCap}</totalSizeCap>
+            <!-- 日志最大的历史 -->
+            <maxHistory>${log.retain}</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>${log.tz}</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                    {
+                      "service": "${log.name}",
+                      "level": "%level",
+                      "thread": "%thread",
+                      "class": "%logger{40}",
+                      "line": "%line",
+                      "message": "%message"
+                    }
+                    </pattern>
+                </pattern>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>100</maxDepthPerThrowable>
+                        <maxLength>20480</maxLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                    </throwableConverter>
+                </stackTrace>
+            </providers>
+        </encoder>
+    </appender>
+
+	<!-- 系统模块日志级别控制  -->
+	<logger name="com.wangboot" level="info" />
+
+<!--	<root level="info">-->
+<!--        <appender-ref ref="console" />-->
+<!--        <appender-ref ref="file_json" />-->
+<!--	</root>-->
+
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="console" />
+            <appender-ref ref="file_json" />
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="console_json" />
+            <appender-ref ref="file_json" />
+        </root>
+    </springProfile>
+</configuration>

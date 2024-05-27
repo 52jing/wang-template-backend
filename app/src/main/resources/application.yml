@@ -1,0 +1,199 @@
+# 服务配置
+# https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.server
+server:
+  # 服务器的HTTP端口
+  port: 8000
+  servlet:
+    # 应用的访问路径
+    context-path: /api
+  # undertow配置
+  undertow:
+    accesslog:
+      dir: logs
+      enabled: false
+
+# 日志配置
+# https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.core
+logging:
+  level:
+    root: info
+    # 修改为debug可查看执行SQL
+    com.wangboot: info
+
+# Spring配置
+spring:
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.core.spring.profiles.active
+  profiles:
+    active: @profile.env@
+  web:
+    # 默认语言
+    locale: zh_CN
+  # 国际化资源
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.core.spring.messages.basename
+  messages:
+    encoding: utf-8
+    # 文件路径
+    basename: i18n/messages
+  # 文件上传
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.web.spring.servlet.multipart.enabled
+  servlet:
+     multipart:
+       enabled: true
+       # 单个文件大小
+       max-file-size:  10MB
+       # 设置总上传的文件大小
+       max-request-size:  20MB
+  # 数据源
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.data.spring.datasource.type
+  datasource:
+    # Druid 配置
+    # https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter
+    druid:
+      # 监控配置
+      web-stat-filter:
+        enabled: false
+      # Druid 监控管理页面
+      stat-view-servlet:
+        enabled: false
+        url-pattern: /druid/*
+      aop-patterns: com.wangboot.system.*,com.wangboot.task.*,com.wangboot.app.*
+  # 缓存配置
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.cache
+  cache:
+    type: SIMPLE
+    # Redis 缓存配置
+    redis:
+      key-prefix: wb_
+      cache-null-values: true
+      # 默认失效时间
+      # time-to-live: 600
+  # redis 配置
+  # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.data.spring.redis.host
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password: 
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  # 打开彩色日志打印
+  output:
+    ansi:
+      enabled: ALWAYS
+  
+# MyBatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.wangboot.**.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+# Actuator 配置
+# https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.actuator
+management:
+  server:
+    # 定义不同的端口
+    # port: 9000
+    # 定义路径前缀
+    # base-path: /management
+  endpoints:
+    web:
+      # 关闭发现页
+      discovery:
+        enabled: false
+      base-path: /actuator
+      # 暴露的服务，默认 health
+#      exposure:
+#        include: "*"
+
+# cors 配置
+cors:
+  enabled: false
+  methods:
+    - "*"
+  origins:
+    - "*"
+  headers:
+    - "*"
+  exposeHeaders:
+    - Content-Disposition
+  allowCredentials: false
+
+# 应用配置
+# 参考配置类 WbProperties
+app:
+  # 加密密钥，上线请修改
+  secret: abcdefghijklmnopqrstuvwxyz
+  # 调试开关
+  debug: false
+  # 维护中开关
+  inMaintenance: false
+  # 维护中提示
+  maintenanceNotice: 维护中
+  # 时区
+  timezone: Asia/Shanghai
+  # 上传文件大小限制，0则不限制
+  uploadLimits: 0
+  # 上传文件生成缩略图大小
+  uploadImageThumbSize: 200
+  # 认证配置
+  auth:
+    # 令牌有效期（分钟）
+    expires: 1440
+    # 刷新令牌有效期（分钟）
+    refreshExpires: 43200
+    # 登录限制策略，详见 LoginRestrictionStrategy 枚举
+    loginRestrictionStrategy: PER_FRONTEND
+    # 登录失败锁定次数，0 表示不锁定
+    loginFailedThreshold: 0
+    # 登录失败累计时间（秒）
+    loginFailedCheckSeconds: 300
+    # 登录失败锁定时间（秒）
+    loginFailedLockSeconds: 1800
+  # 线程池配置
+  threads:
+    corePoolSize: 5
+  # 验证码配置
+  captcha:
+    # 是否启用验证码验证
+    enabled: false
+    # 验证码有效时间（秒），0 则不限制
+    ttl: 300
+    # 图片验证码
+    image:
+      enabled: false
+    # 滑块验证码
+    slide:
+      enabled: false
+    # 短信验证码
+    sms:
+      enabled: false
+  # 接口加密配置
+  crypto:
+    enabled: false
+    # 加密模式 aes_rsa, aes_sm2, rsa, sm2
+    mode: aes_sm2
+    # 公钥
+    publicKey:
+    # 私钥
+    privateKey:
+  # 限速配置
+  rateLimit:
+    limitThreshold: 60
+    periodSeconds: 60
