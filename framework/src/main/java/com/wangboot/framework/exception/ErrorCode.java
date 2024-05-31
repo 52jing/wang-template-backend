@@ -46,6 +46,11 @@ public enum ErrorCode implements IErrorCode {
   DUPLICATED_RECORD(400, "430005", "error.duplicated_record"),
   // 渲染错误
   INVALID_TEMPLATE(400, "440001", "error.invalid_template"),
+  INVALID_DATASOURCE(400, "440001", "error.invalid_datasource"),
+  INVALID_DATASOURCE_CONFIG(400, "440002", "error.invalid_datasource_config"),
+  PARAM_IS_REQUIRED(400, "440003", "error.param_is_required"),
+  RENDER_FAILED(400, "440004", "error.render_failed"),
+  RETRIEVE_EMPTY_DATA(400, "440005", "error.retrieve_empty_data"),
   // 其他错误
   CRYPTO_ERROR(500, "510001", "error.crypto_error"),
   IN_MAINTENANCE(503, "510002", "error.in_maintenance");

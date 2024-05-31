@@ -1,6 +1,14 @@
 package com.wangboot.app;
 
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.mybatisflex.core.FlexGlobalConfig;
+import com.mybatisflex.core.datasource.DataSourceKey;
+import com.mybatisflex.core.datasource.FlexDataSource;
+import com.mybatisflex.core.row.Db;
+import com.mybatisflex.core.row.Row;
+import com.wangboot.app.execution.datasource.dbsql.DatabaseSql;
+import com.wangboot.app.execution.datasource.dbsql.DatabaseSqlConfig;
 import com.wangboot.core.test.auth.WithAuthContextTestExecutionListener;
 import com.wangboot.core.web.response.ListBody;
 import com.wangboot.model.entity.exception.DeleteCascadeFailedException;
@@ -10,8 +18,9 @@ import com.wangboot.system.event.BgTaskResult;
 import com.wangboot.system.model.BgTaskStatus;
 import com.wangboot.system.model.ClientType;
 import com.wangboot.system.service.*;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -595,5 +604,42 @@ public class ServiceTest {
     Assertions.assertNull(obj);
     resources = service.listResourcesAll(null, null, null);
     Assertions.assertEquals(num, resources.getTotal());
+  }
+
+  @Test
+  public void test1() {
+    FlexDataSource flexDataSource = FlexGlobalConfig.getDefaultConfig()
+      .getDataSource();
+
+    DruidDataSource newDataSource = new DruidDataSource();
+    Properties properties = new Properties();
+    properties.put("druid.name", "db1");
+    properties.put("druid.url", "jdbc:mysql://localhost:3306/wb-template-dev");
+    properties.put("druid.username", "root");
+    properties.put("druid.password", "123456");
+    newDataSource.configFromPropeties(properties);
+
+    flexDataSource.addDataSource("n1", newDataSource);
+
+    try{
+      DataSourceKey.use("n1");
+      List<Row> rows = Db.selectAll("wb_sys_job");
+      System.out.println(rows);
+    }finally{
+      DataSourceKey.clear();
+    }
+  }
+
+  @Test
+  public void testDatabaseSql() {
+    String name = RandomUtil.randomString(6);
+    DatabaseSqlConfig config = new DatabaseSqlConfig("jdbc:mysql://localhost:3306/wb-template-dev", "root", "123456", "select * from wb_sys_job where type = '${type}'");
+    DatabaseSql datasource = new DatabaseSql(name, config);
+    datasource.configDatasource();
+    Map<String, String> params = new HashMap<>();
+    params.put("type", "管理");
+    Object obj = datasource.retrieveData(params);
+    System.out.println(obj.getClass());
+
   }
 }

@@ -3,21 +3,18 @@ package com.wangboot.app;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.wangboot.app.render.RenderUtils;
-import com.wangboot.app.render.text.FreeMarkerTemplateRender;
-import com.wangboot.app.render.word.PoiWordTemplateRender;
+import com.wangboot.app.execution.render.text.FreeMarkerTemplateRender;
+import com.wangboot.app.execution.render.word.PoiWordTemplateRender;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.PropertyPlaceholderHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @DisplayName("模板测试")
 public class TemplateTest {
@@ -68,12 +65,4 @@ public class TemplateTest {
     Assertions.assertTrue(FileUtil.exist(outFile));
   }
 
-  @Test
-  public void testPlaceholder() {
-    PropertyPlaceholderHelper helper = RenderUtils.getPropertyPlaceholder();
-    Properties properties = new Properties();
-    properties.put("name", "Wang");
-    String s =  helper.replacePlaceholders("hello ${name} and ${type:haha}!", properties);
-    Assertions.assertEquals("hello Wang and haha!", s);
-  }
 }

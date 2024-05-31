@@ -4,7 +4,7 @@
   "avatar": "",
   "version": "4.9.2",
   "createdTime": "2024-5-26 11:50:31",
-  "updatedTime": "2024-5-26 13:25:00",
+  "updatedTime": "2024-5-30 17:01:43",
   "dbConns": [],
   "profile": {
     "default": {
@@ -925,6 +925,42 @@
           "id": "FB312699-2D10-4F09-8535-708762C15D44"
         },
         {
+          "defKey": "type",
+          "defName": "类型",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
+          "id": "C9F3AF9C-DE8F-4570-B4DB-B2A530AE511B"
+        },
+        {
+          "defKey": "def_filename",
+          "defName": "默认文件名",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "9092C4E0-1A54-4859-ABBB-5B62DBC27573",
+          "id": "CDCAF22B-E7D1-4476-87DB-2C9C4166ED98"
+        },
+        {
           "defKey": "attachment_id",
           "defName": "附件ID",
           "comment": "",
@@ -1014,6 +1050,20 @@
             }
           ],
           "id": "9BD56F6E-32C9-47FE-B50A-FFDA70D67FA5"
+        },
+        {
+          "defKey": "type_idx",
+          "defName": null,
+          "unique": false,
+          "comment": "",
+          "fields": [
+            {
+              "fieldDefKey": "C9F3AF9C-DE8F-4570-B4DB-B2A530AE511B",
+              "ascOrDesc": "A",
+              "id": "C88F83A1-186B-422D-BF03-020DF7376334"
+            }
+          ],
+          "id": "6FB92956-BAD0-4122-AF43-6438BCF61D3B"
         },
         {
           "defKey": "attachment_id_idx",
@@ -1694,7 +1744,7 @@
         },
         {
           "defKey": "name",
-          "defName": "名称",
+          "defName": "参数编码",
           "comment": "",
           "type": "",
           "len": "",
@@ -1711,8 +1761,8 @@
           "id": "52E6F9BD-9F5C-44E3-BC8E-1A89A748CEC6"
         },
         {
-          "defKey": "param_type",
-          "defName": "参数类型",
+          "defKey": "label",
+          "defName": "参数标签",
           "comment": "",
           "type": "",
           "len": "",
@@ -1763,6 +1813,24 @@
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "3E915856-DAA0-4A02-8C68-474551023B03"
+        },
+        {
+          "defKey": "def_val",
+          "defName": "默认值",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "F562B040-0741-40C6-938A-F08AEF11EB05",
+          "id": "3CEECD5B-13B8-424B-8705-E29FC389E876"
         },
         {
           "defKey": "config",
@@ -2185,24 +2253,6 @@
           "id": "6E01D16B-3E3F-4AA6-B348-2C17B33E60A2"
         },
         {
-          "defKey": "result_id",
-          "defName": "执行结果ID",
-          "comment": "",
-          "type": "",
-          "len": "",
-          "scale": "",
-          "primaryKey": false,
-          "notNull": false,
-          "autoIncrement": false,
-          "defaultValue": "",
-          "hideInGraph": false,
-          "refDict": "",
-          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
-          "extProps": {},
-          "domain": "16120F75-6AA7-4483-868D-F07F511BB081",
-          "id": "D60CEF86-D8A3-44BC-B1C2-39B028D477CE"
-        },
-        {
           "defKey": "status",
           "defName": "执行状态",
           "comment": "",
@@ -2219,6 +2269,114 @@
           "extProps": {},
           "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
           "id": "8B21F1C3-DF76-498F-88E9-17AB9DBB8BD3"
+        },
+        {
+          "defKey": "template_name",
+          "defName": "模板名称",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
+          "id": "71D785FA-529D-4AA8-95BE-078E77384A6C"
+        },
+        {
+          "defKey": "template_type",
+          "defName": "模板类型",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
+          "id": "E7314FB2-EC3C-486B-87E1-556394E537ED"
+        },
+        {
+          "defKey": "filename",
+          "defName": "文件名",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "9092C4E0-1A54-4859-ABBB-5B62DBC27573",
+          "id": "F2EF9F71-FC06-40FB-AE26-76A07189D80A"
+        },
+        {
+          "defKey": "template_attachment_id",
+          "defName": "模版附件ID",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "16120F75-6AA7-4483-868D-F07F511BB081",
+          "id": "D02E6A67-A7B1-402E-95CC-1FA0736471A4"
+        },
+        {
+          "defKey": "datasource_name",
+          "defName": "数据源名称",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
+          "id": "5747D789-2921-45EB-948A-C1090469E593"
+        },
+        {
+          "defKey": "datasource_type",
+          "defName": "数据源类型",
+          "comment": "",
+          "type": "",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "extProps": {},
+          "domain": "54611CCC-CA4B-42E1-9F32-4944C85B85A6",
+          "id": "BE1779F5-1A78-42B5-8D84-9F29D055E8AC"
         }
       ],
       "correlations": [],
@@ -2308,20 +2466,6 @@
           "id": "6D0A4892-8D5E-436B-8D5E-AD90BA979C80"
         },
         {
-          "defKey": "result_id_idx",
-          "defName": null,
-          "unique": false,
-          "comment": "",
-          "fields": [
-            {
-              "fieldDefKey": "D60CEF86-D8A3-44BC-B1C2-39B028D477CE",
-              "ascOrDesc": "A",
-              "id": "BF06B8DA-A901-4828-A958-2088BCB37F67"
-            }
-          ],
-          "id": "CAF33E35-D4C9-4685-A573-744778E22736"
-        },
-        {
           "defKey": "status_idx",
           "defName": null,
           "unique": false,
@@ -2334,6 +2478,34 @@
             }
           ],
           "id": "AAD94175-3866-4F0B-A564-5E9117FE2110"
+        },
+        {
+          "defKey": "template_type_idx",
+          "defName": null,
+          "unique": false,
+          "comment": "",
+          "fields": [
+            {
+              "fieldDefKey": "E7314FB2-EC3C-486B-87E1-556394E537ED",
+              "ascOrDesc": "A",
+              "id": "5707AB54-C092-45BA-9E90-6B0D3DBDE0EF"
+            }
+          ],
+          "id": "99856812-32F7-4FCA-940B-375C6FCAA979"
+        },
+        {
+          "defKey": "datasource_type_idx",
+          "defName": null,
+          "unique": false,
+          "comment": "",
+          "fields": [
+            {
+              "fieldDefKey": "BE1779F5-1A78-42B5-8D84-9F29D055E8AC",
+              "ascOrDesc": "A",
+              "id": "E8524E15-E082-42C4-A860-2ADC1CDE9670"
+            }
+          ],
+          "id": "9732F414-05BB-4ECD-B1D3-779D03E6FDA6"
         }
       ],
       "type": "P"
