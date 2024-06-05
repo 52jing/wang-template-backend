@@ -1,34 +1,33 @@
 package com.wangboot.app.template.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.wangboot.app.execution.datasource.DatasourceProcessor;
+import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.TplDatasourceParam;
-import com.wangboot.app.template.entity.dto.TplDatasourceDto;
 import com.wangboot.app.template.entity.table.TplDatasourceParamTableDef;
+import com.wangboot.app.template.entity.table.TplDatasourceTableDef;
 import com.wangboot.app.template.mapper.TplDatasourceMapper;
 import com.wangboot.app.template.service.TplDatasourceParamService;
 import com.wangboot.app.template.service.TplDatasourceService;
 import com.wangboot.model.entity.FieldConstants;
-import com.wangboot.model.entity.exception.CreateFailedException;
 import com.wangboot.model.entity.exception.UpdateFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, TplDatasource> implements TplDatasourceService {
 
   private final TplDatasourceParamService datasourceParamService;
+
+  private final DatasourceProcessor datasourceProcessor;
 
   @Override
   @NonNull
@@ -41,80 +40,78 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
   }
 
   @Override
-  @Transactional
-  public boolean createDatasourceParams(TplDatasource datasource, TplDatasourceDto dto) {
-    if (Objects.isNull(datasource) || Objects.isNull(dto)) {
-      throw new CreateFailedException();
-    }
-    if (Objects.nonNull(dto.getParams()) && !dto.getParams().isEmpty()) {
-      List<TplDatasourceParam> paramList = new ArrayList<>();
-      dto.getParams().forEach(pm -> {
-        TplDatasourceParam datasourceParam = BeanUtil.copyProperties(pm, TplDatasourceParam.class);
-        datasourceParam.setDatasourceId(datasource.getId());
-        paramList.add(datasourceParam);
-      });
-      return this.datasourceParamService.saveBatch(paramList);
+  public boolean createDatasourceParams(String datasourceId, List<TplDatasourceParam> params) {
+    if (StringUtils.hasText(datasourceId) && Objects.nonNull(params) && !params.isEmpty()) {
+      params.forEach(pm -> pm.setDatasourceId(datasourceId));
+      return this.datasourceParamService.saveBatch(params);
     }
     return true;
   }
 
   @Override
-  @Transactional
-  public boolean updateDatasourceParams(TplDatasource datasource, TplDatasourceDto dto) {
-    if (Objects.isNull(datasource) || Objects.isNull(dto)) {
-      throw new UpdateFailedException("");
+  public boolean updateDatasourceParams(String datasourceId, List<TplDatasourceParam> params) {
+    if (!StringUtils.hasText(datasourceId)) {
+      return false;
     }
-    if (Objects.nonNull(dto.getParams()) && !dto.getParams().isEmpty()) {
+    if (Objects.nonNull(params) && !params.isEmpty()) {
       final List<TplDatasourceParam> createParamList = new ArrayList<>();
       final List<TplDatasourceParam> updateParamList = new ArrayList<>();
-      final List<String> retainParamIds = new ArrayList<>();
-      dto.getParams().forEach(pm -> {
+      params.forEach(pm -> {
+        pm.setDatasourceId(datasourceId);
         if (StringUtils.hasText(pm.getId())) {
           // update
-          TplDatasourceParam datasourceParam = BeanUtil.copyProperties(pm, TplDatasourceParam.class);
-          datasourceParam.setDatasourceId(datasource.getId());
-          updateParamList.add(datasourceParam);
-          retainParamIds.add(pm.getId());
+          updateParamList.add(pm);
         } else {
           // insert
-          TplDatasourceParam datasourceParam = BeanUtil.copyProperties(pm, TplDatasourceParam.class);
-          datasourceParam.setDatasourceId(datasource.getId());
-          createParamList.add(datasourceParam);
+          createParamList.add(pm);
         }
       });
       if (!createParamList.isEmpty()) {
         // 添加
         boolean ret = this.datasourceParamService.saveBatch(createParamList);
         if (!ret) {
-          throw new UpdateFailedException(datasource.getId());
+          throw new UpdateFailedException(datasourceId);
         }
       }
       if (!updateParamList.isEmpty()) {
         // 更新
         boolean ret = this.datasourceParamService.updateBatch(updateParamList);
         if (!ret) {
-          throw new UpdateFailedException(datasource.getId());
+          throw new UpdateFailedException(datasourceId);
         }
       }
-      if (!retainParamIds.isEmpty()) {
-        // 删除
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.notIn(FieldConstants.PRIMARY_KEY, retainParamIds);
-        boolean ret = this.datasourceParamService.remove(wrapper);
-        if (!ret) {
-          throw new UpdateFailedException(datasource.getId());
-        }
-      }
-      return true;
-    } else {
-      // 清空参数
-      return this.deleteDatasourceParams(datasource.getId());
     }
+    return true;
   }
 
   @Override
   public boolean deleteDatasourceParams(String id) {
-    QueryWrapper wrapper = QueryWrapper.create().where(TplDatasourceParamTableDef.TPL_DATASOURCE_PARAM.DATASOURCE_ID.eq(id));
-    return this.datasourceParamService.remove(wrapper);
+    return this.datasourceParamService.removeById(id);
+  }
+
+  @Override
+  @Nullable
+  public IDatasource connectDatasource(TplDatasource datasource) {
+    if (Objects.isNull(datasource)) {
+      return null;
+    }
+    if (datasource.getConnected()) {
+      IDatasource ds = this.datasourceProcessor.getDatasource(datasource.getId());
+      if (Objects.nonNull(ds)) {
+        return ds;
+      }
+    }
+    // 未连接或者连接已失效，则重新连接
+    IDatasource ds = this.datasourceProcessor.connectDatasource(datasource.getId(), datasource.getName(), datasource.getType(), datasource.getConfig());
+    if (Objects.nonNull(ds)) {
+      // 更新已连接
+      this.updateChain().eq(FieldConstants.PRIMARY_KEY, datasource.getId()).set(TplDatasourceTableDef.TPL_DATASOURCE.CONNECTED, true).update();
+    }
+    return ds;
+  }
+
+  @Override
+  public Set<String> getDatasourceTypes() {
+    return this.datasourceProcessor.getTypes();
   }
 }

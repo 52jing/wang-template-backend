@@ -6,6 +6,7 @@ import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangboot.core.auth.utils.AuthUtils;
+import com.wangboot.model.attachment.IAttachmentService;
 import com.wangboot.model.flex.IFlexRestfulService;
 import com.wangboot.system.entity.SysAttachment;
 import com.wangboot.system.entity.vo.AttachmentVo;
@@ -18,7 +19,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
 public interface SysAttachmentService
-    extends IFlexRestfulService<String, SysAttachment>, FileRecorder {
+    extends IFlexRestfulService<String, SysAttachment>, IAttachmentService, FileRecorder {
 
   ObjectMapper getObjectMapper();
 
@@ -43,9 +44,9 @@ public interface SysAttachmentService
             "uploadId",
             "uploadStatus",
             "createTime"));
-    // 这里手动获 取附加属性字典并转成 json 字符串，方便存储在数据库中
+    // 这里手动获取附加属性字典并转成 json 字符串，方便存储在数据库中
     attachment.setAttr(valueToJson(getObjectMapper(), info.getAttr()));
-    // 这里手动获 哈希信息并转成 json 字符串，方便存储在数据库中
+    // 这里手动获哈希信息并转成 json 字符串，方便存储在数据库中
     attachment.setHashInfo(valueToJson(getObjectMapper(), info.getHashInfo()));
     attachment.setCreatedTime(OffsetDateTime.now());
     attachment.setCreatedBy(AuthUtils.getUserId());
@@ -72,13 +73,12 @@ public interface SysAttachmentService
     return info;
   }
 
-  /** 将 SysAttachment 转为 AttachmentVo */
+  /** 将 FileInfo 转为 AttachmentVo */
   @NonNull
-  default AttachmentVo toAttachmentVo(@NonNull SysAttachment attachment)
-      throws JsonProcessingException {
-    AttachmentVo attachmentVo = BeanUtil.copyProperties(attachment, AttachmentVo.class, "hashInfo");
+  default AttachmentVo toAttachmentVo(@NonNull FileInfo fileInfo) throws JsonProcessingException {
+    AttachmentVo attachmentVo = BeanUtil.copyProperties(fileInfo, AttachmentVo.class, "hashInfo");
     // 这里手动获取数据库中的 json 字符串 并转成 哈希信息，方便使用
-    attachmentVo.setHashInfo(jsonToHashInfo(getObjectMapper(), attachment.getHashInfo()));
+    attachmentVo.setHashInfo(valueToJson(getObjectMapper(), fileInfo.getHashInfo()));
     return attachmentVo;
   }
 

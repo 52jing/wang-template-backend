@@ -2,8 +2,7 @@ package com.wangboot.system.service.impl;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
-import com.wangboot.model.entity.IdEntity;
-import com.wangboot.model.flex.IFlexRestfulService;
+import com.wangboot.model.attachment.IAttachmentService;
 import com.wangboot.system.entity.SysAnnouncement;
 import com.wangboot.system.entity.table.SysAnnouncementTableDef;
 import com.wangboot.system.mapper.SysAnnouncementMapper;
@@ -44,7 +43,13 @@ public class SysAnnouncementServiceImpl extends ServiceImpl<SysAnnouncementMappe
   }
 
   @Override
-  public IFlexRestfulService<String, ? extends IdEntity<String>> getAttachmentService() {
+  @NonNull
+  public IAttachmentService getAttachmentService() {
     return this.attachmentService;
+  }
+
+  @Override
+  public String getObjectType() {
+    return this.getEntityClass().getName();
   }
 }

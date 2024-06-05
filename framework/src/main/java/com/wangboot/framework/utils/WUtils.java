@@ -1,6 +1,8 @@
 package com.wangboot.framework.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.wangboot.core.reliability.counter.CacheCounter;
+import com.wangboot.core.reliability.counter.ICounter;
 import com.wangboot.core.utils.StrUtils;
 import com.wangboot.core.utils.password.PasswordStrategyManager;
 import com.wangboot.core.utils.password.strategy.MinimumLength;
@@ -55,5 +57,14 @@ public class WUtils {
       passwordStrategyManager.addPasswordStrategy(new MultiPattern(pattern));
     }
     return passwordStrategyManager;
+  }
+
+  /** 获取登录失败计数器 */
+  @NonNull
+  public static ICounter getLoginFailedCounter() {
+    IParamConfig paramConfig = SpringUtil.getBean(IParamConfig.class);
+    return new CacheCounter(
+        StrUtils.getLong(
+            paramConfig.getParamConfig(ParamConstants.LOGIN_FAILED_COUNT_SECONDS_KEY), 60L));
   }
 }

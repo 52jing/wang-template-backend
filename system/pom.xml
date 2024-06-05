@@ -22,6 +22,10 @@
         </dependency>
         <dependency>
             <groupId>wang.52jing</groupId>
+            <artifactId>wb-model-attachment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>wang.52jing</groupId>
             <artifactId>framework</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

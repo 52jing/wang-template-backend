@@ -1,6 +1,5 @@
 package com.wangboot.system.listener;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wangboot.core.auth.AuthFlow;
@@ -14,21 +13,24 @@ import com.wangboot.core.utils.StrUtils;
 import com.wangboot.core.web.param.IParamConfig;
 import com.wangboot.core.web.utils.ServletUtils;
 import com.wangboot.framework.ParamConstants;
-import com.wangboot.model.entity.FieldConstants;
+import com.wangboot.framework.utils.WUtils;
 import com.wangboot.model.entity.event.OperationEvent;
 import com.wangboot.model.entity.event.OperationEventType;
 import com.wangboot.model.entity.event.OperationLog;
+import com.wangboot.system.entity.SysBgTask;
 import com.wangboot.system.entity.SysOperationLog;
 import com.wangboot.system.entity.SysUserLog;
-import com.wangboot.system.entity.table.SysBgTaskTableDef;
+import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.event.BgTaskEvent;
 import com.wangboot.system.event.BgTaskObject;
 import com.wangboot.system.event.BgTaskResult;
+import com.wangboot.system.model.BgTaskStatus;
 import com.wangboot.system.service.SysBgTaskService;
 import com.wangboot.system.service.SysOperationLogService;
 import com.wangboot.system.service.SysUserLogService;
 import com.wangboot.system.service.SysUserService;
 import java.time.OffsetDateTime;
+import java.util.Collections;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +86,7 @@ public class SystemListener {
           StrUtils.getLongPrimitive(
               this.paramConfig.getParamConfig(ParamConstants.LOGIN_FAILED_THRESHOLD_KEY), 0L);
       if (limitCount > 0) {
-        ICounter loginFailedCount = SpringUtil.getBean("loginFailedCount");
+        ICounter loginFailedCount = WUtils.getLoginFailedCounter();
         IUserModel userModel = this.userService.getUserModelByUsername(userEventLog.getUsername());
         if (Objects.nonNull(userModel)) {
           loginFailedCount.increment(userModel.getUserId());
@@ -138,18 +140,25 @@ public class SystemListener {
   @Async
   public void listenBgTaskEvent(BgTaskEvent event) {
     BgTaskObject taskObject = event.getSourceObject();
-    BgTaskResult result = taskObject.getSupplier().get();
-    bgTaskService
-        .updateChain()
-        .eq(FieldConstants.PRIMARY_KEY, taskObject.getId())
-        .set(SysBgTaskTableDef.SYS_BG_TASK.STATUS, result.getStatus())
-        .set(SysBgTaskTableDef.SYS_BG_TASK.RESULT, result.getResult())
-        .set(SysBgTaskTableDef.SYS_BG_TASK.ATTACHMENT_ID, result.getAttachmentId())
-        .update();
+    SysBgTask task = bgTaskService.getDataById(taskObject.getId());
+    if (Objects.isNull(task)) {
+      return;
+    }
+    BgTaskResult result = bgTaskService.runTask(taskObject);
+    if (Objects.isNull(result)) {
+      task.setStatus(BgTaskStatus.FAILED);
+    } else {
+      task.setStatus(result.getStatus());
+      task.setResult(result.getResult());
+      AttachmentVo attachmentVo = new AttachmentVo();
+      attachmentVo.setId(result.getAttachmentId());
+      task.setAttachments(Collections.singletonList(attachmentVo));
+    }
+    boolean ret = bgTaskService.updateById(task);
+    if (ret) {
+      bgTaskService.addAttachmentsRelations(task);
+    }
     log.info(
-        "后台任务 {} {} 执行完成：{}",
-        taskObject.getName(),
-        taskObject.getId(),
-        result.getStatus().getName());
+        "后台任务 {} {} 执行完成：{}", taskObject.getName(), taskObject.getId(), task.getStatus().getName());
   }
 }

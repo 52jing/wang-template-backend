@@ -8,7 +8,7 @@ import lombok.Data;
  * @author wwtg99
  */
 @Data
-public class SysUserSearch {
+public class SysUserSearchVo {
   private String id;
   private String username;
   private String nickname;

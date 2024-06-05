@@ -13,6 +13,7 @@ import com.wangboot.app.template.service.*;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.web.event.IEventPublisher;
 import com.wangboot.framework.exception.ErrorCode;
+import com.wangboot.model.attachment.IAttachmentModel;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.system.entity.SysAttachment;
 import com.wangboot.system.entity.vo.AttachmentVo;
@@ -33,10 +34,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 渲染执行管理器
@@ -150,16 +148,22 @@ public class ExecutionManager implements IEventPublisher {
       }
       // 执行渲染
       ITemplateRender templateRender = this.getTemplateRender(renderExecution.getTemplateType());
-      AttachmentVo attachmentVo = this.renderAndUpload(templateRender, renderExecution.getTemplateAttachmentId(), renderExecution.getTemplateName(), renderExecution.getFilename(), data);
-      // 保存结果
-      result.setMessage(SUCCESS_MESSAGE);
-      result.setAttachmentId(attachmentVo.getId());
-      boolean ret = this.executionResultService.save(result);
-      // 更新执行状态
-      if (ret) {
-        this.renderExecutionService.updateChain().eq(FieldConstants.PRIMARY_KEY, renderExecution.getId()).set(TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.COMPLETED).update();
+      List<? extends IAttachmentModel> atts = templateService.getAttachmentList(renderExecution.getTemplateId());
+      if (atts.size() > 0) {
+        String templateAttachmentId = atts.get(0).getId();
+        AttachmentVo attachmentVo = this.renderAndUpload(templateRender, templateAttachmentId, renderExecution.getTemplateName(), renderExecution.getFilename(), data);
+        // 保存结果
+        result.setMessage(SUCCESS_MESSAGE);
+        result.setAttachments(Collections.singletonList(attachmentVo));
+        boolean ret = this.executionResultService.save(result);
+        // 更新执行状态
+        if (ret) {
+          this.renderExecutionService.updateChain().eq(FieldConstants.PRIMARY_KEY, renderExecution.getId()).set(TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.COMPLETED).update();
+        } else {
+          this.renderExecutionService.updateChain().eq(FieldConstants.PRIMARY_KEY, renderExecution.getId()).set(TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.FAILED).update();
+        }
       } else {
-        this.renderExecutionService.updateChain().eq(FieldConstants.PRIMARY_KEY, renderExecution.getId()).set(TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.FAILED).update();
+        log.error("No template attachment found for {}", renderExecution.getTemplateId());
       }
     } catch (Exception e) {
       result.setMessage(e.getMessage());

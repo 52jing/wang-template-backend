@@ -1,9 +1,8 @@
-package com.wangboot.app.template.controller;
+package com.wangboot.app.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.wangboot.core.auth.annotation.RequireAuthority;
 import com.wangboot.core.auth.event.LogStatus;
@@ -17,18 +16,19 @@ import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.exception.NotFoundException;
 import com.wangboot.starter.autoconfiguration.WbProperties;
-import com.wangboot.system.entity.*;
+import com.wangboot.system.entity.SysAnnouncement;
+import com.wangboot.system.entity.SysAttachment;
+import com.wangboot.system.entity.SysFrontend;
+import com.wangboot.system.entity.SysUserDict;
 import com.wangboot.system.entity.table.SysUserDictTableDef;
 import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.model.AnnouncementType;
 import com.wangboot.system.model.ClientType;
 import com.wangboot.system.model.ParamType;
-import com.wangboot.system.service.*;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
+import com.wangboot.system.service.SysAnnouncementService;
+import com.wangboot.system.service.SysAttachmentService;
+import com.wangboot.system.service.SysFrontendService;
+import com.wangboot.system.service.SysUserDictService;
 import lombok.RequiredArgsConstructor;
 import org.dromara.x.file.storage.core.FileInfo;
 import org.dromara.x.file.storage.core.FileStorageService;
@@ -36,6 +36,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -66,6 +72,17 @@ public class CommonController {
     map.put("client_type", ClientType.class);
     map.put("log_status", LogStatus.class);
     map.put("announcement_type", AnnouncementType.class);
+    return map;
+  }
+
+  /** 定义上传文件允许的类型 */
+  private static final Map<String, String[]> uploadAccepts = buildUploadAccepts();
+
+  private static Map<String, String[]> buildUploadAccepts() {
+    Map<String, String[]> map = new HashMap<>();
+    map.put("announcement", new String[] {"text/plain", "application/"});
+    map.put("template", new String[]{"text/plain"});
+    map.put("default", new String[] {"text/plain"});
     return map;
   }
 
@@ -175,10 +192,11 @@ public class CommonController {
   @PostMapping("/upload")
   @RequireAuthority("common:attachment:upload")
   @ExcludeEncryption
-  public ResponseEntity<?> upload(MultipartFile file) {
-    // TODO 允许的上传格式
-    String[] restrictContentTypes = new String[] {"text/plain", "image/", "application/"};
-    if (Objects.isNull(file)) {
+  public ResponseEntity<?> upload(
+      MultipartFile file, @RequestParam(required = false, defaultValue = "default") String type) {
+    // 允许的上传格式
+    String[] restrictContentTypes = uploadAccepts.get(type);
+    if (Objects.isNull(restrictContentTypes) || Objects.isNull(file)) {
       throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
     }
     if (this.wbProperties.getUploadLimits() > 0
@@ -194,14 +212,14 @@ public class CommonController {
           fileStorageService
               .of(file)
               .setPath(DateUtil.today() + "/")
-              .setHashCalculatorMd5()
+              .setHashCalculatorSha1()
               .upload();
       if (Objects.nonNull(fileInfo)) {
         AttachmentVo uploadedFile = BeanUtil.copyProperties(fileInfo, AttachmentVo.class);
         return ResponseUtils.success(DetailBody.ok(uploadedFile));
       }
     }
-    throw new ErrorCodeException(ErrorCode.UPLOAD_FAILED);
+    throw new ErrorCodeException(ErrorCode.NOT_ALLOWED_FORMAT);
   }
 
   /** 上传图片并生成缩略图接口 */
@@ -250,12 +268,8 @@ public class CommonController {
     if (Objects.isNull(attachment)) {
       throw new NotFoundException();
     }
-    try {
-      AttachmentVo attachmentVo = attachmentService.toAttachmentVo(attachment);
-      return ResponseUtils.success(DetailBody.ok(attachmentVo));
-    } catch (JsonProcessingException ignored) {
-      return ResponseUtils.error();
-    }
+    AttachmentVo attachmentVo = BeanUtil.copyProperties(attachment, AttachmentVo.class);
+    return ResponseUtils.success(DetailBody.ok(attachmentVo));
   }
 
   /** 下载附件接口 */
@@ -280,5 +294,4 @@ public class CommonController {
       throw new ErrorCodeException(ErrorCode.EXPORT_FAILED);
     }
   }
-
 }

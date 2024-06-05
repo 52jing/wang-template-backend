@@ -2,19 +2,19 @@ package com.wangboot.system.entity;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import com.mybatisflex.core.keygen.KeyGenerators;
-import com.wangboot.model.entity.IdEntity;
+import com.wangboot.model.attachment.IAttachmentListRelatedModel;
+import com.wangboot.model.attachment.IAttachmentModel;
 import com.wangboot.model.entity.event.EnableOperationLog;
 import com.wangboot.model.entity.impl.CommonEntity;
-import com.wangboot.system.attachment.IAttachmentRelatedEntity;
 import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.listener.EntityChangeListener;
 import com.wangboot.system.model.AnnouncementType;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -40,7 +40,7 @@ import lombok.NoArgsConstructor;
     value = "wb_sys_announcement",
     onInsert = EntityChangeListener.class,
     onUpdate = EntityChangeListener.class)
-public class SysAnnouncement extends CommonEntity implements IAttachmentRelatedEntity<String> {
+public class SysAnnouncement extends CommonEntity implements IAttachmentListRelatedModel<String> {
 
   @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
   private String id;
@@ -58,22 +58,20 @@ public class SysAnnouncement extends CommonEntity implements IAttachmentRelatedE
   @Min(-10000)
   private Integer sort = 0;
 
+  @Column(ignore = true)
   private List<AttachmentVo> attachments;
 
   @JsonIgnore
   @Override
-  public List<? extends IdEntity<String>> getAttachmentList() {
+  public List<? extends IAttachmentModel> getAttachmentList() {
     return this.attachments;
   }
 
-  @JsonIgnore
   @Override
-  public void setAttachmentList(List<? extends IdEntity<String>> attachments) {
-    if (Objects.nonNull(attachments)) {
-      this.attachments =
-          attachments.stream()
-              .map(d -> BeanUtil.copyProperties(d, AttachmentVo.class, "hashInfo"))
-              .collect(Collectors.toList());
-    }
+  public void setAttachmentList(List<? extends IAttachmentModel> attachments) {
+    this.attachments =
+        attachments.stream()
+            .map(d -> BeanUtil.copyProperties(d, AttachmentVo.class))
+            .collect(Collectors.toList());
   }
 }

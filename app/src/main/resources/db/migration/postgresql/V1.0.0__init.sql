@@ -11,8 +11,8 @@ CREATE TABLE wb_sys_frontend(
     author VARCHAR(128) NOT NULL,
     domain VARCHAR(255) NOT NULL,
     client_type VARCHAR(32) NOT NULL,
-    allow_register INTEGER(1) NOT NULL,
-    staff_only INTEGER(1) NOT NULL,
+    allow_register BOOLEAN NOT NULL,
+    staff_only BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -32,12 +32,12 @@ COMMENT ON COLUMN wb_sys_frontend.allow_register IS '是否允许注册';
 COMMENT ON COLUMN wb_sys_frontend.staff_only IS '是否内部使用';
 
 
-CREATE INDEX created_by_idx ON wb_sys_frontend(created_by);
-CREATE INDEX created_time_idx ON wb_sys_frontend(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_frontend(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_frontend(updated_time);
-CREATE INDEX name_idx ON wb_sys_frontend(name);
-CREATE INDEX client_type_idx ON wb_sys_frontend(client_type);
+CREATE INDEX wb_sys_frontend_created_by_idx ON wb_sys_frontend(created_by);
+CREATE INDEX wb_sys_frontend_created_time_idx ON wb_sys_frontend(created_time);
+CREATE INDEX wb_sys_frontend_updated_by_idx ON wb_sys_frontend(updated_by);
+CREATE INDEX wb_sys_frontend_updated_time_idx ON wb_sys_frontend(updated_time);
+CREATE INDEX wb_sys_frontend_name_idx ON wb_sys_frontend(name);
+CREATE INDEX wb_sys_frontend_client_type_idx ON wb_sys_frontend(client_type);
 
 DROP TABLE IF EXISTS wb_sys_user;
 CREATE TABLE wb_sys_user(
@@ -52,9 +52,9 @@ CREATE TABLE wb_sys_user(
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     tel VARCHAR(128) NOT NULL,
-    active INTEGER(1) NOT NULL,
-    superuser INTEGER(1) NOT NULL,
-    staff INTEGER(1) NOT NULL,
+    active BOOLEAN NOT NULL,
+    superuser BOOLEAN NOT NULL,
+    staff BOOLEAN NOT NULL,
     expired_time TIMESTAMP,
     sex VARCHAR(255),
     department_id VARCHAR(64),
@@ -64,7 +64,7 @@ CREATE TABLE wb_sys_user(
     area VARCHAR(255) NOT NULL,
     town VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
-    need_change_pwd INTEGER(1) NOT NULL,
+    need_change_pwd BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -95,19 +95,19 @@ COMMENT ON COLUMN wb_sys_user.address IS '详细地址';
 COMMENT ON COLUMN wb_sys_user.need_change_pwd IS '是否需要修改密码';
 
 
-CREATE INDEX created_by_idx ON wb_sys_user(created_by);
-CREATE INDEX created_time_idx ON wb_sys_user(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_user(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_user(updated_time);
-CREATE UNIQUE INDEX username_idx ON wb_sys_user(username);
-CREATE INDEX email_idx ON wb_sys_user(email);
-CREATE INDEX tel_idx ON wb_sys_user(tel);
-CREATE INDEX active_idx ON wb_sys_user(active);
-CREATE INDEX superuser_idx ON wb_sys_user(superuser);
-CREATE INDEX staff_idx ON wb_sys_user(staff);
-CREATE INDEX expired_time_idx ON wb_sys_user(expired_time);
-CREATE INDEX department_id_idx ON wb_sys_user(department_id);
-CREATE INDEX job_id_idx ON wb_sys_user(job_id);
+CREATE INDEX wb_sys_user_created_by_idx ON wb_sys_user(created_by);
+CREATE INDEX wb_sys_user_created_time_idx ON wb_sys_user(created_time);
+CREATE INDEX wb_sys_user_updated_by_idx ON wb_sys_user(updated_by);
+CREATE INDEX wb_sys_user_updated_time_idx ON wb_sys_user(updated_time);
+CREATE UNIQUE INDEX wb_sys_user_username_idx ON wb_sys_user(username);
+CREATE INDEX wb_sys_user_email_idx ON wb_sys_user(email);
+CREATE INDEX wb_sys_user_tel_idx ON wb_sys_user(tel);
+CREATE INDEX wb_sys_user_active_idx ON wb_sys_user(active);
+CREATE INDEX wb_sys_user_superuser_idx ON wb_sys_user(superuser);
+CREATE INDEX wb_sys_user_staff_idx ON wb_sys_user(staff);
+CREATE INDEX wb_sys_user_expired_time_idx ON wb_sys_user(expired_time);
+CREATE INDEX wb_sys_user_department_id_idx ON wb_sys_user(department_id);
+CREATE INDEX wb_sys_user_job_id_idx ON wb_sys_user(job_id);
 
 DROP TABLE IF EXISTS wb_sys_department;
 CREATE TABLE wb_sys_department(
@@ -139,13 +139,13 @@ COMMENT ON COLUMN wb_sys_department.fullname IS '全称';
 COMMENT ON COLUMN wb_sys_department.leader IS '负责人';
 
 
-CREATE INDEX created_by_idx ON wb_sys_department(created_by);
-CREATE INDEX created_time_idx ON wb_sys_department(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_department(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_department(updated_time);
-CREATE INDEX parent_id_idx ON wb_sys_department(parent_id);
-CREATE INDEX sort_idx ON wb_sys_department(sort);
-CREATE INDEX name_idx ON wb_sys_department(name);
+CREATE INDEX wb_sys_department_created_by_idx ON wb_sys_department(created_by);
+CREATE INDEX wb_sys_department_created_time_idx ON wb_sys_department(created_time);
+CREATE INDEX wb_sys_department_updated_by_idx ON wb_sys_department(updated_by);
+CREATE INDEX wb_sys_department_updated_time_idx ON wb_sys_department(updated_time);
+CREATE INDEX wb_sys_department_parent_id_idx ON wb_sys_department(parent_id);
+CREATE INDEX wb_sys_department_sort_idx ON wb_sys_department(sort);
+CREATE INDEX wb_sys_department_name_idx ON wb_sys_department(name);
 
 DROP TABLE IF EXISTS wb_sys_job;
 CREATE TABLE wb_sys_job(
@@ -171,12 +171,12 @@ COMMENT ON COLUMN wb_sys_job.name IS '名称';
 COMMENT ON COLUMN wb_sys_job.type IS '类型';
 
 
-CREATE INDEX created_by_idx ON wb_sys_job(created_by);
-CREATE INDEX created_time_idx ON wb_sys_job(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_job(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_job(updated_time);
-CREATE INDEX name_idx ON wb_sys_job(name);
-CREATE INDEX type_idx ON wb_sys_job(type);
+CREATE INDEX wb_sys_job_created_by_idx ON wb_sys_job(created_by);
+CREATE INDEX wb_sys_job_created_time_idx ON wb_sys_job(created_time);
+CREATE INDEX wb_sys_job_updated_by_idx ON wb_sys_job(updated_by);
+CREATE INDEX wb_sys_job_updated_time_idx ON wb_sys_job(updated_time);
+CREATE INDEX wb_sys_job_name_idx ON wb_sys_job(name);
+CREATE INDEX wb_sys_job_type_idx ON wb_sys_job(type);
 
 DROP TABLE IF EXISTS wb_sys_role;
 CREATE TABLE wb_sys_role(
@@ -200,11 +200,11 @@ COMMENT ON COLUMN wb_sys_role.remark IS '备注';
 COMMENT ON COLUMN wb_sys_role.name IS '名称';
 
 
-CREATE INDEX created_by_idx ON wb_sys_role(created_by);
-CREATE INDEX created_time_idx ON wb_sys_role(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_role(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_role(updated_time);
-CREATE INDEX name_idx ON wb_sys_role(name);
+CREATE INDEX wb_sys_role_created_by_idx ON wb_sys_role(created_by);
+CREATE INDEX wb_sys_role_created_time_idx ON wb_sys_role(created_time);
+CREATE INDEX wb_sys_role_updated_by_idx ON wb_sys_role(updated_by);
+CREATE INDEX wb_sys_role_updated_time_idx ON wb_sys_role(updated_time);
+CREATE INDEX wb_sys_role_name_idx ON wb_sys_role(name);
 
 DROP TABLE IF EXISTS wb_sys_policy;
 CREATE TABLE wb_sys_policy(
@@ -216,7 +216,7 @@ CREATE TABLE wb_sys_policy(
     remark VARCHAR(512) NOT NULL,
     name VARCHAR(128) NOT NULL,
     label VARCHAR(128) NOT NULL,
-    readonly INTEGER(1) NOT NULL,
+    readonly BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -232,11 +232,11 @@ COMMENT ON COLUMN wb_sys_policy.label IS '显示名';
 COMMENT ON COLUMN wb_sys_policy.readonly IS '是否只读';
 
 
-CREATE INDEX created_by_idx ON wb_sys_policy(created_by);
-CREATE INDEX created_time_idx ON wb_sys_policy(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_policy(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_policy(updated_time);
-CREATE INDEX name_idx ON wb_sys_policy(name);
+CREATE INDEX wb_sys_policy_created_by_idx ON wb_sys_policy(created_by);
+CREATE INDEX wb_sys_policy_created_time_idx ON wb_sys_policy(created_time);
+CREATE INDEX wb_sys_policy_updated_by_idx ON wb_sys_policy(updated_by);
+CREATE INDEX wb_sys_policy_updated_time_idx ON wb_sys_policy(updated_time);
+CREATE INDEX wb_sys_policy_name_idx ON wb_sys_policy(name);
 
 DROP TABLE IF EXISTS wb_sys_permission;
 CREATE TABLE wb_sys_permission(
@@ -248,7 +248,7 @@ CREATE TABLE wb_sys_permission(
     remark VARCHAR(512) NOT NULL,
     name VARCHAR(128) NOT NULL,
     label VARCHAR(128) NOT NULL,
-    readonly INTEGER(1) NOT NULL,
+    readonly BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -264,11 +264,11 @@ COMMENT ON COLUMN wb_sys_permission.label IS '显示名';
 COMMENT ON COLUMN wb_sys_permission.readonly IS '是否只读';
 
 
-CREATE INDEX created_by_idx ON wb_sys_permission(created_by);
-CREATE INDEX created_time_idx ON wb_sys_permission(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_permission(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_permission(updated_time);
-CREATE INDEX name_idx ON wb_sys_permission(name);
+CREATE INDEX wb_sys_permission_created_by_idx ON wb_sys_permission(created_by);
+CREATE INDEX wb_sys_permission_created_time_idx ON wb_sys_permission(created_time);
+CREATE INDEX wb_sys_permission_updated_by_idx ON wb_sys_permission(updated_by);
+CREATE INDEX wb_sys_permission_updated_time_idx ON wb_sys_permission(updated_time);
+CREATE INDEX wb_sys_permission_name_idx ON wb_sys_permission(name);
 
 DROP TABLE IF EXISTS wb_sys_role_policy_rel;
 CREATE TABLE wb_sys_role_policy_rel(
@@ -284,9 +284,9 @@ COMMENT ON COLUMN wb_sys_role_policy_rel.role_id IS '角色ID';
 COMMENT ON COLUMN wb_sys_role_policy_rel.policy_id IS '策略ID';
 
 
-CREATE INDEX role_id_idx ON wb_sys_role_policy_rel(role_id);
-CREATE INDEX policy_id_idx ON wb_sys_role_policy_rel(policy_id);
-CREATE UNIQUE INDEX role_id_policy_id_idx ON wb_sys_role_policy_rel(role_id,policy_id);
+CREATE INDEX wb_sys_role_policy_rel_role_id_idx ON wb_sys_role_policy_rel(role_id);
+CREATE INDEX wb_sys_role_policy_rel_policy_id_idx ON wb_sys_role_policy_rel(policy_id);
+CREATE UNIQUE INDEX wb_sys_role_policy_rel_role_id_policy_id_idx ON wb_sys_role_policy_rel(role_id,policy_id);
 
 DROP TABLE IF EXISTS wb_sys_policy_permission_rel;
 CREATE TABLE wb_sys_policy_permission_rel(
@@ -302,9 +302,9 @@ COMMENT ON COLUMN wb_sys_policy_permission_rel.policy_id IS '策略ID';
 COMMENT ON COLUMN wb_sys_policy_permission_rel.permission_id IS '权限ID';
 
 
-CREATE INDEX policy_id_idx ON wb_sys_policy_permission_rel(policy_id);
-CREATE INDEX permission_id_idx ON wb_sys_policy_permission_rel(permission_id);
-CREATE UNIQUE INDEX policy_id_permission_id_idx ON wb_sys_policy_permission_rel(policy_id,permission_id);
+CREATE INDEX wb_sys_policy_permission_policy_id_idx ON wb_sys_policy_permission_rel(policy_id);
+CREATE INDEX wb_sys_policy_permission_permission_id_idx ON wb_sys_policy_permission_rel(permission_id);
+CREATE UNIQUE INDEX wb_sys_policy_permission_policy_id_permission_id_idx ON wb_sys_policy_permission_rel(policy_id,permission_id);
 
 DROP TABLE IF EXISTS wb_sys_data_scope;
 CREATE TABLE wb_sys_data_scope(
@@ -328,11 +328,11 @@ COMMENT ON COLUMN wb_sys_data_scope.remark IS '备注';
 COMMENT ON COLUMN wb_sys_data_scope.name IS '名称';
 
 
-CREATE INDEX created_by_idx ON wb_sys_data_scope(created_by);
-CREATE INDEX created_time_idx ON wb_sys_data_scope(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_data_scope(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_data_scope(updated_time);
-CREATE INDEX name_idx ON wb_sys_data_scope(name);
+CREATE INDEX wb_sys_data_scope_created_by_idx ON wb_sys_data_scope(created_by);
+CREATE INDEX wb_sys_data_scope_created_time_idx ON wb_sys_data_scope(created_time);
+CREATE INDEX wb_sys_data_scope_updated_by_idx ON wb_sys_data_scope(updated_by);
+CREATE INDEX wb_sys_data_scope_updated_time_idx ON wb_sys_data_scope(updated_time);
+CREATE INDEX wb_sys_data_scope_name_idx ON wb_sys_data_scope(name);
 
 DROP TABLE IF EXISTS wb_sys_user_role_rel;
 CREATE TABLE wb_sys_user_role_rel(
@@ -348,9 +348,9 @@ COMMENT ON COLUMN wb_sys_user_role_rel.user_id IS '用户ID';
 COMMENT ON COLUMN wb_sys_user_role_rel.role_id IS '角色ID';
 
 
-CREATE INDEX user_id_idx ON wb_sys_user_role_rel(user_id);
-CREATE INDEX role_id_idx ON wb_sys_user_role_rel(role_id);
-CREATE INDEX user_id_role_id_idx ON wb_sys_user_role_rel(user_id,role_id);
+CREATE INDEX wb_sys_user_role_rel_user_id_idx ON wb_sys_user_role_rel(user_id);
+CREATE INDEX wb_sys_user_role_rel_role_id_idx ON wb_sys_user_role_rel(role_id);
+CREATE INDEX wb_sys_user_role_rel_user_id_role_id_idx ON wb_sys_user_role_rel(user_id,role_id);
 
 DROP TABLE IF EXISTS wb_sys_policy_data_scope_rel;
 CREATE TABLE wb_sys_policy_data_scope_rel(
@@ -366,9 +366,9 @@ COMMENT ON COLUMN wb_sys_policy_data_scope_rel.policy_id IS '策略ID';
 COMMENT ON COLUMN wb_sys_policy_data_scope_rel.data_scope_id IS '数据权限ID';
 
 
-CREATE INDEX policy_id_idx ON wb_sys_policy_data_scope_rel(policy_id);
-CREATE INDEX datascope_id_idx ON wb_sys_policy_data_scope_rel(data_scope_id);
-CREATE UNIQUE INDEX policy_id_datascope_id_idx ON wb_sys_policy_data_scope_rel(policy_id,data_scope_id);
+CREATE INDEX wb_sys_policy_data_scope_rel_policy_id_idx ON wb_sys_policy_data_scope_rel(policy_id);
+CREATE INDEX wb_sys_policy_data_scope_rel_datascope_id_idx ON wb_sys_policy_data_scope_rel(data_scope_id);
+CREATE UNIQUE INDEX wb_sys_policy_data_scope_rel_policy_id_datascope_id_idx ON wb_sys_policy_data_scope_rel(policy_id,data_scope_id);
 
 DROP TABLE IF EXISTS wb_sys_menu;
 CREATE TABLE wb_sys_menu(
@@ -402,13 +402,13 @@ COMMENT ON COLUMN wb_sys_menu.path IS '路径';
 COMMENT ON COLUMN wb_sys_menu.icon IS '图标';
 
 
-CREATE INDEX created_by_idx ON wb_sys_menu(created_by);
-CREATE INDEX created_time_idx ON wb_sys_menu(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_menu(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_menu(updated_time);
-CREATE INDEX parent_id_idx ON wb_sys_menu(parent_id);
-CREATE INDEX sort_idx ON wb_sys_menu(sort);
-CREATE INDEX name_idx ON wb_sys_menu(name);
+CREATE INDEX wb_sys_menu_created_by_idx ON wb_sys_menu(created_by);
+CREATE INDEX wb_sys_menu_created_time_idx ON wb_sys_menu(created_time);
+CREATE INDEX wb_sys_menu_updated_by_idx ON wb_sys_menu(updated_by);
+CREATE INDEX wb_sys_menu_updated_time_idx ON wb_sys_menu(updated_time);
+CREATE INDEX wb_sys_menu_parent_id_idx ON wb_sys_menu(parent_id);
+CREATE INDEX wb_sys_menu_sort_idx ON wb_sys_menu(sort);
+CREATE INDEX wb_sys_menu_name_idx ON wb_sys_menu(name);
 
 DROP TABLE IF EXISTS wb_sys_policy_menu_rel;
 CREATE TABLE wb_sys_policy_menu_rel(
@@ -424,9 +424,9 @@ COMMENT ON COLUMN wb_sys_policy_menu_rel.policy_id IS '策略ID';
 COMMENT ON COLUMN wb_sys_policy_menu_rel.menu_id IS '菜单ID';
 
 
-CREATE INDEX policy_id_idx ON wb_sys_policy_menu_rel(policy_id);
-CREATE INDEX menu_id_idx ON wb_sys_policy_menu_rel(menu_id);
-CREATE UNIQUE INDEX policy_id_menu_id_idx ON wb_sys_policy_menu_rel(policy_id,menu_id);
+CREATE INDEX wb_sys_policy_menu_rel_policy_id_idx ON wb_sys_policy_menu_rel(policy_id);
+CREATE INDEX wb_sys_policy_menu_rel_menu_id_idx ON wb_sys_policy_menu_rel(menu_id);
+CREATE UNIQUE INDEX wb_sys_policy_menu_rel_policy_id_menu_id_idx ON wb_sys_policy_menu_rel(policy_id,menu_id);
 
 DROP TABLE IF EXISTS wb_sys_param;
 CREATE TABLE wb_sys_param(
@@ -458,13 +458,13 @@ COMMENT ON COLUMN wb_sys_param.param_val IS '配置值';
 COMMENT ON COLUMN wb_sys_param.param_type IS '配置值类型';
 
 
-CREATE INDEX created_by_idx ON wb_sys_param(created_by);
-CREATE INDEX created_time_idx ON wb_sys_param(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_param(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_param(updated_time);
-CREATE INDEX name_idx ON wb_sys_param(name);
-CREATE INDEX param_group_idx ON wb_sys_param(param_group);
-CREATE UNIQUE INDEX param_key_idx ON wb_sys_param(param_key);
+CREATE INDEX wb_sys_param_created_by_idx ON wb_sys_param(created_by);
+CREATE INDEX wb_sys_param_created_time_idx ON wb_sys_param(created_time);
+CREATE INDEX wb_sys_param_updated_by_idx ON wb_sys_param(updated_by);
+CREATE INDEX wb_sys_param_updated_time_idx ON wb_sys_param(updated_time);
+CREATE INDEX wb_sys_param_name_idx ON wb_sys_param(name);
+CREATE INDEX wb_sys_param_param_group_idx ON wb_sys_param(param_group);
+CREATE UNIQUE INDEX wb_sys_param_param_key_idx ON wb_sys_param(param_key);
 
 DROP TABLE IF EXISTS wb_sys_user_dict;
 CREATE TABLE wb_sys_user_dict(
@@ -498,12 +498,12 @@ COMMENT ON COLUMN wb_sys_user_dict.dict_type IS '字典值类型';
 COMMENT ON COLUMN wb_sys_user_dict.sort IS '排序';
 
 
-CREATE INDEX created_by_idx ON wb_sys_user_dict(created_by);
-CREATE INDEX created_time_idx ON wb_sys_user_dict(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_user_dict(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_user_dict(updated_time);
-CREATE INDEX name_idx ON wb_sys_user_dict(name);
-CREATE UNIQUE INDEX dict_group_dict_code_idx ON wb_sys_user_dict(dict_group,dict_code);
+CREATE INDEX wb_sys_user_dict_created_by_idx ON wb_sys_user_dict(created_by);
+CREATE INDEX wb_sys_user_dict_created_time_idx ON wb_sys_user_dict(created_time);
+CREATE INDEX wb_sys_user_dict_updated_by_idx ON wb_sys_user_dict(updated_by);
+CREATE INDEX wb_sys_user_dict_updated_time_idx ON wb_sys_user_dict(updated_time);
+CREATE INDEX wb_sys_user_dict_name_idx ON wb_sys_user_dict(name);
+CREATE UNIQUE INDEX wb_sys_user_dict_dict_group_dict_code_idx ON wb_sys_user_dict(dict_group,dict_code);
 
 DROP TABLE IF EXISTS wb_sys_user_log;
 CREATE TABLE wb_sys_user_log(
@@ -537,12 +537,12 @@ COMMENT ON COLUMN wb_sys_user_log.ip IS '来源IP';
 COMMENT ON COLUMN wb_sys_user_log.ua IS '用户客户端';
 
 
-CREATE INDEX created_by_idx ON wb_sys_user_log(created_by);
-CREATE INDEX created_time_idx ON wb_sys_user_log(created_time);
-CREATE INDEX event_idx ON wb_sys_user_log(event);
-CREATE INDEX user_id_idx ON wb_sys_user_log(user_id);
-CREATE INDEX frontend_id_idx ON wb_sys_user_log(frontend_id);
-CREATE INDEX ip_idx ON wb_sys_user_log(ip);
+CREATE INDEX wb_sys_user_log_created_by_idx ON wb_sys_user_log(created_by);
+CREATE INDEX wb_sys_user_log_created_time_idx ON wb_sys_user_log(created_time);
+CREATE INDEX wb_sys_user_log_event_idx ON wb_sys_user_log(event);
+CREATE INDEX wb_sys_user_log_user_id_idx ON wb_sys_user_log(user_id);
+CREATE INDEX wb_sys_user_log_frontend_id_idx ON wb_sys_user_log(frontend_id);
+CREATE INDEX wb_sys_user_log_ip_idx ON wb_sys_user_log(ip);
 
 DROP TABLE IF EXISTS wb_sys_operation_log;
 CREATE TABLE wb_sys_operation_log(
@@ -568,11 +568,11 @@ COMMENT ON COLUMN wb_sys_operation_log.obj IS '资源对象';
 COMMENT ON COLUMN wb_sys_operation_log.username IS '用户名';
 
 
-CREATE INDEX created_by_idx ON wb_sys_operation_log(created_by);
-CREATE INDEX created_time_idx ON wb_sys_operation_log(created_time);
-CREATE INDEX event_idx ON wb_sys_operation_log(event);
-CREATE INDEX resource_resource_id_idx ON wb_sys_operation_log(resource,resource_id);
-CREATE INDEX username_idx ON wb_sys_operation_log(username);
+CREATE INDEX wb_sys_operation_log_created_by_idx ON wb_sys_operation_log(created_by);
+CREATE INDEX wb_sys_operation_log_created_time_idx ON wb_sys_operation_log(created_time);
+CREATE INDEX wb_sys_operation_log_event_idx ON wb_sys_operation_log(event);
+CREATE INDEX wb_sys_operation_log_resource_resource_id_idx ON wb_sys_operation_log(resource,resource_id);
+CREATE INDEX wb_sys_operation_log_username_idx ON wb_sys_operation_log(username);
 
 DROP TABLE IF EXISTS wb_task_quick_link;
 CREATE TABLE wb_task_quick_link(
@@ -602,12 +602,12 @@ COMMENT ON COLUMN wb_task_quick_link.path IS '路径';
 COMMENT ON COLUMN wb_task_quick_link.sort IS '排序';
 
 
-CREATE INDEX created_by_idx ON wb_task_quick_link(created_by);
-CREATE INDEX created_time_idx ON wb_task_quick_link(created_time);
-CREATE INDEX updated_by_idx ON wb_task_quick_link(updated_by);
-CREATE INDEX updated_time_idx ON wb_task_quick_link(updated_time);
-CREATE INDEX name_idx ON wb_task_quick_link(name);
-CREATE INDEX sort_idx ON wb_task_quick_link(sort);
+CREATE INDEX wb_task_quick_link_created_by_idx ON wb_task_quick_link(created_by);
+CREATE INDEX wb_task_quick_link_created_time_idx ON wb_task_quick_link(created_time);
+CREATE INDEX wb_task_quick_link_updated_by_idx ON wb_task_quick_link(updated_by);
+CREATE INDEX wb_task_quick_link_updated_time_idx ON wb_task_quick_link(updated_time);
+CREATE INDEX wb_task_quick_link_name_idx ON wb_task_quick_link(name);
+CREATE INDEX wb_task_quick_link_sort_idx ON wb_task_quick_link(sort);
 
 DROP TABLE IF EXISTS wb_task_inside_message;
 CREATE TABLE wb_task_inside_message(
@@ -635,10 +635,10 @@ COMMENT ON COLUMN wb_task_inside_message.to_user_id IS '目标用户ID';
 COMMENT ON COLUMN wb_task_inside_message.read_time IS '读取时间';
 
 
-CREATE INDEX created_by_idx ON wb_task_inside_message(created_by);
-CREATE INDEX created_time_idx ON wb_task_inside_message(created_time);
-CREATE INDEX from_user_id_idx ON wb_task_inside_message(from_user_id);
-CREATE INDEX to_user_id_idx ON wb_task_inside_message(to_user_id);
+CREATE INDEX wb_task_inside_message_created_by_idx ON wb_task_inside_message(created_by);
+CREATE INDEX wb_task_inside_message_created_time_idx ON wb_task_inside_message(created_time);
+CREATE INDEX wb_task_inside_message_from_user_id_idx ON wb_task_inside_message(from_user_id);
+CREATE INDEX wb_task_inside_message_to_user_id_idx ON wb_task_inside_message(to_user_id);
 
 DROP TABLE IF EXISTS wb_sys_announcement;
 CREATE TABLE wb_sys_announcement(
@@ -651,7 +651,7 @@ CREATE TABLE wb_sys_announcement(
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     type VARCHAR(32) NOT NULL,
-    display INTEGER(1) NOT NULL,
+    display BOOLEAN NOT NULL,
     sort INTEGER NOT NULL,
     PRIMARY KEY (id)
 );
@@ -670,12 +670,12 @@ COMMENT ON COLUMN wb_sys_announcement.display IS '是否展示';
 COMMENT ON COLUMN wb_sys_announcement.sort IS '排序';
 
 
-CREATE INDEX created_by_idx ON wb_sys_announcement(created_by);
-CREATE INDEX created_time_idx ON wb_sys_announcement(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_announcement(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_announcement(updated_time);
-CREATE INDEX type_display_idx ON wb_sys_announcement(type,display);
-CREATE INDEX sort_idx ON wb_sys_announcement(sort);
+CREATE INDEX wb_sys_announcement_created_by_idx ON wb_sys_announcement(created_by);
+CREATE INDEX wb_sys_announcement_created_time_idx ON wb_sys_announcement(created_time);
+CREATE INDEX wb_sys_announcement_updated_by_idx ON wb_sys_announcement(updated_by);
+CREATE INDEX wb_sys_announcement_updated_time_idx ON wb_sys_announcement(updated_time);
+CREATE INDEX wb_sys_announcement_type_display_idx ON wb_sys_announcement(type,display);
+CREATE INDEX wb_sys_announcement_sort_idx ON wb_sys_announcement(sort);
 
 DROP TABLE IF EXISTS wb_sys_attachment;
 CREATE TABLE wb_sys_attachment(
@@ -683,7 +683,7 @@ CREATE TABLE wb_sys_attachment(
     created_by VARCHAR(64),
     created_time TIMESTAMP,
     url VARCHAR(512) NOT NULL,
-    size bigint(20) NOT NULL,
+    size BIGINT NOT NULL,
     filename VARCHAR(255) NOT NULL,
     original_filename VARCHAR(255) NOT NULL,
     base_path VARCHAR(255) NOT NULL,
@@ -693,12 +693,13 @@ CREATE TABLE wb_sys_attachment(
     platform VARCHAR(128) NOT NULL,
     th_url VARCHAR(512) NOT NULL,
     th_filename VARCHAR(255) NOT NULL,
-    th_size bigint(20) NOT NULL,
+    th_size BIGINT NOT NULL,
     th_content_type VARCHAR(128) NOT NULL,
     hash_info TEXT NOT NULL,
     attr TEXT NOT NULL,
     object_id VARCHAR(64),
     object_type VARCHAR(255) NOT NULL,
+    deleted shortint NOT NULL DEFAULT  0,
     PRIMARY KEY (id)
 );
 
@@ -723,14 +724,16 @@ COMMENT ON COLUMN wb_sys_attachment.hash_info IS '哈希信息';
 COMMENT ON COLUMN wb_sys_attachment.attr IS '附加属性';
 COMMENT ON COLUMN wb_sys_attachment.object_id IS '关联对象ID';
 COMMENT ON COLUMN wb_sys_attachment.object_type IS '关联对象类型';
+COMMENT ON COLUMN wb_sys_attachment.deleted IS '删除标示';
 
 
-CREATE INDEX created_by_idx ON wb_sys_attachment(created_by);
-CREATE INDEX created_time_idx ON wb_sys_attachment(created_time);
-CREATE INDEX url_idx ON wb_sys_attachment(url);
-CREATE INDEX content_type_idx ON wb_sys_attachment(content_type);
-CREATE INDEX platform_idx ON wb_sys_attachment(platform);
-CREATE INDEX object_idx ON wb_sys_attachment(object_type,object_id);
+CREATE INDEX wb_sys_attachment_created_by_idx ON wb_sys_attachment(created_by);
+CREATE INDEX wb_sys_attachment_created_time_idx ON wb_sys_attachment(created_time);
+CREATE INDEX wb_sys_attachment_url_idx ON wb_sys_attachment(url);
+CREATE INDEX wb_sys_attachment_content_type_idx ON wb_sys_attachment(content_type);
+CREATE INDEX wb_sys_attachment_platform_idx ON wb_sys_attachment(platform);
+CREATE INDEX wb_sys_attachment_object_idx ON wb_sys_attachment(object_type,object_id);
+CREATE INDEX wb_sys_attachment_deleted_idx ON wb_sys_attachment(deleted);
 
 DROP TABLE IF EXISTS wb_sys_bg_task;
 CREATE TABLE wb_sys_bg_task(
@@ -743,7 +746,6 @@ CREATE TABLE wb_sys_bg_task(
     name VARCHAR(128) NOT NULL,
     type VARCHAR(32) NOT NULL,
     status VARCHAR(32) NOT NULL,
-    attachment_id VARCHAR(64),
     result VARCHAR(512) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -758,16 +760,15 @@ COMMENT ON COLUMN wb_sys_bg_task.remark IS '备注';
 COMMENT ON COLUMN wb_sys_bg_task.name IS '名称';
 COMMENT ON COLUMN wb_sys_bg_task.type IS '类型';
 COMMENT ON COLUMN wb_sys_bg_task.status IS '状态';
-COMMENT ON COLUMN wb_sys_bg_task.attachment_id IS '关联附件ID';
 COMMENT ON COLUMN wb_sys_bg_task.result IS '结果';
 
 
-CREATE INDEX created_by_idx ON wb_sys_bg_task(created_by);
-CREATE INDEX created_time_idx ON wb_sys_bg_task(created_time);
-CREATE INDEX updated_by_idx ON wb_sys_bg_task(updated_by);
-CREATE INDEX updated_time_idx ON wb_sys_bg_task(updated_time);
-CREATE INDEX type_idx ON wb_sys_bg_task(type);
-CREATE INDEX status_idx ON wb_sys_bg_task(status);
+CREATE INDEX wb_sys_bg_task_created_by_idx ON wb_sys_bg_task(created_by);
+CREATE INDEX wb_sys_bg_task_created_time_idx ON wb_sys_bg_task(created_time);
+CREATE INDEX wb_sys_bg_task_updated_by_idx ON wb_sys_bg_task(updated_by);
+CREATE INDEX wb_sys_bg_task_updated_time_idx ON wb_sys_bg_task(updated_time);
+CREATE INDEX wb_sys_bg_task_type_idx ON wb_sys_bg_task(type);
+CREATE INDEX wb_sys_bg_task_status_idx ON wb_sys_bg_task(status);
 
 
 -- views

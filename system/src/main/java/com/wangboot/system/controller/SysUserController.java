@@ -9,8 +9,10 @@ import com.wangboot.core.auth.user.IUserModel;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.response.ListBody;
+import com.wangboot.core.web.task.IBackgroundTask;
 import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
+import com.wangboot.model.attachment.IExcelExporter;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
@@ -18,13 +20,12 @@ import com.wangboot.model.entity.controller.RestfulApiReadWriteController;
 import com.wangboot.model.entity.exception.NotFoundException;
 import com.wangboot.model.entity.request.*;
 import com.wangboot.system.attachment.IBgExportApi;
-import com.wangboot.system.attachment.IExporter;
-import com.wangboot.system.entity.SysBgTask;
 import com.wangboot.system.entity.SysRole;
 import com.wangboot.system.entity.SysUser;
 import com.wangboot.system.entity.dto.SysUserExcel;
 import com.wangboot.system.entity.table.SysUserTableDef;
 import com.wangboot.system.entity.vo.SysUserView;
+import com.wangboot.system.event.BgTaskResult;
 import com.wangboot.system.model.ChangePasswordBody;
 import com.wangboot.system.service.*;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class SysUserController
 
   private final AuthService authService;
 
-  @Getter private final IExporter exporter;
+  @Getter private final IExcelExporter exporter;
 
   @Getter private final SysBgTaskService bgTaskService;
 
@@ -170,7 +171,7 @@ public class SysUserController
     final SortFilter[] sortFilters = this.parseSortFilters();
     final FieldFilter[] fieldFilters = this.parseParamFilters();
     final FieldFilter[] searchFilters = this.parseSearchFilters();
-    SysBgTask bgTask =
+    IBackgroundTask<BgTaskResult> bgTask =
         this.bgExport(
             "用户数据导出",
             SysUserExcel.class,

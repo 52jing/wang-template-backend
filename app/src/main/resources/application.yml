@@ -57,6 +57,12 @@ spring:
         enabled: false
         url-pattern: /druid/*
       aop-patterns: com.wangboot.system.*,com.wangboot.task.*,com.wangboot.app.*
+  # 迁移配置
+  flyway:
+    enabled: true
+    # flyway 的 clean 命令会删除指定 schema 下的所有 table, 生产务必禁掉。
+    clean-disabled: true
+    baseline-on-migrate: true
   # 缓存配置
   # https://docs.spring.io/spring-boot/docs/2.7.5/reference/html/application-properties.html#application-properties.cache
   cache:

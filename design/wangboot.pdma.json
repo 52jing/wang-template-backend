@@ -4,12 +4,12 @@
   "avatar": "",
   "version": "4.9.2",
   "createdTime": "2024-3-13 20:41:59",
-  "updatedTime": "2024-5-20 19:07:19",
+  "updatedTime": "2024-6-3 08:45:36",
   "dbConns": [],
   "profile": {
     "default": {
       "db": "29D1CE08-4C35-4D2D-AAA9-23D93305B52E",
-      "dbConn": "3D76BE26-1852-4732-A34A-71EA0B2D0C9A",
+      "dbConn": "223B3B55-65B7-45EB-9917-FCA2CEE16770",
       "entityInitFields": [
         {
           "defKey": "id",
@@ -1013,7 +1013,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "779E7120-7DC8-4437-B69F-1E1F62A4CB9E"
@@ -1031,7 +1031,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "2CAA6A05-A412-4EEA-95A6-72ED04953186"
@@ -1040,7 +1040,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_frontend_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1054,7 +1054,7 @@
           "id": "332DF9BC-FB7C-49C6-A835-E6D0D68F06FF"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_frontend_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1068,7 +1068,7 @@
           "id": "E54535A6-628A-4F47-9B6B-7B0E588D4BDC"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_frontend_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1082,7 +1082,7 @@
           "id": "86565A5D-F459-4552-8B9B-D39626E99DD9"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_frontend_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1096,7 +1096,7 @@
           "id": "3BC44081-CFC5-4DE0-A207-4327B4F1FE4B"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_frontend_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1110,7 +1110,7 @@
           "id": "ECA37D7A-39C3-49B5-A7F0-8B3A752B5AD1"
         },
         {
-          "defKey": "client_type_idx",
+          "defKey": "wb_sys_frontend_client_type_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1487,7 +1487,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "D6F0F0B3-775A-4A37-B70C-9C2701733CF7"
@@ -1505,7 +1505,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "42881C94-B8AB-477F-A3FF-E08030EAD643"
@@ -1523,7 +1523,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "154538E4-7322-4983-82AD-56963DB9D784"
@@ -1703,7 +1703,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "D10CE363-2458-4030-A4DF-4A268F1CBD98"
@@ -1712,7 +1712,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_user_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1726,7 +1726,7 @@
           "id": "D5551522-77A6-4931-809C-4477E8276419"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_user_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1740,7 +1740,7 @@
           "id": "CCFCF124-1E89-4685-B27D-35E696E01C9A"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_user_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1754,7 +1754,7 @@
           "id": "7AFAEE2D-37CA-406A-9443-753E0D6F99D3"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_user_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1768,7 +1768,7 @@
           "id": "B056FCB2-9406-486D-9993-9B61B04C5DFF"
         },
         {
-          "defKey": "username_idx",
+          "defKey": "wb_sys_user_username_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -1782,7 +1782,7 @@
           "id": "811D89D8-0B0B-4FA9-9D83-00E53A330B8F"
         },
         {
-          "defKey": "email_idx",
+          "defKey": "wb_sys_user_email_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1796,7 +1796,7 @@
           "id": "37804A63-7149-4A34-BBBB-E6A9D7D07DBF"
         },
         {
-          "defKey": "tel_idx",
+          "defKey": "wb_sys_user_tel_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1810,7 +1810,7 @@
           "id": "83D5C809-5E8F-40D2-839C-185EA88F702F"
         },
         {
-          "defKey": "active_idx",
+          "defKey": "wb_sys_user_active_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1824,7 +1824,7 @@
           "id": "FD176454-AD39-4C43-AC21-8D4776264BEC"
         },
         {
-          "defKey": "superuser_idx",
+          "defKey": "wb_sys_user_superuser_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1838,7 +1838,7 @@
           "id": "45651194-D9BE-4AE3-97CE-CDFEA9A07971"
         },
         {
-          "defKey": "staff_idx",
+          "defKey": "wb_sys_user_staff_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1852,7 +1852,7 @@
           "id": "29AEA543-3DF5-45A3-83CF-84FA1334D43C"
         },
         {
-          "defKey": "expired_time_idx",
+          "defKey": "wb_sys_user_expired_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1866,7 +1866,7 @@
           "id": "66E825AA-BE08-4056-9207-487F163D40F3"
         },
         {
-          "defKey": "department_id_idx",
+          "defKey": "wb_sys_user_department_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -1880,7 +1880,7 @@
           "id": "B3F30958-692C-4662-96ED-D79479678AC8"
         },
         {
-          "defKey": "job_id_idx",
+          "defKey": "wb_sys_user_job_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2248,7 +2248,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_department_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2262,7 +2262,7 @@
           "id": "555D6512-B279-460D-A171-77AD86648015"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_department_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2276,7 +2276,7 @@
           "id": "09C0DA48-98B6-402C-9A55-A1AC65851A79"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_department_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2290,7 +2290,7 @@
           "id": "F99EF720-E088-4E6B-9FE8-89F22438601F"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_department_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2304,7 +2304,7 @@
           "id": "9290527C-CAEF-49E4-8524-53CF2895A75C"
         },
         {
-          "defKey": "parent_id_idx",
+          "defKey": "wb_sys_department_parent_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2318,7 +2318,7 @@
           "id": "BA579DAD-08D5-497E-9C90-CA95599555A0"
         },
         {
-          "defKey": "sort_idx",
+          "defKey": "wb_sys_department_sort_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2332,7 +2332,7 @@
           "id": "887E68F7-670D-46B8-AD99-06E6C80D3393"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_department_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2646,7 +2646,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_job_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2660,7 +2660,7 @@
           "id": "656C4122-AC31-41A3-A42E-EBCBDD96D62B"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_job_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2674,7 +2674,7 @@
           "id": "C9A8B620-33B2-46FC-ADCE-436BA0FD38F3"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_job_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2688,7 +2688,7 @@
           "id": "F1C98389-79DC-4C17-93D5-009F53CA2572"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_job_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2702,7 +2702,7 @@
           "id": "5E4BBF72-D59B-4FBC-83A0-80A7ADAB195B"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_job_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -2716,7 +2716,7 @@
           "id": "26D9BBD0-2770-40CE-844F-DBFB23009521"
         },
         {
-          "defKey": "type_idx",
+          "defKey": "wb_sys_job_type_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3012,7 +3012,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_role_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3026,7 +3026,7 @@
           "id": "E07155A9-B9A0-4165-A17F-33FD8C4868EA"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_role_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3040,7 +3040,7 @@
           "id": "CECFBD0C-4258-4225-ABAF-B48CF506D526"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_role_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3054,7 +3054,7 @@
           "id": "08748E60-F297-4BC7-B1DF-E3D1730118F0"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_role_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3068,7 +3068,7 @@
           "id": "70DFE6E4-D81B-45D5-BC39-D7A2348BDDCF"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_role_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3391,7 +3391,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "22C08417-EA3D-48DA-BC5D-FEACE80AD402"
@@ -3400,7 +3400,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_policy_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3414,7 +3414,7 @@
           "id": "16A30491-A631-4177-B473-7625139FDC10"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_policy_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3428,7 +3428,7 @@
           "id": "676B289C-48F8-4099-946B-113D4AFFABEC"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_policy_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3442,7 +3442,7 @@
           "id": "10C74C19-24EC-4B75-A695-92CD5B23010D"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_policy_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3456,7 +3456,7 @@
           "id": "EA94786C-FC4C-4076-B371-C8DC12AD0AB4"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_policy_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3779,7 +3779,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "2C6F2508-8201-4E25-AA70-1D0FCFB64274"
@@ -3788,7 +3788,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_permission_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3802,7 +3802,7 @@
           "id": "03BED785-B26F-4A8F-81DD-8CCA79BD278C"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_permission_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3816,7 +3816,7 @@
           "id": "CA71301C-777D-410B-8609-2EAC577358F1"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_permission_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3830,7 +3830,7 @@
           "id": "F77BD8AE-0EEA-4B9E-845F-8518637FAD81"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_permission_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -3844,7 +3844,7 @@
           "id": "FF0230A7-D515-4825-8835-7A8A4DBE0DDF"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_permission_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4068,7 +4068,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "role_id_idx",
+          "defKey": "wb_sys_role_policy_rel_role_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4082,7 +4082,7 @@
           "id": "0651D703-09E8-4296-A77C-5CDF73ED5AD4"
         },
         {
-          "defKey": "policy_id_idx",
+          "defKey": "wb_sys_role_policy_rel_policy_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4096,7 +4096,7 @@
           "id": "62F33B19-04CC-475B-8D16-1E56ABB4D2A0"
         },
         {
-          "defKey": "role_id_policy_id_idx",
+          "defKey": "wb_sys_role_policy_rel_role_id_policy_id_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -4325,7 +4325,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "policy_id_idx",
+          "defKey": "wb_sys_policy_permission_policy_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4339,7 +4339,7 @@
           "id": "35656276-1BE4-4BBF-A143-F839B0A1BE4F"
         },
         {
-          "defKey": "permission_id_idx",
+          "defKey": "wb_sys_policy_permission_permission_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4353,7 +4353,7 @@
           "id": "5BACC5C3-E87C-4F75-AF29-CD70D47B60EA"
         },
         {
-          "defKey": "policy_id_permission_id_idx",
+          "defKey": "wb_sys_policy_permission_policy_id_permission_id_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -4654,7 +4654,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_data_scope_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4668,7 +4668,7 @@
           "id": "988E62FE-7C44-445E-B991-84E0FA225C72"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_data_scope_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4682,7 +4682,7 @@
           "id": "694F91A6-5EEB-40A7-8BA8-B1752B9029C1"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_data_scope_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4696,7 +4696,7 @@
           "id": "6E957B3F-CE4E-494A-AB45-DAAC8C27B447"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_data_scope_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4710,7 +4710,7 @@
           "id": "1AA1D37E-72B6-4C5A-9ABB-CC16A46CD7DF"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_data_scope_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4934,7 +4934,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "user_id_idx",
+          "defKey": "wb_sys_user_role_rel_user_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4948,7 +4948,7 @@
           "id": "3D808945-3A09-470A-A6BD-3DC987CBA2C9"
         },
         {
-          "defKey": "role_id_idx",
+          "defKey": "wb_sys_user_role_rel_role_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -4962,7 +4962,7 @@
           "id": "A786EEFE-25DF-439C-BABC-DEBDB17C7EA0"
         },
         {
-          "defKey": "user_id_role_id_idx",
+          "defKey": "wb_sys_user_role_rel_user_id_role_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5191,7 +5191,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "policy_id_idx",
+          "defKey": "wb_sys_policy_data_scope_rel_policy_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5205,7 +5205,7 @@
           "id": "3DA3BA2D-7D95-46A9-B43F-E2059B4A92E4"
         },
         {
-          "defKey": "datascope_id_idx",
+          "defKey": "wb_sys_policy_data_scope_rel_datascope_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5219,7 +5219,7 @@
           "id": "215F39EA-FC9D-4D9E-81BB-92659A1AE54C"
         },
         {
-          "defKey": "policy_id_datascope_id_idx",
+          "defKey": "wb_sys_policy_data_scope_rel_policy_id_datascope_id_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -5610,7 +5610,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_menu_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5624,7 +5624,7 @@
           "id": "6951030A-B19A-4761-956D-1EF3D899F49E"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_menu_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5638,7 +5638,7 @@
           "id": "39C92E17-1C60-4B0E-9CB1-473F066997BC"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_menu_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5652,7 +5652,7 @@
           "id": "33B2D394-4FD0-47A6-9315-00BB6E4DD618"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_menu_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5666,7 +5666,7 @@
           "id": "43FBD517-3240-4BDD-9281-1A0D62A179D5"
         },
         {
-          "defKey": "parent_id_idx",
+          "defKey": "wb_sys_menu_parent_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5680,7 +5680,7 @@
           "id": "C2CC9038-6C10-4446-8729-FAA76844C5DD"
         },
         {
-          "defKey": "sort_idx",
+          "defKey": "wb_sys_menu_sort_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5694,7 +5694,7 @@
           "id": "B805A2D0-12B5-498B-AD23-23D6F7BD38CE"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_menu_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5918,7 +5918,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "policy_id_idx",
+          "defKey": "wb_sys_policy_menu_rel_policy_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5932,7 +5932,7 @@
           "id": "2C7AC178-5402-4C43-817A-F9A4FBBC0D05"
         },
         {
-          "defKey": "menu_id_idx",
+          "defKey": "wb_sys_policy_menu_rel_menu_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -5946,7 +5946,7 @@
           "id": "0AF37C01-D2DD-4DD9-BB43-7DDD144554FC"
         },
         {
-          "defKey": "policy_id_menu_id_idx",
+          "defKey": "wb_sys_policy_menu_rel_policy_id_menu_id_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -6319,7 +6319,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_param_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6333,7 +6333,7 @@
           "id": "38DE8207-C0A0-4564-BAC9-212735C57312"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_param_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6347,7 +6347,7 @@
           "id": "B57CD43E-0FEB-4231-BE4C-983D21E41EA4"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_param_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6361,7 +6361,7 @@
           "id": "F61524FA-9887-43AC-89EE-03466D5874E2"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_param_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6375,7 +6375,7 @@
           "id": "4506466E-3864-440B-BA8D-B68C57B9F976"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_param_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6389,7 +6389,7 @@
           "id": "59A137F0-F720-4A13-99A2-14B9AEF83FCA"
         },
         {
-          "defKey": "param_group_idx",
+          "defKey": "wb_sys_param_param_group_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6403,7 +6403,7 @@
           "id": "42E5F46C-DD07-40DA-8F4E-17175C8B7BEB"
         },
         {
-          "defKey": "param_key_idx",
+          "defKey": "wb_sys_param_param_key_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -6789,7 +6789,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_user_dict_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6803,7 +6803,7 @@
           "id": "A8575251-C4CB-417B-A201-0EE33ED3ED07"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_user_dict_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6817,7 +6817,7 @@
           "id": "4581CE0B-8E29-4339-BC44-D96ED221B630"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_user_dict_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6831,7 +6831,7 @@
           "id": "31A8173F-9663-4D4A-8288-68BD843D5189"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_user_dict_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6845,7 +6845,7 @@
           "id": "F44D0358-1046-461E-A55E-F8DC386CCE93"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_sys_user_dict_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -6859,7 +6859,7 @@
           "id": "D294E3B7-5681-413D-9CB1-EA5E3300250B"
         },
         {
-          "defKey": "dict_group_dict_code_idx",
+          "defKey": "wb_sys_user_dict_dict_group_dict_code_idx",
           "defName": null,
           "unique": true,
           "comment": "",
@@ -7250,7 +7250,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_user_log_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7264,7 +7264,7 @@
           "id": "96778E75-3AAC-4AF7-AA63-FDA700150FE5"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_user_log_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7278,7 +7278,7 @@
           "id": "F51EDF8A-EE8E-42B7-9607-2531E12043C3"
         },
         {
-          "defKey": "event_idx",
+          "defKey": "wb_sys_user_log_event_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7292,7 +7292,7 @@
           "id": "F85A3694-9696-4CA4-A2EC-22057ECDEDD2"
         },
         {
-          "defKey": "user_id_idx",
+          "defKey": "wb_sys_user_log_user_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7306,7 +7306,7 @@
           "id": "B0550D6B-A8D3-471D-85EE-EF5CB9567B24"
         },
         {
-          "defKey": "frontend_id_idx",
+          "defKey": "wb_sys_user_log_frontend_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7320,7 +7320,7 @@
           "id": "5C8769B9-2203-47DD-A2F2-4EACDE34BF50"
         },
         {
-          "defKey": "ip_idx",
+          "defKey": "wb_sys_user_log_ip_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7634,7 +7634,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_operation_log_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7648,7 +7648,7 @@
           "id": "791E4C32-24D8-4567-8931-9954679935F0"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_operation_log_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7662,7 +7662,7 @@
           "id": "8C97E69C-E1DF-42EE-B374-AE2B076AD714"
         },
         {
-          "defKey": "event_idx",
+          "defKey": "wb_sys_operation_log_event_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7676,7 +7676,7 @@
           "id": "06C295D6-5254-4C8D-88F9-D0DDE28F25BC"
         },
         {
-          "defKey": "resource_resource_id_idx",
+          "defKey": "wb_sys_operation_log_resource_resource_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -7695,7 +7695,7 @@
           "id": "AE7F34CD-6A5E-4482-BBF7-E5D06A01E66D"
         },
         {
-          "defKey": "username_idx",
+          "defKey": "wb_sys_operation_log_username_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8045,7 +8045,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_task_quick_link_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8059,7 +8059,7 @@
           "id": "11C9B879-E80A-4F2A-9C97-ECED9D7DB540"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_task_quick_link_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8073,7 +8073,7 @@
           "id": "4147B7D2-9A21-4B43-9DD4-5E923B6CB598"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_task_quick_link_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8087,7 +8087,7 @@
           "id": "49EC5ADD-A667-4C36-B93B-3E1994A2124B"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_task_quick_link_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8101,7 +8101,7 @@
           "id": "03F420AA-57C3-4986-A157-6463512CFE3A"
         },
         {
-          "defKey": "name_idx",
+          "defKey": "wb_task_quick_link_name_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8115,7 +8115,7 @@
           "id": "652A9ECA-2A54-4332-8C6F-F3443D966F02"
         },
         {
-          "defKey": "sort_idx",
+          "defKey": "wb_task_quick_link_sort_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8447,7 +8447,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_task_inside_message_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8461,7 +8461,7 @@
           "id": "781BD759-9936-4EEA-AD63-9EE9A76816A7"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_task_inside_message_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8475,7 +8475,7 @@
           "id": "EA6BCCE1-3C50-4FFE-86D5-D684FB5C9839"
         },
         {
-          "defKey": "from_user_id_idx",
+          "defKey": "wb_task_inside_message_from_user_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8489,7 +8489,7 @@
           "id": "F3634271-5DF4-4603-9EA4-1AB20F6DDC77"
         },
         {
-          "defKey": "to_user_id_idx",
+          "defKey": "wb_task_inside_message_to_user_id_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8830,7 +8830,7 @@
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "baseType": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
           "extProps": {},
           "domain": "216B6405-11FC-46EF-A506-B1C7677B03A7",
           "id": "B4F2CFCF-D4A7-4DB8-84C5-F57EF5A3F7ED"
@@ -8857,7 +8857,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_announcement_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8871,7 +8871,7 @@
           "id": "7A7E9E57-03A2-4F49-8840-376498B6B9EA"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_announcement_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8885,7 +8885,7 @@
           "id": "A89C3498-66C4-4A22-8EF3-48252D29E73C"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_announcement_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8899,7 +8899,7 @@
           "id": "9ABCABBA-A51F-48C9-9177-2484BE680776"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_announcement_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8913,7 +8913,7 @@
           "id": "A46BE151-B97A-47E7-85B5-203C4C8E8286"
         },
         {
-          "defKey": "type_display_idx",
+          "defKey": "wb_sys_announcement_type_display_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -8932,7 +8932,7 @@
           "id": "18A5D99D-8EC4-4FD9-9465-13F2361D55B9"
         },
         {
-          "defKey": "sort_idx",
+          "defKey": "wb_sys_announcement_sort_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9462,7 +9462,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_attachment_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9476,7 +9476,7 @@
           "id": "40DB4527-C2F0-4756-89D8-E2A10DF73A51"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_attachment_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9490,7 +9490,7 @@
           "id": "4C674592-E5E3-47A1-8FF5-E3B182E61910"
         },
         {
-          "defKey": "url_idx",
+          "defKey": "wb_sys_attachment_url_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9504,7 +9504,7 @@
           "id": "A6E99424-5141-48B0-B10E-D094CD87B546"
         },
         {
-          "defKey": "content_type_idx",
+          "defKey": "wb_sys_attachment_content_type_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9518,7 +9518,7 @@
           "id": "7B3F8013-769D-4F1E-AF53-C8D29B8D2A50"
         },
         {
-          "defKey": "platform_idx",
+          "defKey": "wb_sys_attachment_platform_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9532,7 +9532,7 @@
           "id": "3F27070A-4DBD-484B-89B6-87908661E08A"
         },
         {
-          "defKey": "object_idx",
+          "defKey": "wb_sys_attachment_object_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9905,7 +9905,7 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "created_by_idx",
+          "defKey": "wb_sys_bg_task_created_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9919,7 +9919,7 @@
           "id": "F4535AAC-22E8-472E-8FCE-C7E9E8D62E32"
         },
         {
-          "defKey": "created_time_idx",
+          "defKey": "wb_sys_bg_task_created_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9933,7 +9933,7 @@
           "id": "D6E39A0E-07E1-421C-86DB-2943FE7934E2"
         },
         {
-          "defKey": "updated_by_idx",
+          "defKey": "wb_sys_bg_task_updated_by_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9947,7 +9947,7 @@
           "id": "C4729B75-5A11-4948-8432-E1E319C17A2F"
         },
         {
-          "defKey": "updated_time_idx",
+          "defKey": "wb_sys_bg_task_updated_time_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9961,7 +9961,7 @@
           "id": "0BD75EA0-DF35-4BCB-B675-9DEFD21BC9AD"
         },
         {
-          "defKey": "type_idx",
+          "defKey": "wb_sys_bg_task_type_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -9975,7 +9975,7 @@
           "id": "5037F6C8-93FE-45FE-8D89-314ABF6719D2"
         },
         {
-          "defKey": "status_idx",
+          "defKey": "wb_sys_bg_task_status_idx",
           "defName": null,
           "unique": false,
           "comment": "",
@@ -10195,10 +10195,21 @@
         "defKey": "bigint",
         "defName": "大整数",
         "id": "F618AD61-73BF-4F59-8DA8-6D62A42DF1A4",
-        "29D1CE08-4C35-4D2D-AAA9-23D93305B52E": "bigint",
-        "A4E23CB7-BB01-4BD1-9F71-F73F3E15A542": "bigint",
-        "BFC87171-C74F-494A-B7C2-76B9C55FACC9": "bigint",
-        "DFBEC1DD-AA84-456E-BBF3-C95DD0DB2022": "bigint"
+        "29D1CE08-4C35-4D2D-AAA9-23D93305B52E": "BIGINT",
+        "A4E23CB7-BB01-4BD1-9F71-F73F3E15A542": "BIGINT",
+        "BFC87171-C74F-494A-B7C2-76B9C55FACC9": "BIGINT",
+        "DFBEC1DD-AA84-456E-BBF3-C95DD0DB2022": "BIGINT",
+        "B363BE0B-F852-49B8-9B2E-F6D2174DEAC1": "BIGINT"
+      },
+      {
+        "defKey": "boolean",
+        "defName": "布尔值",
+        "id": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
+        "29D1CE08-4C35-4D2D-AAA9-23D93305B52E": "BOOLEAN",
+        "DFBEC1DD-AA84-456E-BBF3-C95DD0DB2022": "BOOLEAN",
+        "A4E23CB7-BB01-4BD1-9F71-F73F3E15A542": "BOOLEAN",
+        "BFC87171-C74F-494A-B7C2-76B9C55FACC9": "BOOLEAN",
+        "B363BE0B-F852-49B8-9B2E-F6D2174DEAC1": "tinyint"
       }
     ]
   },
@@ -10296,8 +10307,8 @@
     {
       "defKey": "Boolean",
       "defName": "布尔值",
-      "applyFor": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
-      "len": 1,
+      "applyFor": "F4F48571-23C2-4FDF-9A54-5C51B5C3129E",
+      "len": "",
       "scale": "",
       "uiHint": "",
       "id": "216B6405-11FC-46EF-A506-B1C7677B03A7"
@@ -10306,7 +10317,7 @@
       "defKey": "bigint",
       "defName": "大整数",
       "applyFor": "F618AD61-73BF-4F59-8DA8-6D62A42DF1A4",
-      "len": 20,
+      "len": "",
       "scale": "",
       "uiHint": "",
       "id": "37403B5B-1EB9-48D0-A752-C37A94FADBDE"
@@ -10333,6 +10344,17 @@
         "url": "jdbc:mysql://localhost:3306/wb-dev?characterEncoding=UTF-8&useSSL=false&useUnicode=true&serverTimezone=UTC",
         "password": "123456",
         "username": "root"
+      }
+    },
+    {
+      "defKey": "223B3B55-65B7-45EB-9917-FCA2CEE16770",
+      "defName": "wb-dev-pg",
+      "type": "DFBEC1DD-AA84-456E-BBF3-C95DD0DB2022",
+      "properties": {
+        "driver_class_name": "org.postgresql.Driver",
+        "url": "jdbc:postgresql://localhost:5432/wb-dev",
+        "password": "123456",
+        "username": "postgres"
       }
     }
   ],

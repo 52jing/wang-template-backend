@@ -1,24 +1,23 @@
 package com.wangboot.app.template.controller;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.wangboot.app.execution.datasource.DatasourceProcessor;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
-import com.wangboot.app.template.entity.dto.TplDatasourceDto;
+import com.wangboot.app.template.entity.dto.TplDatasourceParamListDto;
 import com.wangboot.app.template.entity.table.TplDatasourceTableDef;
 import com.wangboot.app.template.service.TplDatasourceService;
 import com.wangboot.core.auth.annotation.RestPermissionAction;
 import com.wangboot.core.auth.annotation.RestPermissionPrefix;
 import com.wangboot.core.auth.authorization.resource.ApiResource;
+import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.utils.ResponseUtils;
+import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.IRestfulService;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
 import com.wangboot.model.entity.controller.IRestfulReadController;
 import com.wangboot.model.entity.controller.IRestfulWriteController;
-import com.wangboot.model.entity.exception.CreateFailedException;
 import com.wangboot.model.entity.exception.NotFoundException;
 import com.wangboot.model.entity.exception.UpdateFailedException;
 import com.wangboot.model.entity.request.ParamFilterDefinition;
@@ -48,8 +47,6 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   private ApplicationEventPublisher applicationEventPublisher;
 
   @Getter private final TplDatasourceService entityService;
-
-  private final DatasourceProcessor datasourceProcessor;
 
   @NonNull
   @Override
@@ -101,28 +98,16 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   @PostMapping
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_CREATE)
   @NonNull
-  public ResponseEntity<?> createApi(@Validated @RequestBody TplDatasourceDto obj) {
-    final TplDatasource entity = BeanUtil.copyProperties(obj, TplDatasource.class);
-    this.create(entity);
-    boolean ret = this.getEntityService().createDatasourceParams(entity, obj);
-    if (!ret) {
-      throw new CreateFailedException();
-    }
-    return ResponseUtils.created(DetailBody.created(obj));
+  public ResponseEntity<?> createApi(@Validated @RequestBody TplDatasource obj) {
+    return this.createResponse(obj);
   }
 
   @PutMapping("/{id}")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
   @NonNull
-  public ResponseEntity<?> updateApi(@PathVariable String id, @Validated @RequestBody TplDatasourceDto obj) {
+  public ResponseEntity<?> updateApi(@PathVariable String id, @Validated @RequestBody TplDatasource obj) {
     obj.setId(id);
-    final TplDatasource entity = BeanUtil.copyProperties(obj, TplDatasource.class);
-    this.update(entity);
-    boolean ret = this.getEntityService().updateDatasourceParams(entity, obj);
-    if (!ret) {
-      throw new UpdateFailedException(id);
-    }
-    return ResponseUtils.success(DetailBody.updated(entity));
+    return this.updateResponse(obj);
   }
 
   @DeleteMapping("/{id}")
@@ -140,21 +125,74 @@ public class TplDatasourceController implements IRestfulReadController<String, T
     return ResponseUtils.success(DetailBody.ok(this.getEntityService().getDatasourceParams(id)));
   }
 
-  @GetMapping("/types")
+  @PostMapping("/{id}/params")
+  @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
+  @NonNull
+  public ResponseEntity<?> addParams(@PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
+    boolean ret = this.getEntityService().createDatasourceParams(id, dto.getParams());
+    if (!ret) {
+      throw new UpdateFailedException(id);
+    }
+    return ResponseUtils.success(DetailBody.ok(true));
+  }
+
+  @PutMapping("/{id}/params")
+  @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
+  @NonNull
+  public ResponseEntity<?> updateParams(@PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
+    boolean ret = this.getEntityService().updateDatasourceParams(id, dto.getParams());
+    if (!ret) {
+      throw new UpdateFailedException(id);
+    }
+    return ResponseUtils.success(DetailBody.ok(true));
+  }
+
+  @DeleteMapping("/{id}/params/{pid}")
+  @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
+  @NonNull
+  public ResponseEntity<?> deleteParams(@PathVariable String id, @PathVariable String pid) {
+    boolean ret = this.getEntityService().deleteDatasourceParams(pid);
+    if (!ret) {
+      throw new UpdateFailedException(id);
+    }
+    return ResponseUtils.success(DetailBody.ok(true));
+  }
+
+  @PostMapping("/{id}/connect")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_VIEW)
   @NonNull
-  public ResponseEntity<?> listTypes() {
-    return ResponseUtils.success(DetailBody.ok(this.datasourceProcessor.getTypes()));
+  public ResponseEntity<?> connectDatasource(@PathVariable String id) {
+    TplDatasource datasource = this.getEntityService().viewResource(id);
+    if (Objects.isNull(datasource)) {
+      throw new NotFoundException();
+    }
+    IDatasource ds = this.getEntityService().connectDatasource(datasource);
+    if (Objects.isNull(ds)) {
+      throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
+    }
+    return ResponseUtils.success(DetailBody.ok(true));
   }
 
   @PostMapping("/{id}/retrieve")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_VIEW)
   @NonNull
   public ResponseEntity<?> retrieveData(@PathVariable String id, @RequestBody Map<String, String> params) {
-    IDatasource datasource = this.datasourceProcessor.getDatasource(id);
+    TplDatasource datasource = this.getEntityService().viewResource(id);
     if (Objects.isNull(datasource)) {
       throw new NotFoundException();
     }
-    return ResponseUtils.success(DetailBody.ok(datasource.retrieveData(params)));
+    IDatasource ds = this.getEntityService().connectDatasource(datasource);
+    if (Objects.isNull(ds)) {
+      throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
+    }
+    return ResponseUtils.success(DetailBody.ok(ds.retrieveData(params)));
   }
+
+  @GetMapping("/types")
+  @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_VIEW)
+  @NonNull
+  public ResponseEntity<?> listTypes() {
+    return ResponseUtils.success(DetailBody.ok(this.getEntityService().getDatasourceTypes()));
+  }
+
 }

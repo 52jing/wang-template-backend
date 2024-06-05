@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 数据源处理器
@@ -18,7 +19,7 @@ import java.util.Set;
 public class DatasourceProcessor {
 
   private final Map<String, IDatasourceFactory> factories = new HashMap<>();
-  private final Map<String, IDatasource> datasources = new HashMap<>();
+  private final Map<String, IDatasource> datasources = new ConcurrentHashMap<>();
 
   /**
    * 注册数据源工厂
@@ -99,6 +100,7 @@ public class DatasourceProcessor {
    * 获取数据源类型
    * @return 类型集合
    */
+  @NonNull
   public Set<String> getTypes() {
     return this.factories.keySet();
   }

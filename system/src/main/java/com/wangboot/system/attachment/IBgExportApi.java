@@ -1,7 +1,8 @@
 package com.wangboot.system.attachment;
 
-import com.wangboot.system.entity.SysBgTask;
-import com.wangboot.system.entity.vo.AttachmentVo;
+import com.wangboot.core.web.task.IBackgroundTask;
+import com.wangboot.model.attachment.IAttachmentModel;
+import com.wangboot.model.attachment.IExcelExporter;
 import com.wangboot.system.event.BgTaskResult;
 import com.wangboot.system.model.BgTaskStatus;
 import com.wangboot.system.service.SysBgTaskService;
@@ -21,27 +22,27 @@ public interface IBgExportApi<T> {
   String TASK_TYPE = "export";
 
   /** 获取导出服务 */
-  IExporter getExporter();
+  IExcelExporter getExporter();
 
   /** 获取后台任务服务 */
   SysBgTaskService getBgTaskService();
 
   /** 后台导出 */
-  default SysBgTask bgExport(
+  default IBackgroundTask<BgTaskResult> bgExport(
       String name, @NonNull Class<T> entityClass, @NonNull Supplier<Collection<T>> supplier) {
     return this.getBgTaskService()
-        .addBackgroundTask(
+        .addTask(
             name,
             TASK_TYPE,
             () -> {
               try {
-                AttachmentVo attachmentVo =
+                IAttachmentModel attachmentModel =
                     this.getExporter()
                         .export(
                             String.format("export_%s.xlsx", name), entityClass, supplier, "export");
                 return new BgTaskResult(
-                    attachmentVo.getId(),
-                    attachmentVo.getOriginalFilename(),
+                    attachmentModel.getId(),
+                    attachmentModel.getOriginalFilename(),
                     BgTaskStatus.COMPLETED);
               } catch (IOException e) {
                 return new BgTaskResult("", e.getMessage(), BgTaskStatus.FAILED);

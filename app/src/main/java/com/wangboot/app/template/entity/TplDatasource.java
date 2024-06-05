@@ -40,4 +40,6 @@ public class TplDatasource extends CommonEntity implements IdEntity<String> {
 
   private String config = "";
 
+  private Boolean connected = false;
+
 }

@@ -7,7 +7,9 @@ import com.wangboot.core.auth.annotation.RestPermissionPrefix;
 import com.wangboot.core.auth.authorization.resource.ApiResource;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.response.ListBody;
+import com.wangboot.core.web.task.IBackgroundTask;
 import com.wangboot.core.web.utils.ResponseUtils;
+import com.wangboot.model.attachment.IExcelExporter;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
@@ -17,11 +19,10 @@ import com.wangboot.model.entity.request.ParamFilterDefinition;
 import com.wangboot.model.entity.request.SearchStrategy;
 import com.wangboot.model.entity.request.SortFilter;
 import com.wangboot.system.attachment.IBgExportApi;
-import com.wangboot.system.attachment.IExporter;
-import com.wangboot.system.entity.SysBgTask;
 import com.wangboot.system.entity.SysJob;
 import com.wangboot.system.entity.dto.SysJobExcel;
 import com.wangboot.system.entity.table.SysJobTableDef;
+import com.wangboot.system.event.BgTaskResult;
 import com.wangboot.system.service.SysBgTaskService;
 import com.wangboot.system.service.SysJobService;
 import java.util.stream.Collectors;
@@ -29,7 +30,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 控制层。
@@ -45,7 +48,7 @@ import org.springframework.web.bind.annotation.*;
 public class SysJobController extends RestfulApiController<String, SysJob, SysJobService>
     implements IBgExportApi<SysJobExcel> {
 
-  @Getter private final IExporter exporter;
+  @Getter private final IExcelExporter exporter;
 
   @Getter private final SysBgTaskService bgTaskService;
 
@@ -76,7 +79,7 @@ public class SysJobController extends RestfulApiController<String, SysJob, SysJo
     final SortFilter[] sortFilters = this.parseSortFilters();
     final FieldFilter[] fieldFilters = this.parseParamFilters();
     final FieldFilter[] searchFilters = this.parseSearchFilters();
-    SysBgTask bgTask =
+    IBackgroundTask<BgTaskResult> bgTask =
         this.bgExport(
             "岗位数据导出",
             SysJobExcel.class,

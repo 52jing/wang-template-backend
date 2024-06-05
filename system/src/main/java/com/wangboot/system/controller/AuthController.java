@@ -15,7 +15,7 @@ import com.wangboot.core.web.response.ListBody;
 import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.system.entity.table.SysUserTableDef;
-import com.wangboot.system.entity.vo.SysUserSearch;
+import com.wangboot.system.entity.vo.SysUserSearchVo;
 import com.wangboot.system.model.RegisterBody;
 import com.wangboot.system.model.TokenResponseBody;
 import com.wangboot.system.service.AuthService;
@@ -141,9 +141,9 @@ public class AuthController {
                   SysUserTableDef.SYS_USER.ID,
                   SysUserTableDef.SYS_USER.USERNAME,
                   SysUserTableDef.SYS_USER.NICKNAME);
-      Page<SysUserSearch> data =
-          this.userService.pageAs(new Page<>(page, pageSize), wrapper, SysUserSearch.class);
-      ListBody<SysUserSearch> body = new ListBody<>();
+      Page<SysUserSearchVo> data =
+          this.userService.pageAs(new Page<>(page, pageSize), wrapper, SysUserSearchVo.class);
+      ListBody<SysUserSearchVo> body = new ListBody<>();
       body.setData(data.getRecords());
       body.setPage(data.getPageNumber());
       body.setPageSize(data.getPageSize());

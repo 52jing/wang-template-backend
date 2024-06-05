@@ -29,23 +29,22 @@ public class TplRenderExecution extends CommonEntity implements IdEntity<String>
 
   private String templateId;
 
-  private String datasourceId;
-
-  private String params;
-
-  private String resultId;
-
-  private ExecutionStatus status = ExecutionStatus.WAITING;
-
   private String templateName;
 
   private String templateType;
 
-  private String filename;
-
-  private String templateAttachmentId;
+  private String datasourceId;
 
   private String datasourceName;
 
   private String datasourceType;
+
+  private String params;
+
+  private ExecutionStatus status = ExecutionStatus.WAITING;
+
+  private String filename;
+
+
+
 }

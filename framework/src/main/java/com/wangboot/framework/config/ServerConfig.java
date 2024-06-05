@@ -29,13 +29,8 @@ import com.wangboot.core.auth.security.LoginRestriction;
 import com.wangboot.core.auth.token.ITokenManager;
 import com.wangboot.core.auth.user.IUserService;
 import com.wangboot.core.reliability.blacklist.IBlacklistHolder;
-import com.wangboot.core.reliability.counter.CacheCounter;
-import com.wangboot.core.reliability.counter.ICounter;
-import com.wangboot.core.utils.StrUtils;
 import com.wangboot.core.web.interceptor.InMaintenanceInterceptor;
 import com.wangboot.core.web.interceptor.RequestRecordInterceptor;
-import com.wangboot.core.web.param.IParamConfig;
-import com.wangboot.framework.ParamConstants;
 import com.wangboot.starter.autoconfiguration.WbProperties;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,14 +66,6 @@ public class ServerConfig {
     // 添加简单前端服务提供者
     frontendManager.addProvider(new SimpleFrontendServiceProvider(frontendService));
     return frontendManager;
-  }
-
-  /** 登录失败计数器 */
-  @Bean
-  public ICounter loginFailedCount(IParamConfig paramConfig) {
-    return new CacheCounter(
-        StrUtils.getLong(
-            paramConfig.getParamConfig(ParamConstants.LOGIN_FAILED_COUNT_SECONDS_KEY), 60L));
   }
 
   /** 认证流程管理器 */

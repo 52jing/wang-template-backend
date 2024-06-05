@@ -17,6 +17,7 @@ public class TplDatasourceDto {
   @Size(max = 100)
   private String type;
   private String config = "";
+  private String remark = "";
   private List<TplDatasourceParamDto> params;
 
   @Data

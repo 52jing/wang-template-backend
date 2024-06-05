@@ -1,10 +1,11 @@
 package com.wangboot.system.entity;
 
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
 import com.mybatisflex.annotation.Table;
 import com.mybatisflex.core.keygen.KeyGenerators;
-import com.wangboot.model.entity.IdEntity;
+import com.wangboot.model.attachment.IAttachmentModel;
 import com.wangboot.model.entity.impl.AppendOnlyEntity;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(value = "wb_sys_attachment")
-public class SysAttachment extends AppendOnlyEntity implements IdEntity<String> {
+public class SysAttachment extends AppendOnlyEntity implements IAttachmentModel {
   @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
   private String id;
 
@@ -51,4 +52,7 @@ public class SysAttachment extends AppendOnlyEntity implements IdEntity<String> 
   private String objectId;
 
   private String objectType = "";
+
+  @Column(isLogicDelete = true)
+  private Boolean deleted = false;
 }

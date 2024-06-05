@@ -1,12 +1,16 @@
 package com.wangboot.app.template.service;
 
+import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.TplDatasourceParam;
 import com.wangboot.app.template.entity.dto.TplDatasourceDto;
+import com.wangboot.app.template.entity.dto.TplDatasourceParamListDto;
 import com.wangboot.model.flex.IFlexRestfulService;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TplDatasourceService extends IFlexRestfulService<String, TplDatasource> {
 
@@ -21,20 +25,20 @@ public interface TplDatasourceService extends IFlexRestfulService<String, TplDat
   /**
    * 创建数据源参数
    *
-   * @param datasource 数据源
-   * @param dto 数据集
+   * @param datasourceId 数据源ID
+   * @param params 数据集
    * @return 是否成功
    */
-  boolean createDatasourceParams(TplDatasource datasource, TplDatasourceDto dto);
+  boolean createDatasourceParams(String datasourceId, List<TplDatasourceParam> params);
 
   /**
    * 更新数据源参数
    *
-   * @param datasource 数据源
-   * @param dto 数据集
+   * @param datasourceId 数据源ID
+   * @param params 数据集
    * @return 是否成功
    */
-  boolean updateDatasourceParams(TplDatasource datasource, TplDatasourceDto dto);
+  boolean updateDatasourceParams(String datasourceId, List<TplDatasourceParam> params);
 
   /**
    * 删除数据源参数
@@ -43,4 +47,21 @@ public interface TplDatasourceService extends IFlexRestfulService<String, TplDat
    * @return 是否成功
    */
   boolean deleteDatasourceParams(String id);
+
+  /**
+   * 连接数据源
+   *
+   * @param datasource 数据源
+   * @return 数据源接口
+   */
+  @Nullable
+  IDatasource connectDatasource(TplDatasource datasource);
+
+  /**
+   * 获取数据源类型
+   *
+   * @return 类型集合
+   */
+  Set<String> getDatasourceTypes();
+
 }
