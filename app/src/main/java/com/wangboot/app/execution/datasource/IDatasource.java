@@ -3,10 +3,9 @@ package com.wangboot.app.execution.datasource;
 import cn.hutool.core.bean.BeanUtil;
 import org.springframework.lang.Nullable;
 
-import java.util.Map;
-
 /**
  * 数据源接口
+ *
  * @author wwtg99
  */
 public interface IDatasource {
@@ -39,5 +38,4 @@ public interface IDatasource {
   default <T> T retrieveData(DatasourceParamHolder params, Class<T> dataClass) {
     return BeanUtil.toBean(retrieveData(params), dataClass);
   }
-
 }

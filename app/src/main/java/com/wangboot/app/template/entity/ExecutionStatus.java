@@ -7,7 +7,6 @@ import lombok.Getter;
 import org.springframework.lang.Nullable;
 
 public enum ExecutionStatus implements ISystemDict {
-
   WAITING("1", "等待中"),
   PENDING("2", "处理中"),
   COMPLETED("3", "已完成"),

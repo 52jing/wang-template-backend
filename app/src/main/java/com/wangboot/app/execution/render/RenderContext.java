@@ -1,11 +1,10 @@
 package com.wangboot.app.execution.render;
 
 import com.wangboot.app.execution.datasource.DatasourceParamHolder;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -21,5 +20,4 @@ public class RenderContext {
   private Map<String, Object> envs;
 
   private Object data;
-
 }

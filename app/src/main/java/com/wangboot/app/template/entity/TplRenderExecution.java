@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EnableOperationLog
 @Table(
-  value = "wb_template_render_execution",
-  onInsert = EntityChangeListener.class,
-  onUpdate = EntityChangeListener.class)
+    value = "wb_template_render_execution",
+    onInsert = EntityChangeListener.class,
+    onUpdate = EntityChangeListener.class)
 public class TplRenderExecution extends CommonEntity implements IdEntity<String> {
 
   @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
@@ -44,7 +44,4 @@ public class TplRenderExecution extends CommonEntity implements IdEntity<String>
   private ExecutionStatus status = ExecutionStatus.WAITING;
 
   private String filename;
-
-
-
 }

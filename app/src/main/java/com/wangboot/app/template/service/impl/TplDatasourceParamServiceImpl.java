@@ -7,5 +7,6 @@ import com.wangboot.app.template.service.TplDatasourceParamService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TplDatasourceParamServiceImpl extends ServiceImpl<TplDatasourceParamMapper, TplDatasourceParam> implements TplDatasourceParamService {
-}
+public class TplDatasourceParamServiceImpl
+    extends ServiceImpl<TplDatasourceParamMapper, TplDatasourceParam>
+    implements TplDatasourceParamService {}

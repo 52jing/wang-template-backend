@@ -24,6 +24,8 @@ import com.wangboot.model.entity.exception.UpdateFailedException;
 import com.wangboot.model.entity.request.ParamFilterDefinition;
 import com.wangboot.model.entity.request.SearchStrategy;
 import com.wangboot.model.entity.request.SortFilter;
+import java.util.Map;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -33,19 +35,16 @@ import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-import java.util.Objects;
-
 @RequiredArgsConstructor
 @RestController
 @RestPermissionPrefix(group = "template", name = "datasource")
 @RequestMapping("/template/datasource")
 @EnableApi(ControllerApiGroup.READ_ONLY)
-public class TplDatasourceController implements IRestfulReadController<String, TplDatasource>, IRestfulWriteController<String, TplDatasource> {
+public class TplDatasourceController
+    implements IRestfulReadController<String, TplDatasource>,
+        IRestfulWriteController<String, TplDatasource> {
 
-  @Getter
-  @Setter
-  private ApplicationEventPublisher applicationEventPublisher;
+  @Getter @Setter private ApplicationEventPublisher applicationEventPublisher;
 
   @Getter private final TplDatasourceService entityService;
 
@@ -106,7 +105,8 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   @PutMapping("/{id}")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
   @NonNull
-  public ResponseEntity<?> updateApi(@PathVariable String id, @Validated @RequestBody TplDatasource obj) {
+  public ResponseEntity<?> updateApi(
+      @PathVariable String id, @Validated @RequestBody TplDatasource obj) {
     obj.setId(id);
     return this.updateResponse(obj);
   }
@@ -129,7 +129,8 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   @PostMapping("/{id}/params")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
   @NonNull
-  public ResponseEntity<?> addParams(@PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
+  public ResponseEntity<?> addParams(
+      @PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
     boolean ret = this.getEntityService().createDatasourceParams(id, dto.getParams());
     if (!ret) {
       throw new UpdateFailedException(id);
@@ -140,7 +141,8 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   @PutMapping("/{id}/params")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_UPDATE)
   @NonNull
-  public ResponseEntity<?> updateParams(@PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
+  public ResponseEntity<?> updateParams(
+      @PathVariable String id, @Validated @RequestBody TplDatasourceParamListDto dto) {
     boolean ret = this.getEntityService().updateDatasourceParams(id, dto.getParams());
     if (!ret) {
       throw new UpdateFailedException(id);
@@ -177,7 +179,8 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   @PostMapping("/{id}/retrieve")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_VIEW)
   @NonNull
-  public ResponseEntity<?> retrieveData(@PathVariable String id, @RequestBody Map<String, String> params) {
+  public ResponseEntity<?> retrieveData(
+      @PathVariable String id, @RequestBody Map<String, String> params) {
     TplDatasource datasource = this.getEntityService().viewResource(id);
     if (Objects.isNull(datasource)) {
       throw new NotFoundException();
@@ -195,5 +198,4 @@ public class TplDatasourceController implements IRestfulReadController<String, T
   public ResponseEntity<?> listTypes() {
     return ResponseUtils.success(DetailBody.ok(this.getEntityService().getDatasourceTypes()));
   }
-
 }

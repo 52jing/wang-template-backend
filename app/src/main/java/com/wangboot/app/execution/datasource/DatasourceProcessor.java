@@ -1,18 +1,18 @@
 package com.wangboot.app.execution.datasource;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * 数据源处理器
+ *
  * @author wwtg99
  */
 @Component
@@ -29,7 +29,8 @@ public class DatasourceProcessor {
    * @return 数据源处理器
    */
   @NonNull
-  public DatasourceProcessor registerDatasourceFactory(String type, IDatasourceFactory datasourceFactory) {
+  public DatasourceProcessor registerDatasourceFactory(
+      String type, IDatasourceFactory datasourceFactory) {
     this.factories.put(type, datasourceFactory);
     return this;
   }
@@ -50,6 +51,7 @@ public class DatasourceProcessor {
 
   /**
    * 添加数据源
+   *
    * @param id 数据源ID
    * @param datasource 数据源
    */
@@ -85,6 +87,7 @@ public class DatasourceProcessor {
 
   /**
    * 获取数据源
+   *
    * @param id 数据源ID
    * @return 数据源
    */
@@ -98,11 +101,11 @@ public class DatasourceProcessor {
 
   /**
    * 获取数据源类型
+   *
    * @return 类型集合
    */
   @NonNull
   public Set<String> getTypes() {
     return this.factories.keySet();
   }
-
 }

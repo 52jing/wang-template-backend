@@ -1,14 +1,13 @@
 package com.wangboot.app.execution.render;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * 模版渲染器工厂
@@ -57,5 +56,4 @@ public class TemplateRenderFactory {
   public Set<String> getAllTypes() {
     return this.map.keySet();
   }
-
 }

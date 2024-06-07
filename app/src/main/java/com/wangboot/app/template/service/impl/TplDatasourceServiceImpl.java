@@ -13,17 +13,17 @@ import com.wangboot.app.template.service.TplDatasourceParamService;
 import com.wangboot.app.template.service.TplDatasourceService;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.exception.UpdateFailedException;
+import java.util.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
-
 @Service
 @RequiredArgsConstructor
-public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, TplDatasource> implements TplDatasourceService {
+public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, TplDatasource>
+    implements TplDatasourceService {
 
   private final TplDatasourceParamService datasourceParamService;
 
@@ -35,7 +35,9 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
     if (!StringUtils.hasText(id)) {
       return Collections.emptyList();
     }
-    QueryWrapper wrapper = QueryWrapper.create().where(TplDatasourceParamTableDef.TPL_DATASOURCE_PARAM.DATASOURCE_ID.eq(id));
+    QueryWrapper wrapper =
+        QueryWrapper.create()
+            .where(TplDatasourceParamTableDef.TPL_DATASOURCE_PARAM.DATASOURCE_ID.eq(id));
     return this.datasourceParamService.list(wrapper);
   }
 
@@ -56,16 +58,17 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
     if (Objects.nonNull(params) && !params.isEmpty()) {
       final List<TplDatasourceParam> createParamList = new ArrayList<>();
       final List<TplDatasourceParam> updateParamList = new ArrayList<>();
-      params.forEach(pm -> {
-        pm.setDatasourceId(datasourceId);
-        if (StringUtils.hasText(pm.getId())) {
-          // update
-          updateParamList.add(pm);
-        } else {
-          // insert
-          createParamList.add(pm);
-        }
-      });
+      params.forEach(
+          pm -> {
+            pm.setDatasourceId(datasourceId);
+            if (StringUtils.hasText(pm.getId())) {
+              // update
+              updateParamList.add(pm);
+            } else {
+              // insert
+              createParamList.add(pm);
+            }
+          });
       if (!createParamList.isEmpty()) {
         // 添加
         boolean ret = this.datasourceParamService.saveBatch(createParamList);
@@ -102,10 +105,15 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
       }
     }
     // 未连接或者连接已失效，则重新连接
-    IDatasource ds = this.datasourceProcessor.connectDatasource(datasource.getId(), datasource.getName(), datasource.getType(), datasource.getConfig());
+    IDatasource ds =
+        this.datasourceProcessor.connectDatasource(
+            datasource.getId(), datasource.getName(), datasource.getType(), datasource.getConfig());
     if (Objects.nonNull(ds)) {
       // 更新已连接
-      this.updateChain().eq(FieldConstants.PRIMARY_KEY, datasource.getId()).set(TplDatasourceTableDef.TPL_DATASOURCE.CONNECTED, true).update();
+      this.updateChain()
+          .eq(FieldConstants.PRIMARY_KEY, datasource.getId())
+          .set(TplDatasourceTableDef.TPL_DATASOURCE.CONNECTED, true)
+          .update();
     }
     return ds;
   }

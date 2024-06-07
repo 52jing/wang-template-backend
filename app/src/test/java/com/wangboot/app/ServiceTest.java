@@ -11,6 +11,8 @@ import com.wangboot.system.event.BgTaskResult;
 import com.wangboot.system.model.BgTaskStatus;
 import com.wangboot.system.model.ClientType;
 import com.wangboot.system.service.*;
+import java.util.List;
+import java.util.Optional;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,9 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @DisplayName("服务测试")
 @SpringBootTest

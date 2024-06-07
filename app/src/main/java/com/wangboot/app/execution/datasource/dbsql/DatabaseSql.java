@@ -8,14 +8,12 @@ import com.mybatisflex.core.row.Db;
 import com.mybatisflex.core.row.Row;
 import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.IDatasource;
+import java.util.List;
+import java.util.Properties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.PropertyPlaceholderHelper;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * 数据库SQL数据源<br>
@@ -26,13 +24,12 @@ import java.util.Properties;
 @AllArgsConstructor
 public class DatabaseSql implements IDatasource {
 
-  @Getter
-  private final String name;
+  @Getter private final String name;
 
-  @Getter
-  private final DatabaseSqlConfig config;
+  @Getter private final DatabaseSqlConfig config;
 
-  private static final PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}", ":", false);
+  private static final PropertyPlaceholderHelper propertyPlaceholderHelper =
+      new PropertyPlaceholderHelper("${", "}", ":", false);
 
   @Override
   @Nullable
@@ -50,9 +47,7 @@ public class DatabaseSql implements IDatasource {
     }
   }
 
-  /**
-   * 配置数据库连接
-   */
+  /** 配置数据库连接 */
   public void configDatasource() {
     FlexDataSource flexDataSource = FlexGlobalConfig.getDefaultConfig().getDataSource();
     DruidDataSource newDataSource = new DruidDataSource();

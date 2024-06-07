@@ -8,13 +8,12 @@ import com.wangboot.model.entity.IdEntity;
 import com.wangboot.model.entity.event.EnableOperationLog;
 import com.wangboot.model.entity.impl.CommonEntity;
 import com.wangboot.system.listener.EntityChangeListener;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -22,9 +21,9 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @EnableOperationLog
 @Table(
-  value = "wb_template_datasource",
-  onInsert = EntityChangeListener.class,
-  onUpdate = EntityChangeListener.class)
+    value = "wb_template_datasource",
+    onInsert = EntityChangeListener.class,
+    onUpdate = EntityChangeListener.class)
 public class TplDatasource extends CommonEntity implements IdEntity<String> {
 
   @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
@@ -41,5 +40,4 @@ public class TplDatasource extends CommonEntity implements IdEntity<String> {
   private String config = "";
 
   private Boolean connected = false;
-
 }

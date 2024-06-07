@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestPermissionPrefix(group = "template", name = "template")
 @RequestMapping("/template/template")
 @EnableApi(ControllerApiGroup.FULL)
-public class TplTemplateController extends RestfulApiController<String, TplTemplate, TplTemplateService> {
+public class TplTemplateController
+    extends RestfulApiController<String, TplTemplate, TplTemplateService> {
 
   private final TemplateRenderFactory templateRenderFactory;
 

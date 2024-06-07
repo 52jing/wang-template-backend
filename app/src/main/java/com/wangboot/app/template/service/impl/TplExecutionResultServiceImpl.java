@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TplExecutionResultServiceImpl extends ServiceImpl<TplExecutionResultMapper, TplExecutionResult> implements TplExecutionResultService {
+public class TplExecutionResultServiceImpl
+    extends ServiceImpl<TplExecutionResultMapper, TplExecutionResult>
+    implements TplExecutionResultService {
 
   private final SysAttachmentService attachmentService;
 

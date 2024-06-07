@@ -8,21 +8,18 @@ import com.mybatisflex.annotation.Table;
 import com.mybatisflex.core.keygen.KeyGenerators;
 import com.wangboot.model.attachment.IAttachmentListRelatedModel;
 import com.wangboot.model.attachment.IAttachmentModel;
-import com.wangboot.model.entity.IdEntity;
 import com.wangboot.model.entity.event.EnableOperationLog;
 import com.wangboot.model.entity.impl.CommonEntity;
 import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.listener.EntityChangeListener;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,9 +27,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @EnableOperationLog
 @Table(
-  value = "wb_template_template",
-  onInsert = EntityChangeListener.class,
-  onUpdate = EntityChangeListener.class)
+    value = "wb_template_template",
+    onInsert = EntityChangeListener.class,
+    onUpdate = EntityChangeListener.class)
 public class TplTemplate extends CommonEntity implements IAttachmentListRelatedModel<String> {
 
   @Id(keyType = KeyType.Generator, value = KeyGenerators.uuid)
@@ -60,8 +57,8 @@ public class TplTemplate extends CommonEntity implements IAttachmentListRelatedM
   @Override
   public void setAttachmentList(List<? extends IAttachmentModel> attachments) {
     this.attachments =
-      attachments.stream()
-        .map(d -> BeanUtil.copyProperties(d, AttachmentVo.class))
-        .collect(Collectors.toList());
+        attachments.stream()
+            .map(d -> BeanUtil.copyProperties(d, AttachmentVo.class))
+            .collect(Collectors.toList());
   }
 }

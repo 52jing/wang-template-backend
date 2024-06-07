@@ -6,16 +6,15 @@ import cn.hutool.core.util.RandomUtil;
 import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.execution.render.text.FreeMarkerTemplateRender;
 import com.wangboot.app.execution.render.word.PoiWordTemplateRender;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 @DisplayName("模板测试")
 public class TemplateTest {
@@ -69,5 +68,4 @@ public class TemplateTest {
     templateRender.renderAndOutput(context, outputStream);
     Assertions.assertTrue(FileUtil.exist(outFile));
   }
-
 }

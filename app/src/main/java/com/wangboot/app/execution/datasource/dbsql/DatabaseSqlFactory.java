@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * 数据库SQL数据源工厂
+ *
  * @author wwtg99
  */
 @RequiredArgsConstructor
@@ -28,7 +29,8 @@ public class DatabaseSqlFactory implements IDatasourceFactory {
       return null;
     }
     try {
-      DatabaseSqlConfig databaseSqlConfig = this.objectMapper.readValue(config, DatabaseSqlConfig.class);
+      DatabaseSqlConfig databaseSqlConfig =
+          this.objectMapper.readValue(config, DatabaseSqlConfig.class);
       DatabaseSql datasource = new DatabaseSql(name, databaseSqlConfig);
       datasource.configDatasource();
       return datasource;

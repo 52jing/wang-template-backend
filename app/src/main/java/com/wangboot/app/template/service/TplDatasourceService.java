@@ -3,14 +3,10 @@ package com.wangboot.app.template.service;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.TplDatasourceParam;
-import com.wangboot.app.template.entity.dto.TplDatasourceDto;
-import com.wangboot.app.template.entity.dto.TplDatasourceParamListDto;
 import com.wangboot.model.flex.IFlexRestfulService;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-
 import java.util.List;
 import java.util.Set;
+import org.springframework.lang.Nullable;
 
 public interface TplDatasourceService extends IFlexRestfulService<String, TplDatasource> {
 
@@ -63,5 +59,4 @@ public interface TplDatasourceService extends IFlexRestfulService<String, TplDat
    * @return 类型集合
    */
   Set<String> getDatasourceTypes();
-
 }

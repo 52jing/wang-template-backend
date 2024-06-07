@@ -12,8 +12,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class RenderExecutionEvent extends ApplicationEvent {
 
-  @Getter
-  private final DatasourceParamHolder params;
+  @Getter private final DatasourceParamHolder params;
 
   public RenderExecutionEvent(TplRenderExecution renderExecution, DatasourceParamHolder params) {
     super(renderExecution);

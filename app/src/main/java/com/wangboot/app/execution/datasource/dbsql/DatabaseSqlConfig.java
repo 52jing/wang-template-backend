@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 数据库SQL数据源配置类
+ *
  * @author wwtg99
  */
 @Data

@@ -3,7 +3,6 @@ package com.wangboot.app.template.service;
 import com.wangboot.app.template.entity.TplExecutionResult;
 import com.wangboot.app.template.entity.TplRenderExecution;
 import com.wangboot.model.flex.IFlexRestfulService;
-
 import java.util.List;
 
 public interface TplRenderExecutionService extends IFlexRestfulService<String, TplRenderExecution> {

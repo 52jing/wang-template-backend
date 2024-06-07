@@ -20,7 +20,8 @@ import org.springframework.context.annotation.Configuration;
 public class RenderExecutionConfig {
 
   @Bean
-  public DatabaseSqlFactory databaseSqlFactory(DatasourceProcessor datasourceProcessor, ObjectMapper objectMapper) {
+  public DatabaseSqlFactory databaseSqlFactory(
+      DatasourceProcessor datasourceProcessor, ObjectMapper objectMapper) {
     DatabaseSqlFactory factory = new DatabaseSqlFactory(objectMapper);
     datasourceProcessor.registerDatasourceFactory("db_sql", factory);
     return factory;

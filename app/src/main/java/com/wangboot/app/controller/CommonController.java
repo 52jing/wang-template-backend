@@ -29,6 +29,11 @@ import com.wangboot.system.service.SysAnnouncementService;
 import com.wangboot.system.service.SysAttachmentService;
 import com.wangboot.system.service.SysFrontendService;
 import com.wangboot.system.service.SysUserDictService;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.*;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dromara.x.file.storage.core.FileInfo;
 import org.dromara.x.file.storage.core.FileStorageService;
@@ -36,12 +41,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -81,7 +80,7 @@ public class CommonController {
   private static Map<String, String[]> buildUploadAccepts() {
     Map<String, String[]> map = new HashMap<>();
     map.put("announcement", new String[] {"text/plain", "application/"});
-    map.put("template", new String[]{"text/plain"});
+    map.put("template", new String[] {"text/plain"});
     map.put("default", new String[] {"text/plain"});
     return map;
   }

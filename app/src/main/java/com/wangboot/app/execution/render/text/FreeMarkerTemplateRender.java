@@ -1,20 +1,19 @@
 package com.wangboot.app.execution.render.text;
 
+import com.wangboot.app.execution.render.BaseTemplateRender;
 import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.template.entity.TplTemplate;
-import com.wangboot.app.execution.render.BaseTemplateRender;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.framework.exception.ErrorCode;
 import freemarker.cache.ByteArrayTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class FreeMarkerTemplateRender extends BaseTemplateRender {
@@ -27,8 +26,7 @@ public class FreeMarkerTemplateRender extends BaseTemplateRender {
 
   private final ByteArrayTemplateLoader templateLoader;
 
-  @Getter
-  private TplTemplate template;
+  @Getter private TplTemplate template;
 
   public FreeMarkerTemplateRender() {
     this.configuration = new Configuration(Configuration.VERSION_2_3_32);
@@ -45,7 +43,8 @@ public class FreeMarkerTemplateRender extends BaseTemplateRender {
   @Override
   public void renderAndOutput(RenderContext context, OutputStream outputStream) throws IOException {
     this.templateLoader.putTemplate(TEMPLATE_NAME, this.getTemplateBytes());
-    try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, Charset.forName(DEFAULT_ENCODING))) {
+    try (OutputStreamWriter writer =
+        new OutputStreamWriter(outputStream, Charset.forName(DEFAULT_ENCODING))) {
       this.configuration.getTemplate(TEMPLATE_NAME).process(context, writer);
       writer.flush();
     } catch (TemplateException e) {

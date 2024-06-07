@@ -29,7 +29,8 @@ import org.springframework.web.bind.annotation.*;
 @RestPermissionPrefix(group = "template", name = "render_execution")
 @RequestMapping("/template/render_execution")
 @EnableApi(ControllerApiGroup.READ_ONLY)
-public class TplRenderExecutionController extends RestfulApiController<String, TplRenderExecution, TplRenderExecutionService> {
+public class TplRenderExecutionController
+    extends RestfulApiController<String, TplRenderExecution, TplRenderExecutionService> {
 
   private final ExecutionManager executionManager;
 
@@ -55,14 +56,24 @@ public class TplRenderExecutionController extends RestfulApiController<String, T
 
   @Override
   public ParamFilterDefinition configParamFilterDefinition() {
-    return ParamFilterDefinition.newInstance().addFilter("templateId").addFilter("datasourceId").addFilter("status").addFilter("templateType").addFilter("datasourceType");
+    return ParamFilterDefinition.newInstance()
+        .addFilter("templateId")
+        .addFilter("datasourceId")
+        .addFilter("status")
+        .addFilter("templateType")
+        .addFilter("datasourceType");
   }
 
   @PostMapping("/start")
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_CREATE)
   @NonNull
   public ResponseEntity<?> startApi(@Validated @RequestBody TplRenderExecutionDto obj) {
-    TplRenderExecution execution = this.executionManager.startRenderExecution(obj.getDatasourceId(), obj.getTemplateId(), obj.getFilename(), new DatasourceParamHolder(obj.getParams()));
+    TplRenderExecution execution =
+        this.executionManager.startRenderExecution(
+            obj.getDatasourceId(),
+            obj.getTemplateId(),
+            obj.getFilename(),
+            new DatasourceParamHolder(obj.getParams()));
     return ResponseUtils.created(DetailBody.created(execution));
   }
 
@@ -72,5 +83,4 @@ public class TplRenderExecutionController extends RestfulApiController<String, T
   public ResponseEntity<?> listResults(@PathVariable String id) {
     return ResponseUtils.success(DetailBody.ok(this.getEntityService().getResults(id)));
   }
-
 }
