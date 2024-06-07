@@ -1,6 +1,7 @@
 package com.wangboot.app.template.controller;
 
 import com.wangboot.app.execution.ExecutionManager;
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.template.entity.TplRenderExecution;
 import com.wangboot.app.template.entity.dto.TplRenderExecutionDto;
 import com.wangboot.app.template.entity.table.TplRenderExecutionTableDef;
@@ -61,7 +62,7 @@ public class TplRenderExecutionController extends RestfulApiController<String, T
   @RestPermissionAction(ApiResource.REST_PERMISSION_ACTION_CREATE)
   @NonNull
   public ResponseEntity<?> startApi(@Validated @RequestBody TplRenderExecutionDto obj) {
-    TplRenderExecution execution = this.executionManager.startRenderExecution(obj.getDatasourceId(), obj.getTemplateId(), obj.getFilename(), obj.getParams());
+    TplRenderExecution execution = this.executionManager.startRenderExecution(obj.getDatasourceId(), obj.getTemplateId(), obj.getFilename(), new DatasourceParamHolder(obj.getParams()));
     return ResponseUtils.created(DetailBody.created(execution));
   }
 

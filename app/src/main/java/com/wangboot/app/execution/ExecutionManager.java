@@ -3,9 +3,11 @@ package com.wangboot.app.execution;
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.DatasourceProcessor;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.execution.render.ITemplateRender;
+import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.execution.render.TemplateRenderFactory;
 import com.wangboot.app.template.entity.*;
 import com.wangboot.app.template.entity.table.TplRenderExecutionTableDef;
@@ -34,6 +36,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -79,7 +82,7 @@ public class ExecutionManager implements IEventPublisher {
    * @return 渲染执行
    */
   @NonNull
-  public TplRenderExecution startRenderExecution(String datasourceId, String templateId, String filename, Map<String, String> params) {
+  public TplRenderExecution startRenderExecution(String datasourceId, String templateId, String filename, @Nullable DatasourceParamHolder params) {
     // 输入参数检查
     if (!StringUtils.hasText(datasourceId)) {
       throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE);
@@ -96,7 +99,7 @@ public class ExecutionManager implements IEventPublisher {
       throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
     }
     if (Objects.isNull(params)) {
-      params = new HashMap<>();
+      params = new DatasourceParamHolder();
     }
     // 数据源参数检查
     this.checkDatasourceParams(datasourceId, params);
@@ -151,10 +154,12 @@ public class ExecutionManager implements IEventPublisher {
       List<? extends IAttachmentModel> atts = templateService.getAttachmentList(renderExecution.getTemplateId());
       if (atts.size() > 0) {
         String templateAttachmentId = atts.get(0).getId();
-        AttachmentVo attachmentVo = this.renderAndUpload(templateRender, templateAttachmentId, renderExecution.getTemplateName(), renderExecution.getFilename(), data);
+        RenderContext context = this.buildContext(renderExecution, data);
+        AttachmentVo attachmentVo = this.renderAndUpload(templateRender, templateAttachmentId, renderExecution.getTemplateName(), renderExecution.getFilename(), context);
         // 保存结果
         result.setMessage(SUCCESS_MESSAGE);
         result.setAttachments(Collections.singletonList(attachmentVo));
+        result.setStatus(ExecutionStatus.COMPLETED);
         boolean ret = this.executionResultService.save(result);
         // 更新执行状态
         if (ret) {
@@ -167,6 +172,7 @@ public class ExecutionManager implements IEventPublisher {
       }
     } catch (Exception e) {
       result.setMessage(e.getMessage());
+      result.setStatus(ExecutionStatus.FAILED);
       this.executionResultService.save(result);
       // 更新执行状态
       this.renderExecutionService.updateChain().eq(FieldConstants.PRIMARY_KEY, renderExecution.getId()).set(TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.FAILED).update();
@@ -179,7 +185,7 @@ public class ExecutionManager implements IEventPublisher {
    * @param datasourceId 数据源ID
    * @param params 数据源参数
    */
-  private void checkDatasourceParams(String datasourceId, @NonNull Map<String, String> params) {
+  private void checkDatasourceParams(String datasourceId, @NonNull DatasourceParamHolder params) {
     List<TplDatasourceParam> datasourceParamList = this.datasourceService.getDatasourceParams(datasourceId);
     datasourceParamList.forEach(dp -> {
       // 检查必填
@@ -201,7 +207,7 @@ public class ExecutionManager implements IEventPublisher {
    * @return 数据模型
    */
   @Nullable
-  private Object retrieveData(String datasourceId, Map<String, String> params) {
+  private Object retrieveData(String datasourceId, DatasourceParamHolder params) {
     IDatasource datasource = this.datasourceProcessor.getDatasource(datasourceId);
     if (Objects.isNull(datasource)) {
       throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE);
@@ -261,16 +267,16 @@ public class ExecutionManager implements IEventPublisher {
    * @param templateAttachmentId 模板附件ID
    * @param templateName 模板名称
    * @param filename 文件名
-   * @param dataModel 数据模型
+   * @param context 上下文
    * @return 生成文件附件
    */
   @NonNull
-  private AttachmentVo renderAndUpload(@NonNull ITemplateRender templateRender, String templateAttachmentId, String templateName, String filename, @NonNull Object dataModel) {
+  private AttachmentVo renderAndUpload(@NonNull ITemplateRender templateRender, String templateAttachmentId, String templateName, String filename, @NonNull RenderContext context) {
     try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
       // 获取模版文件
       byte[] bytes = this.loadTemplateAttachment(templateAttachmentId);
       // 生成文件
-      templateRender.setTemplate(templateName, bytes).renderAndOutput(dataModel, outputStream);
+      templateRender.setTemplate(templateName, bytes).renderAndOutput(context, outputStream);
       if (!StringUtils.hasText(filename)) {
         filename = templateName;
       }
@@ -285,5 +291,20 @@ public class ExecutionManager implements IEventPublisher {
       log.error(e.getMessage());
       throw new RuntimeException(e.getMessage());
     }
+  }
+
+  @NonNull
+  private RenderContext buildContext(@NonNull TplRenderExecution execution, Object dataModel) throws JsonProcessingException {
+    Map<String, Object> envs = new HashMap<>();
+    LocalDateTime now = LocalDateTime.now();
+    envs.put("year", now.getYear());
+    envs.put("month", now.getMonth());
+    envs.put("day", now.getDayOfMonth());
+    envs.put("dayOfWeek", now.getDayOfWeek());
+    envs.put("hour", now.getHour());
+    envs.put("minute", now.getMinute());
+    envs.put("second", now.getSecond());
+    DatasourceParamHolder params = this.objectMapper.readValue(execution.getParams(), DatasourceParamHolder.class);
+    return new RenderContext(execution.getTemplateName(), execution.getDatasourceName(), params, envs, dataModel);
   }
 }

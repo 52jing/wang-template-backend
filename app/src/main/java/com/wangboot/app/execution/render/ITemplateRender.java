@@ -37,10 +37,10 @@ public interface ITemplateRender {
 
   /**
    * 渲染并输出
-   * @param dataModel 数据
+   * @param context 上下文
    * @param outputStream 输出流
    * @throws IOException IO异常
    */
-  void renderAndOutput(Object dataModel, OutputStream outputStream) throws IOException;
+  void renderAndOutput(RenderContext context, OutputStream outputStream) throws IOException;
 
 }

@@ -1,5 +1,6 @@
 package com.wangboot.app.template.controller;
 
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.dto.TplDatasourceParamListDto;
@@ -185,7 +186,7 @@ public class TplDatasourceController implements IRestfulReadController<String, T
     if (Objects.isNull(ds)) {
       throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
     }
-    return ResponseUtils.success(DetailBody.ok(ds.retrieveData(params)));
+    return ResponseUtils.success(DetailBody.ok(ds.retrieveData(new DatasourceParamHolder(params))));
   }
 
   @GetMapping("/types")

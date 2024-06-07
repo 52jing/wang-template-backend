@@ -1,10 +1,9 @@
 package com.wangboot.app.execution;
 
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.template.entity.TplRenderExecution;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
-
-import java.util.Map;
 
 /**
  * 渲染执行事件
@@ -14,9 +13,9 @@ import java.util.Map;
 public class RenderExecutionEvent extends ApplicationEvent {
 
   @Getter
-  private final Map<String, String> params;
+  private final DatasourceParamHolder params;
 
-  public RenderExecutionEvent(TplRenderExecution renderExecution, Map<String, String> params) {
+  public RenderExecutionEvent(TplRenderExecution renderExecution, DatasourceParamHolder params) {
     super(renderExecution);
     this.params = params;
   }

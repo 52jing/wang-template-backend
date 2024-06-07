@@ -1,5 +1,6 @@
 package com.wangboot.app.execution.render.text;
 
+import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.template.entity.TplTemplate;
 import com.wangboot.app.execution.render.BaseTemplateRender;
 import com.wangboot.core.errorcode.ErrorCodeException;
@@ -42,10 +43,10 @@ public class FreeMarkerTemplateRender extends BaseTemplateRender {
   }
 
   @Override
-  public void renderAndOutput(Object dataModel, OutputStream outputStream) throws IOException {
+  public void renderAndOutput(RenderContext context, OutputStream outputStream) throws IOException {
     this.templateLoader.putTemplate(TEMPLATE_NAME, this.getTemplateBytes());
     try (OutputStreamWriter writer = new OutputStreamWriter(outputStream, Charset.forName(DEFAULT_ENCODING))) {
-      this.configuration.getTemplate(TEMPLATE_NAME).process(dataModel, writer);
+      this.configuration.getTemplate(TEMPLATE_NAME).process(context, writer);
       writer.flush();
     } catch (TemplateException e) {
       log.error(e.getMessage());

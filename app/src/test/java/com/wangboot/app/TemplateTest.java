@@ -3,6 +3,7 @@ package com.wangboot.app;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.RandomUtil;
+import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.execution.render.text.FreeMarkerTemplateRender;
 import com.wangboot.app.execution.render.word.PoiWordTemplateRender;
 import lombok.SneakyThrows;
@@ -39,10 +40,12 @@ public class TemplateTest {
     PoiWordTemplateRender templateRender = new PoiWordTemplateRender();
     byte[] bytes = ResourceUtil.readBytes("word.docx");
     templateRender.setTemplate(templateName, bytes);
+    RenderContext context = new RenderContext();
     Map<String, Object> map = new HashMap<>();
     map.put("title", "Wang");
+    context.setData(map);
     FileOutputStream outputStream = new FileOutputStream(outFile);
-    templateRender.renderAndOutput(map, outputStream);
+    templateRender.renderAndOutput(context, outputStream);
     Assertions.assertTrue(FileUtil.exist(outFile));
   }
 
@@ -58,10 +61,12 @@ public class TemplateTest {
     FreeMarkerTemplateRender templateRender = new FreeMarkerTemplateRender();
     byte[] bytes = ResourceUtil.readBytes("text.tpl");
     templateRender.setTemplate(templateName, bytes);
+    RenderContext context = new RenderContext();
     Map<String, Object> map = new HashMap<>();
     map.put("title", "Wang");
+    context.setData(map);
     FileOutputStream outputStream = new FileOutputStream(outFile);
-    templateRender.renderAndOutput(map, outputStream);
+    templateRender.renderAndOutput(context, outputStream);
     Assertions.assertTrue(FileUtil.exist(outFile));
   }
 

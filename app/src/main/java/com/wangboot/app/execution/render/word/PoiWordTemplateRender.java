@@ -2,6 +2,7 @@ package com.wangboot.app.execution.render.word;
 
 import com.deepoove.poi.XWPFTemplate;
 import com.wangboot.app.execution.render.BaseTemplateRender;
+import com.wangboot.app.execution.render.RenderContext;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -19,10 +20,10 @@ public class PoiWordTemplateRender extends BaseTemplateRender {
   }
 
   @Override
-  public void renderAndOutput(Object dataModel, OutputStream outputStream) throws IOException {
+  public void renderAndOutput(RenderContext context, OutputStream outputStream) throws IOException {
     try (ByteArrayInputStream bai = new ByteArrayInputStream(this.getTemplateBytes())) {
       XWPFTemplate xwpfTemplate = XWPFTemplate.compile(bai);
-      xwpfTemplate.render(dataModel).writeAndClose(outputStream);
+      xwpfTemplate.render(context).writeAndClose(outputStream);
     }
   }
 }

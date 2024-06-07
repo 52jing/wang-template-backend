@@ -25,7 +25,7 @@ public interface IDatasource {
    * @return 数据
    */
   @Nullable
-  Object retrieveData(Map<String, String> params);
+  Object retrieveData(DatasourceParamHolder params);
 
   /**
    * 获取数据
@@ -36,7 +36,7 @@ public interface IDatasource {
    * @return 数据
    */
   @Nullable
-  default <T> T retrieveData(Map<String, String> params, Class<T> dataClass) {
+  default <T> T retrieveData(DatasourceParamHolder params, Class<T> dataClass) {
     return BeanUtil.toBean(retrieveData(params), dataClass);
   }
 

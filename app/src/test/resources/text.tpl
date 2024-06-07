@@ -1,2 +1,2 @@
-hello ${title}
+hello ${data.title}
 haha

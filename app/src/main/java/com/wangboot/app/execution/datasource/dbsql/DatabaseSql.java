@@ -6,6 +6,7 @@ import com.mybatisflex.core.datasource.DataSourceKey;
 import com.mybatisflex.core.datasource.FlexDataSource;
 import com.mybatisflex.core.row.Db;
 import com.mybatisflex.core.row.Row;
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.IDatasource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class DatabaseSql implements IDatasource {
 
   @Override
   @Nullable
-  public Object retrieveData(Map<String, String> params) {
+  public Object retrieveData(DatasourceParamHolder params) {
     try {
       DataSourceKey.use(this.getName());
       String sql = propertyPlaceholderHelper.replacePlaceholders(this.config.getSql(), params::get);
