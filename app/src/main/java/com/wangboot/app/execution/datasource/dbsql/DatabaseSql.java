@@ -24,6 +24,8 @@ import org.springframework.util.PropertyPlaceholderHelper;
 @AllArgsConstructor
 public class DatabaseSql implements IDatasource {
 
+  private static final String DS_PREFIX = "DS_";
+
   @Getter private final String name;
 
   @Getter private final DatabaseSqlConfig config;
@@ -35,16 +37,22 @@ public class DatabaseSql implements IDatasource {
   @Nullable
   public Object retrieveData(DatasourceParamHolder params) {
     try {
-      DataSourceKey.use(this.getName());
+      DataSourceKey.use(this.getDatasourceKey());
       String sql = propertyPlaceholderHelper.replacePlaceholders(this.config.getSql(), params::get);
       List<Row> obj = Db.selectListBySql(sql);
-      if (obj.size() == 1) {
+      if (this.config.getExpandOnOne() && obj.size() == 1) {
         return obj.get(0);
       }
       return obj;
     } finally {
       DataSourceKey.clear();
     }
+  }
+
+  @Override
+  public void close() {
+    FlexDataSource flexDataSource = FlexGlobalConfig.getDefaultConfig().getDataSource();
+    flexDataSource.removeDatasource(this.getDatasourceKey());
   }
 
   /** 配置数据库连接 */
@@ -57,6 +65,10 @@ public class DatabaseSql implements IDatasource {
     properties.put("druid.username", this.config.getUsername());
     properties.put("druid.password", this.config.getPassword());
     newDataSource.configFromPropeties(properties);
-    flexDataSource.addDataSource(this.getName(), newDataSource);
+    flexDataSource.addDataSource(this.getDatasourceKey(), newDataSource);
+  }
+
+  private String getDatasourceKey() {
+    return DS_PREFIX + this.getName();
   }
 }

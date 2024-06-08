@@ -2,6 +2,7 @@ package com.wangboot.app.template.service.impl;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.DatasourceProcessor;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
@@ -11,7 +12,12 @@ import com.wangboot.app.template.entity.table.TplDatasourceTableDef;
 import com.wangboot.app.template.mapper.TplDatasourceMapper;
 import com.wangboot.app.template.service.TplDatasourceParamService;
 import com.wangboot.app.template.service.TplDatasourceService;
+import com.wangboot.core.errorcode.ErrorCodeException;
+import com.wangboot.core.web.response.DetailBody;
+import com.wangboot.core.web.utils.ResponseUtils;
+import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.FieldConstants;
+import com.wangboot.model.entity.exception.NotFoundException;
 import com.wangboot.model.entity.exception.UpdateFailedException;
 import java.util.*;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +34,16 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
   private final TplDatasourceParamService datasourceParamService;
 
   private final DatasourceProcessor datasourceProcessor;
+
+  @Override
+  public boolean deleteResource(@NonNull TplDatasource entity) {
+    boolean ret = TplDatasourceService.super.deleteResource(entity);
+    if (ret) {
+      // 移除数据源
+      this.datasourceProcessor.removeDatasource(entity.getId());
+    }
+    return ret;
+  }
 
   @Override
   @NonNull
@@ -98,24 +114,33 @@ public class TplDatasourceServiceImpl extends ServiceImpl<TplDatasourceMapper, T
     if (Objects.isNull(datasource)) {
       return null;
     }
-    if (datasource.getConnected()) {
-      IDatasource ds = this.datasourceProcessor.getDatasource(datasource.getId());
-      if (Objects.nonNull(ds)) {
-        return ds;
-      }
+    // 准备数据源
+    this.datasourceProcessor.prepareDatasource(datasource.getId(), datasource.getName(), datasource.getType(), datasource.getConfig());
+    // 连接数据源
+    IDatasource ds = this.datasourceProcessor.connectDatasource(datasource.getId());
+    if (Objects.isNull(ds)) {
+      return null;
     }
-    // 未连接或者连接已失效，则重新连接
-    IDatasource ds =
-        this.datasourceProcessor.connectDatasource(
-            datasource.getId(), datasource.getName(), datasource.getType(), datasource.getConfig());
-    if (Objects.nonNull(ds)) {
+    // 添加数据源
+    this.datasourceProcessor.addDatasource(datasource.getId(), ds);
+    if (!datasource.getConnected()) {
       // 更新已连接
       this.updateChain()
-          .eq(FieldConstants.PRIMARY_KEY, datasource.getId())
-          .set(TplDatasourceTableDef.TPL_DATASOURCE.CONNECTED, true)
-          .update();
+        .eq(FieldConstants.PRIMARY_KEY, datasource.getId())
+        .set(TplDatasourceTableDef.TPL_DATASOURCE.CONNECTED, true)
+        .update();
     }
     return ds;
+  }
+
+  @Override
+  @Nullable
+  public Object retrieveData(String id, DatasourceParamHolder params) {
+    IDatasource ds = this.datasourceProcessor.getDatasource(id);
+    if (Objects.isNull(ds)) {
+      throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
+    }
+    return ds.retrieveData(params);
   }
 
   @Override

@@ -38,4 +38,9 @@ public interface IDatasource {
   default <T> T retrieveData(DatasourceParamHolder params, Class<T> dataClass) {
     return BeanUtil.toBean(retrieveData(params), dataClass);
   }
+
+  /**
+   * 关闭数据源
+   */
+  void close();
 }

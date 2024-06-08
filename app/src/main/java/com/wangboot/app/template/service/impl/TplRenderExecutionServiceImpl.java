@@ -8,6 +8,8 @@ import com.wangboot.app.template.entity.table.TplExecutionResultTableDef;
 import com.wangboot.app.template.mapper.TplRenderExecutionMapper;
 import com.wangboot.app.template.service.TplExecutionResultService;
 import com.wangboot.app.template.service.TplRenderExecutionService;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class TplRenderExecutionServiceImpl
     QueryWrapper wrapper =
         QueryWrapper.create()
             .where(TplExecutionResultTableDef.TPL_EXECUTION_RESULT.EXECUTION_ID.eq(id));
-    return this.executionResultService.list(wrapper);
+    List<TplExecutionResult> data = this.executionResultService.list(wrapper);
+    return new ArrayList<>(this.executionResultService.getEntitiesWithAttachments(data));
   }
 }

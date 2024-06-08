@@ -20,4 +20,5 @@ public class DatabaseSqlConfig {
   private String username;
   private String password;
   private String sql;
+  private Boolean expandOnOne;
 }

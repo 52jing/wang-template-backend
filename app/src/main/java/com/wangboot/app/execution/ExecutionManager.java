@@ -18,6 +18,7 @@ import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.attachment.IAttachmentModel;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.system.entity.SysAttachment;
+import com.wangboot.system.entity.table.SysAttachmentTableDef;
 import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.service.SysAttachmentService;
 import java.io.ByteArrayOutputStream;
@@ -183,6 +184,8 @@ public class ExecutionManager implements IEventPublisher {
               .set(
                   TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.COMPLETED)
               .update();
+          // 更新附件关联
+          this.attachmentService.updateChain().eq(FieldConstants.PRIMARY_KEY, attachmentVo.getId()).set(SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_TYPE, TplExecutionResult.class.getName()).set(SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_ID, result.getId()).update();
         } else {
           this.renderExecutionService
               .updateChain()

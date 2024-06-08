@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.wangboot.app.template.entity.TplDatasource;
+import com.wangboot.core.cache.CacheUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,8 @@ import org.springframework.util.StringUtils;
  */
 @Component
 public class DatasourceProcessor {
+
+  private static final String CACHE_PREFIX = "DS_";
 
   private final Map<String, IDatasourceFactory> factories = new HashMap<>();
   private final Map<String, IDatasource> datasources = new ConcurrentHashMap<>();
@@ -50,6 +55,20 @@ public class DatasourceProcessor {
   }
 
   /**
+   * 准备数据源
+   *
+   * @param id 数据源ID
+   * @param name 数据源名称
+   * @param type 数据源类型
+   * @param config 数据源配置
+   */
+  public void prepareDatasource(String id, String name, String type, String config) {
+    // save datasource to cache
+    TplDatasource ds = new TplDatasource(id, name, type, config, true);
+    CacheUtil.put(CACHE_PREFIX + id, ds);
+  }
+
+  /**
    * 添加数据源
    *
    * @param id 数据源ID
@@ -63,26 +82,25 @@ public class DatasourceProcessor {
   }
 
   /**
-   * 连接并添加数据源
+   * 连接数据源
    *
    * @param id 数据源ID
-   * @param name 数据源名称
-   * @param type 数据源类型
-   * @param config 数据源配置
    * @return 数据源
    */
   @Nullable
-  public IDatasource connectDatasource(String id, String name, String type, String config) {
-    IDatasourceFactory factory = this.getDatasourceFactory(type);
+  public IDatasource connectDatasource(String id) {
+    if (!StringUtils.hasText(id)) {
+      return null;
+    }
+    TplDatasource ds = CacheUtil.get(CACHE_PREFIX + id, TplDatasource.class);
+    if (Objects.isNull(ds)) {
+      return null;
+    }
+    IDatasourceFactory factory = this.getDatasourceFactory(ds.getType());
     if (Objects.isNull(factory)) {
       return null;
     }
-    IDatasource datasource = factory.connectDatasource(id, name, config);
-    if (Objects.isNull(datasource)) {
-      return null;
-    }
-    this.addDatasource(id, datasource);
-    return datasource;
+    return factory.connectDatasource(id, ds.getName(), ds.getConfig());
   }
 
   /**
@@ -93,10 +111,35 @@ public class DatasourceProcessor {
    */
   @Nullable
   public IDatasource getDatasource(String id) {
-    if (StringUtils.hasText(id) && this.datasources.containsKey(id)) {
-      return this.datasources.get(id);
+    if (StringUtils.hasText(id)) {
+      if (this.datasources.containsKey(id)) {
+        return this.datasources.get(id);
+      } else {
+        // 未添加则先连接后添加
+        IDatasource datasource = this.connectDatasource(id);
+        if (Objects.nonNull(datasource)) {
+          this.addDatasource(id, datasource);
+        }
+        return datasource;
+      }
     }
     return null;
+  }
+
+  /**
+   * 移除数据源
+   *
+   * @param id 数据源ID
+   */
+  public void removeDatasource(String id) {
+    if (StringUtils.hasText(id)) {
+      if (this.datasources.containsKey(id)) {
+        IDatasource datasource = this.datasources.get(id);
+        datasource.close();
+        this.datasources.remove(id);
+      }
+      CacheUtil.remove(CACHE_PREFIX + id);
+    }
   }
 
   /**

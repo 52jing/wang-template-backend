@@ -185,11 +185,8 @@ public class TplDatasourceController
     if (Objects.isNull(datasource)) {
       throw new NotFoundException();
     }
-    IDatasource ds = this.getEntityService().connectDatasource(datasource);
-    if (Objects.isNull(ds)) {
-      throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
-    }
-    return ResponseUtils.success(DetailBody.ok(ds.retrieveData(new DatasourceParamHolder(params))));
+    Object data = this.getEntityService().retrieveData(id, new DatasourceParamHolder(params));
+    return ResponseUtils.success(DetailBody.ok(data));
   }
 
   @GetMapping("/types")

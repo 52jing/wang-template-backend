@@ -1,5 +1,6 @@
 package com.wangboot.app.template.service;
 
+import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.TplDatasourceParam;
@@ -52,6 +53,16 @@ public interface TplDatasourceService extends IFlexRestfulService<String, TplDat
    */
   @Nullable
   IDatasource connectDatasource(TplDatasource datasource);
+
+  /**
+   * 获取数据
+   *
+   * @param id 数据源ID
+   * @param params 参数
+   * @return 数据
+   */
+  @Nullable
+  Object retrieveData(String id, DatasourceParamHolder params);
 
   /**
    * 获取数据源类型

@@ -80,7 +80,7 @@ public class CommonController {
   private static Map<String, String[]> buildUploadAccepts() {
     Map<String, String[]> map = new HashMap<>();
     map.put("announcement", new String[] {"text/plain", "application/"});
-    map.put("template", new String[] {"text/plain"});
+    map.put("template", new String[] {"text/plain", "application/vnd.openxmlformats"});
     map.put("default", new String[] {"text/plain"});
     return map;
   }
