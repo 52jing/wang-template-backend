@@ -55,7 +55,9 @@ public enum ErrorCode implements IErrorCode {
   CONNECT_DATASOURCE_FAILED(400, "440006", "error.connect_datasource_failed"),
   // 其他错误
   CRYPTO_ERROR(500, "510001", "error.crypto_error"),
-  IN_MAINTENANCE(503, "510002", "error.in_maintenance");
+  IN_MAINTENANCE(503, "510002", "error.in_maintenance"),
+  ANALYSIS_NOT_ENABLED(500, "510003", "error.analysis_not_enabled"),
+  ANALYSIS_FAILED(500, "510004", "error.analysis_failed");
 
   /** Http Status Code */
   @Getter private final int statusCode;
