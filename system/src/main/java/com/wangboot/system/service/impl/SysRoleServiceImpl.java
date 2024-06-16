@@ -9,7 +9,7 @@ import com.wangboot.system.entity.SysRole;
 import com.wangboot.system.entity.relation.SysRolePolicyRel;
 import com.wangboot.system.entity.relation.table.SysRolePolicyRelTableDef;
 import com.wangboot.system.entity.relation.table.SysUserRoleRelTableDef;
-import com.wangboot.system.entity.table.*;
+import com.wangboot.system.entity.table.SysPolicyTableDef;
 import com.wangboot.system.mapper.SysRoleMapper;
 import com.wangboot.system.service.SysRolePolicyRelService;
 import com.wangboot.system.service.SysRoleService;

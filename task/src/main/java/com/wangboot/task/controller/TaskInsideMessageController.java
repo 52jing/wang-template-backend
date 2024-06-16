@@ -1,9 +1,9 @@
 package com.wangboot.task.controller;
 
 import com.mybatisflex.core.paginate.Page;
-import com.wangboot.core.auth.utils.AuthUtils;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.response.ListBody;
+import com.wangboot.core.web.utils.AuthUtils;
 import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.model.entity.exception.CreateFailedException;
 import com.wangboot.task.entity.TaskInsideMessage;

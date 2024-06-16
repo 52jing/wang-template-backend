@@ -31,7 +31,7 @@ public class TaskQuickLink extends CommonEntity implements IdEntity<String> {
   private String id;
 
   @NotBlank(message = "message.name_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String name;
 
   @Size(max = 200)

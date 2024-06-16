@@ -1,6 +1,6 @@
-package com.wangboot.app.commands;
+package com.wangboot.system.command;
 
-import com.wangboot.framework.IBaseCommand;
+import com.wangboot.framework.command.IBaseCommand;
 import com.wangboot.model.entity.exception.CreateFailedException;
 import com.wangboot.system.entity.SysUser;
 import com.wangboot.system.service.SysUserService;

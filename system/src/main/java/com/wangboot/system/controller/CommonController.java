@@ -1,14 +1,11 @@
-package com.wangboot.app.controller;
+package com.wangboot.system.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.map.MapUtil;
-import com.mybatisflex.core.query.QueryWrapper;
+import cn.hutool.core.util.ArrayUtil;
 import com.wangboot.core.auth.annotation.RequireAuthority;
-import com.wangboot.core.auth.event.LogStatus;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.errorcode.HttpErrorCode;
-import com.wangboot.core.utils.ISystemDict;
 import com.wangboot.core.web.crypto.ExcludeEncryption;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.response.ListBody;
@@ -16,15 +13,13 @@ import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.exception.NotFoundException;
 import com.wangboot.starter.autoconfiguration.WbProperties;
+import com.wangboot.system.attachment.ContentTypes;
 import com.wangboot.system.entity.SysAnnouncement;
 import com.wangboot.system.entity.SysAttachment;
 import com.wangboot.system.entity.SysFrontend;
 import com.wangboot.system.entity.SysUserDict;
-import com.wangboot.system.entity.table.SysUserDictTableDef;
 import com.wangboot.system.entity.vo.AttachmentVo;
-import com.wangboot.system.model.AnnouncementType;
-import com.wangboot.system.model.ClientType;
-import com.wangboot.system.model.ParamType;
+import com.wangboot.system.entity.vo.FrontendVo;
 import com.wangboot.system.service.SysAnnouncementService;
 import com.wangboot.system.service.SysAttachmentService;
 import com.wangboot.system.service.SysFrontendService;
@@ -32,7 +27,6 @@ import com.wangboot.system.service.SysUserDictService;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.dromara.x.file.storage.core.FileInfo;
@@ -58,30 +52,21 @@ public class CommonController {
 
   private final WbProperties wbProperties;
 
-  /**
-   * 定义系统字典接口需要输出的类型，供 systemDict 接口调用<br>
-   * 键为 name 参数值，值为类 Class（推荐使用枚举类） 如果枚举类实现了 ISystemDict<br>
-   * 接口，可自动转换为对象，否则调用 toString 方法转换为字符串
-   */
-  private static final Map<String, Class<?>> SYSTEM_DICT = buildSystemDict();
-
-  private static Map<String, Class<?>> buildSystemDict() {
-    Map<String, Class<?>> map = new HashMap<>();
-    map.put("param_type", ParamType.class);
-    map.put("client_type", ClientType.class);
-    map.put("log_status", LogStatus.class);
-    map.put("announcement_type", AnnouncementType.class);
-    return map;
-  }
-
   /** 定义上传文件允许的类型 */
   private static final Map<String, String[]> uploadAccepts = buildUploadAccepts();
 
   private static Map<String, String[]> buildUploadAccepts() {
     Map<String, String[]> map = new HashMap<>();
-    map.put("announcement", new String[] {"text/plain", "application/"});
-    map.put("template", new String[] {"text/plain", "application/vnd.openxmlformats"});
-    map.put("default", new String[] {"text/plain"});
+    map.put("template", ArrayUtil.addAll(ContentTypes.TEXT_FILE, ContentTypes.OFFICE_WORD_DOCUMENTS));
+    map.put(
+        "announcement",
+        ArrayUtil.addAll(
+            ContentTypes.TEXT_FILE,
+            ContentTypes.ZIP_ARCHIVES,
+            ContentTypes.OFFICE_DOCUMENTS,
+            ContentTypes.IMAGES));
+    map.put("image", new String[] {"image/"});
+    map.put("default", ArrayUtil.addAll(ContentTypes.TEXT_FILE, ContentTypes.ZIP_ARCHIVES));
     return map;
   }
 
@@ -91,58 +76,12 @@ public class CommonController {
     throw new NotFoundException();
   }
 
-  /**
-   * 系统字典数据接口<br>
-   * 输出 SYSTEM_DICT 定义的字典数据<br>
-   * 枚举类自动转换为数组
-   */
-  @GetMapping("/system_dict/{name}")
-  public ResponseEntity<?> systemDict(@PathVariable String name) {
-    if (SYSTEM_DICT.containsKey(name)) {
-      if (ISystemDict.class.isAssignableFrom(SYSTEM_DICT.get(name))) {
-        return ResponseUtils.success(
-            DetailBody.ok(
-                Arrays.stream(SYSTEM_DICT.get(name).getEnumConstants())
-                    .map(
-                        d -> {
-                          ISystemDict sd = (ISystemDict) d;
-                          return MapUtil.of(
-                              new String[][] {
-                                {"code", sd.getCode()},
-                                {"name", sd.getName()}
-                              });
-                        })
-                    .collect(Collectors.toList())));
-      } else {
-        return ResponseUtils.success(
-            DetailBody.ok(
-                Arrays.stream(SYSTEM_DICT.get(name).getEnumConstants())
-                    .map(
-                        d ->
-                            MapUtil.of(
-                                new String[][] {{"code", d.toString()}, {"name", d.toString()}}))
-                    .collect(Collectors.toList())));
-      }
-    } else {
-      throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
-    }
-  }
-
   /** 获取用户字典 */
   @GetMapping("/user_dict")
-  public ResponseEntity<?> userDict(
+  public ResponseEntity<?> userDictByGroup(
       @RequestParam String group, @RequestParam(required = false) String code) {
-    if (StringUtils.hasText(group)) {
-      QueryWrapper wrapper =
-          userDictService.query().where(SysUserDictTableDef.SYS_USER_DICT.DICT_GROUP.eq(group));
-      if (StringUtils.hasText(code)) {
-        wrapper.and(SysUserDictTableDef.SYS_USER_DICT.DICT_CODE.eq(code));
-      }
-      List<SysUserDict> userDict = userDictService.list(wrapper);
-      return ResponseUtils.success(DetailBody.ok(userDict));
-    } else {
-      throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
-    }
+    List<SysUserDict> userDict = userDictService.getByGroup(group, code);
+    return ResponseUtils.success(DetailBody.ok(userDict));
   }
 
   /** 获取用户字典 */
@@ -158,19 +97,13 @@ public class CommonController {
   /** 获取应用参数配置 */
   @GetMapping("/frontend/{fid}")
   public ResponseEntity<?> getFrontend(@PathVariable String fid) {
-    SysFrontend frontend = this.frontendService.getById(fid);
+    SysFrontend frontend = this.frontendService.viewResource(fid);
     if (Objects.isNull(frontend)) {
       throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
     }
-    Map<String, String> map = new HashMap<>();
-    map.put("id", fid);
-    map.put("title", frontend.getName());
-    map.put(
-        "description",
-        StringUtils.hasText(frontend.getDescription()) ? frontend.getDescription() : "");
-    map.put("author", StringUtils.hasText(frontend.getAuthor()) ? frontend.getAuthor() : "");
-    map.put("domain", StringUtils.hasText(frontend.getDomain()) ? frontend.getDomain() : "");
-    return ResponseUtils.success(DetailBody.ok(map));
+    FrontendVo frontendVo = BeanUtil.toBean(frontend, FrontendVo.class);
+    frontendVo.setTitle(frontend.getName());
+    return ResponseUtils.success(DetailBody.ok(frontendVo));
   }
 
   /** 获取公告详情 */
@@ -198,6 +131,7 @@ public class CommonController {
     if (Objects.isNull(restrictContentTypes) || Objects.isNull(file)) {
       throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
     }
+    // 限制上传大小
     if (this.wbProperties.getUploadLimits() > 0
         && file.getSize() > this.wbProperties.getUploadLimits()) {
       throw new ErrorCodeException(ErrorCode.FILE_EXCEED_MAX_SIZE);
@@ -211,7 +145,7 @@ public class CommonController {
           fileStorageService
               .of(file)
               .setPath(DateUtil.today() + "/")
-              .setHashCalculatorSha1()
+              .setHashCalculatorMd5()
               .upload();
       if (Objects.nonNull(fileInfo)) {
         AttachmentVo uploadedFile = BeanUtil.copyProperties(fileInfo, AttachmentVo.class);
@@ -227,10 +161,11 @@ public class CommonController {
   @ExcludeEncryption
   public ResponseEntity<?> uploadImage(MultipartFile file) {
     // 允许的上传格式
-    String[] restrictContentTypes = new String[] {"image/"};
+    String[] restrictContentTypes = uploadAccepts.get("image");
     if (Objects.isNull(file)) {
       throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
     }
+    // 限制上传大小
     if (this.wbProperties.getUploadLimits() > 0
         && file.getSize() > this.wbProperties.getUploadLimits()) {
       throw new ErrorCodeException(ErrorCode.FILE_EXCEED_MAX_SIZE);

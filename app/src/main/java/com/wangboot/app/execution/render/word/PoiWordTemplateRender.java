@@ -13,7 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PoiWordTemplateRender extends BaseTemplateRender {
 
-  private static final String CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  private static final String CONTENT_TYPE =
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
   @Override
   public String getContentType() {

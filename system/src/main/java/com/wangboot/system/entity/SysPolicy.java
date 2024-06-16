@@ -16,7 +16,10 @@ import com.wangboot.system.listener.EntityChangeListener;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 实体类。
@@ -41,11 +44,11 @@ public class SysPolicy extends CommonEntity
   private String id;
 
   @NotBlank(message = "message.name_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String name;
 
   @NotBlank(message = "message.label_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String label;
 
   private Boolean readonly = false;

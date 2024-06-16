@@ -1,8 +1,7 @@
-package com.wangboot.app.commands;
+package com.wangboot.framework.command;
 
 import cn.hutool.crypto.SecureUtil;
 import com.wangboot.core.utils.StrUtils;
-import com.wangboot.framework.IBaseCommand;
 import java.security.KeyPair;
 import java.util.Base64;
 import org.springframework.boot.ApplicationArguments;

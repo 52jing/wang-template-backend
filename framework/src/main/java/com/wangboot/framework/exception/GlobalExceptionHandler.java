@@ -9,7 +9,6 @@ import com.wangboot.core.captcha.exception.InvalidUidException;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.errorcode.HttpErrorCode;
 import com.wangboot.core.web.exception.*;
-import com.wangboot.core.web.handler.BaseErrorCodeHandler;
 import com.wangboot.model.entity.exception.*;
 import com.wangboot.starter.autoconfiguration.WbProperties;
 import java.sql.SQLException;

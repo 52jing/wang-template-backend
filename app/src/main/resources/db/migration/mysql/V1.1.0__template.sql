@@ -5,9 +5,9 @@ CREATE TABLE wb_template_template(
     `created_time` DATETIME   COMMENT '创建时间' ,
     `updated_by` VARCHAR(64)   COMMENT '更新人' ,
     `updated_time` DATETIME   COMMENT '更新时间' ,
-    `remark` VARCHAR(512) NOT NULL  COMMENT '备注' ,
-    `name` VARCHAR(128) NOT NULL  COMMENT '名称' ,
-    `type` VARCHAR(128) NOT NULL  COMMENT '类型' ,
+    `remark` VARCHAR(900) NOT NULL  COMMENT '备注' ,
+    `name` VARCHAR(90) NOT NULL  COMMENT '名称' ,
+    `type` VARCHAR(32) NOT NULL  COMMENT '类型' ,
     `def_filename` VARCHAR(255) NOT NULL  COMMENT '默认文件名' ,
     PRIMARY KEY (id)
 )  COMMENT = '模板';
@@ -27,9 +27,9 @@ CREATE TABLE wb_template_datasource(
     `created_time` DATETIME   COMMENT '创建时间' ,
     `updated_by` VARCHAR(64)   COMMENT '更新人' ,
     `updated_time` DATETIME   COMMENT '更新时间' ,
-    `remark` VARCHAR(512) NOT NULL  COMMENT '备注' ,
-    `name` VARCHAR(128) NOT NULL  COMMENT '名称' ,
-    `type` VARCHAR(128) NOT NULL  COMMENT '类型' ,
+    `remark` VARCHAR(900) NOT NULL  COMMENT '备注' ,
+    `name` VARCHAR(90) NOT NULL  COMMENT '名称' ,
+    `type` VARCHAR(32) NOT NULL  COMMENT '类型' ,
     `config` TEXT NOT NULL  COMMENT '配置' ,
     `connected` BOOLEAN NOT NULL  COMMENT '是否已连接' ,
     PRIMARY KEY (id)
@@ -50,12 +50,12 @@ CREATE TABLE wb_template_datasource_param(
     `created_time` DATETIME   COMMENT '创建时间' ,
     `updated_by` VARCHAR(64)   COMMENT '更新人' ,
     `updated_time` DATETIME   COMMENT '更新时间' ,
-    `remark` VARCHAR(512) NOT NULL  COMMENT '备注' ,
-    `name` VARCHAR(128) NOT NULL  COMMENT '参数编码' ,
-    `label` VARCHAR(128) NOT NULL  COMMENT '参数标签' ,
+    `remark` VARCHAR(900) NOT NULL  COMMENT '备注' ,
+    `name` VARCHAR(90) NOT NULL  COMMENT '参数编码' ,
+    `label` VARCHAR(90) NOT NULL  COMMENT '参数标签' ,
     `datasource_id` VARCHAR(64) NOT NULL  COMMENT '数据源ID' ,
-    `required` INT NOT NULL  COMMENT '是否必填' ,
-    `def_val` VARCHAR(512) NOT NULL  COMMENT '默认值' ,
+    `required` BOOLEAN NOT NULL  COMMENT '是否必填' ,
+    `def_val` VARCHAR(255) NOT NULL  COMMENT '默认值' ,
     `config` TEXT NOT NULL  COMMENT '配置' ,
     PRIMARY KEY (id)
 )  COMMENT = '数据源参数';
@@ -75,15 +75,15 @@ CREATE TABLE wb_template_render_execution(
     `created_time` DATETIME   COMMENT '创建时间' ,
     `updated_by` VARCHAR(64)   COMMENT '更新人' ,
     `updated_time` DATETIME   COMMENT '更新时间' ,
-    `remark` VARCHAR(512) NOT NULL  COMMENT '备注' ,
+    `remark` VARCHAR(900) NOT NULL  COMMENT '备注' ,
     `template_id` VARCHAR(64) NOT NULL  COMMENT '模板ID' ,
-    `template_name` VARCHAR(128) NOT NULL  COMMENT '模板名称' ,
-    `template_type` VARCHAR(128) NOT NULL  COMMENT '模板类型' ,
+    `template_name` VARCHAR(90) NOT NULL  COMMENT '模板名称' ,
+    `template_type` VARCHAR(32) NOT NULL  COMMENT '模板类型' ,
     `datasource_id` VARCHAR(64) NOT NULL  COMMENT '数据源ID' ,
-    `datasource_name` VARCHAR(128) NOT NULL  COMMENT '数据源名称' ,
-    `datasource_type` VARCHAR(128) NOT NULL  COMMENT '数据源类型' ,
+    `datasource_name` VARCHAR(90) NOT NULL  COMMENT '数据源名称' ,
+    `datasource_type` VARCHAR(32) NOT NULL  COMMENT '数据源类型' ,
     `params` TEXT NOT NULL  COMMENT '执行参数' ,
-    `status` VARCHAR(128) NOT NULL  COMMENT '执行状态' ,
+    `status` VARCHAR(32) NOT NULL  COMMENT '执行状态' ,
     `filename` VARCHAR(255) NOT NULL  COMMENT '文件名' ,
     PRIMARY KEY (id)
 )  COMMENT = '渲染执行';
@@ -105,8 +105,8 @@ CREATE TABLE wb_template_execution_result(
     `created_by` VARCHAR(64)   COMMENT '创建人' ,
     `created_time` DATETIME   COMMENT '创建时间' ,
     `execution_id` VARCHAR(64) NOT NULL  COMMENT '执行ID' ,
-    `message` TEXT NOT NULL  COMMENT '结果描述' ,
-    `status` VARCHAR(128) NOT NULL  COMMENT '结果状态' ,
+    `message` TEXT(900) NOT NULL  COMMENT '结果描述' ,
+    `status` VARCHAR(32) NOT NULL  COMMENT '结果状态' ,
     PRIMARY KEY (id)
 )  COMMENT = '执行结果';
 

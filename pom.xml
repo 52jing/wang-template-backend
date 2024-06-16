@@ -14,24 +14,20 @@
 
     <properties>
         <!-- 版本 -->
-        <revision>1.0-SNAPSHOT</revision>
+        <revision>1.0.0-SNAPSHOT</revision>
         <!-- 工具库版本 -->
-        <utils.version>0.3.0-SNAPSHOT</utils.version>
+        <utils.version>0.4.0</utils.version>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <!-- 依赖版本 -->
-        <spring.version>5.3.31</spring.version>
-        <spring.boot.version>2.7.18</spring.boot.version>
-        <hutool.bom.version>5.8.26</hutool.bom.version>
-        <druid.version>1.2.19</druid.version>
         <logback.encoder.version>7.3</logback.encoder.version>
         <x.file.storage.version>2.1.0</x.file.storage.version>
-        <easy.excel.version>3.3.4</easy.excel.version>
         <minio.version>8.5.2</minio.version>
         <poitl.version>1.12.2</poitl.version>
         <freemarker.version>2.3.32</freemarker.version>
         <!-- Maven插件版本 -->
+        <spring.boot.version>2.7.18</spring.boot.version>
         <maven.plugin.version>3.8.1</maven.plugin.version>
         <maven.resource.plugin.version>3.3.1</maven.resource.plugin.version>
         <surefire.plugin.version>3.2.5</surefire.plugin.version>
@@ -43,8 +39,8 @@
     <modules>
         <module>framework</module>
         <module>system</module>
-        <module>app</module>
         <module>task</module>
+        <module>app</module>
         <module>report</module>
     </modules>
 
@@ -66,23 +62,9 @@
                 <version>${x.file.storage.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easy.excel.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
-            </dependency>
-
-            <!-- wb工具类 -->
-            <dependency>
-                <groupId>wang.52jing</groupId>
-                <artifactId>wb-bom</artifactId>
-                <version>${utils.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
             </dependency>
 
             <dependency>
@@ -95,6 +77,15 @@
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
+            </dependency>
+
+            <!-- wb工具类 -->
+            <dependency>
+                <groupId>wang.52jing</groupId>
+                <artifactId>wb-bom</artifactId>
+                <version>${utils.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

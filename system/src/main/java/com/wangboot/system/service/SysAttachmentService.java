@@ -5,9 +5,8 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.Dict;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wangboot.core.auth.utils.AuthUtils;
-import com.wangboot.model.attachment.IAttachmentService;
-import com.wangboot.model.flex.IFlexRestfulService;
+import com.wangboot.core.web.utils.AuthUtils;
+import com.wangboot.model.flex.attachment.IFlexAttachmentService;
 import com.wangboot.system.entity.SysAttachment;
 import com.wangboot.system.entity.vo.AttachmentVo;
 import java.time.OffsetDateTime;
@@ -18,8 +17,7 @@ import org.dromara.x.file.storage.core.recorder.FileRecorder;
 import org.springframework.lang.NonNull;
 import org.springframework.util.StringUtils;
 
-public interface SysAttachmentService
-    extends IFlexRestfulService<String, SysAttachment>, IAttachmentService, FileRecorder {
+public interface SysAttachmentService extends IFlexAttachmentService<SysAttachment>, FileRecorder {
 
   ObjectMapper getObjectMapper();
 

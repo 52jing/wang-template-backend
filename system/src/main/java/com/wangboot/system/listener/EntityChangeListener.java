@@ -2,7 +2,7 @@ package com.wangboot.system.listener;
 
 import com.mybatisflex.annotation.InsertListener;
 import com.mybatisflex.annotation.UpdateListener;
-import com.wangboot.core.auth.utils.AuthUtils;
+import com.wangboot.core.web.utils.AuthUtils;
 import com.wangboot.model.entity.IAppendOnlyEntity;
 import com.wangboot.model.entity.ICommonEntity;
 import java.time.OffsetDateTime;

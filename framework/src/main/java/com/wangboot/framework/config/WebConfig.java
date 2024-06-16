@@ -1,8 +1,8 @@
 package com.wangboot.framework.config;
 
-import com.wangboot.core.auth.interceptor.AuthenticationInterceptor;
-import com.wangboot.core.auth.interceptor.PermissionInterceptor;
+import com.wangboot.core.web.interceptor.AuthenticationInterceptor;
 import com.wangboot.core.web.interceptor.InMaintenanceInterceptor;
+import com.wangboot.core.web.interceptor.PermissionInterceptor;
 import com.wangboot.core.web.interceptor.RequestRecordInterceptor;
 import com.wangboot.framework.config.properties.CorsProperties;
 import lombok.RequiredArgsConstructor;

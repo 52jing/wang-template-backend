@@ -12,7 +12,7 @@ import com.wangboot.core.web.response.ListBody;
 import com.wangboot.core.web.task.IBackgroundTask;
 import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
-import com.wangboot.model.attachment.IExcelExporter;
+import com.wangboot.model.attachment.exporter.IExporter;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.dromara.x.file.storage.core.FileStorageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
@@ -59,9 +60,11 @@ public class SysUserController
 
   private final AuthService authService;
 
-  @Getter private final IExcelExporter exporter;
+  @Getter private final IExporter exporter;
 
   @Getter private final SysBgTaskService bgTaskService;
+
+  @Getter private final FileStorageService fileStorageService;
 
   @Override
   public SortFilter[] configDefaultSort() {

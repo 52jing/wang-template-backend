@@ -13,7 +13,7 @@ import com.wangboot.app.template.entity.*;
 import com.wangboot.app.template.entity.table.TplRenderExecutionTableDef;
 import com.wangboot.app.template.service.*;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.core.web.event.IEventPublisher;
+import com.wangboot.core.event.IEventBus;
 import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.attachment.IAttachmentModel;
 import com.wangboot.model.entity.FieldConstants;
@@ -47,7 +47,7 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ExecutionManager implements IEventPublisher {
+public class ExecutionManager {
 
   private static final String SUCCESS_MESSAGE = "SUCCESS";
 
@@ -69,6 +69,8 @@ public class ExecutionManager implements IEventPublisher {
 
   private final FileStorageService fileStorageService;
 
+  private final IEventBus eventBus;
+
   @Getter @Setter private ApplicationEventPublisher applicationEventPublisher;
 
   /**
@@ -87,18 +89,18 @@ public class ExecutionManager implements IEventPublisher {
       @Nullable DatasourceParamHolder params) {
     // 输入参数检查
     if (!StringUtils.hasText(datasourceId)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_DATASOURCE);
     }
     TplDatasource datasource = this.datasourceService.getDataById(datasourceId);
     if (Objects.isNull(datasource)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_DATASOURCE);
     }
     if (!StringUtils.hasText(templateId)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_TEMPLATE);
     }
     TplTemplate template = this.templateService.getDataById(templateId);
     if (Objects.isNull(template)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_TEMPLATE);
     }
     if (Objects.isNull(params)) {
       params = new DatasourceParamHolder();
@@ -120,15 +122,15 @@ public class ExecutionManager implements IEventPublisher {
       boolean ret = this.renderExecutionService.save(renderExecution);
       if (ret) {
         // 发送渲染事件
-        this.publishEvent(new RenderExecutionEvent(renderExecution, params));
+        this.eventBus.publishEvent(new RenderExecutionEvent(renderExecution, params));
         return renderExecution;
       } else {
         log.error("Failed to save render execution!");
-        throw new ErrorCodeException(ErrorCode.RENDER_FAILED);
+        throw new ErrorCodeException(RenderErrorCode.RENDER_FAILED);
       }
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());
-      throw new ErrorCodeException(ErrorCode.RENDER_FAILED);
+      throw new ErrorCodeException(RenderErrorCode.RENDER_FAILED);
     }
   }
 
@@ -155,7 +157,7 @@ public class ExecutionManager implements IEventPublisher {
       Object data =
           this.retrieveData(event.getRenderExecution().getDatasourceId(), event.getParams());
       if (Objects.isNull(data)) {
-        throw new ErrorCodeException(ErrorCode.RETRIEVE_EMPTY_DATA);
+        throw new ErrorCodeException(RenderErrorCode.RETRIEVE_EMPTY_DATA);
       }
       // 执行渲染
       ITemplateRender templateRender = this.getTemplateRender(renderExecution.getTemplateType());
@@ -185,7 +187,14 @@ public class ExecutionManager implements IEventPublisher {
                   TplRenderExecutionTableDef.TPL_RENDER_EXECUTION.STATUS, ExecutionStatus.COMPLETED)
               .update();
           // 更新附件关联
-          this.attachmentService.updateChain().eq(FieldConstants.PRIMARY_KEY, attachmentVo.getId()).set(SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_TYPE, TplExecutionResult.class.getName()).set(SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_ID, result.getId()).update();
+          this.attachmentService
+              .updateChain()
+              .eq(FieldConstants.PRIMARY_KEY, attachmentVo.getId())
+              .set(
+                  SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_TYPE,
+                  TplExecutionResult.class.getName())
+              .set(SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_ID, result.getId())
+              .update();
         } else {
           this.renderExecutionService
               .updateChain()
@@ -222,7 +231,7 @@ public class ExecutionManager implements IEventPublisher {
         dp -> {
           // 检查必填
           if (dp.getRequired() && !params.containsKey(dp.getName())) {
-            throw new ErrorCodeException(ErrorCode.PARAM_IS_REQUIRED, new String[] {dp.getName()});
+            throw new ErrorCodeException(RenderErrorCode.PARAM_IS_REQUIRED, new String[] {dp.getName()});
           }
           // 填充默认值
           if (!params.containsKey(dp.getName())) {
@@ -242,7 +251,7 @@ public class ExecutionManager implements IEventPublisher {
   private Object retrieveData(String datasourceId, DatasourceParamHolder params) {
     IDatasource datasource = this.datasourceProcessor.getDatasource(datasourceId);
     if (Objects.isNull(datasource)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_DATASOURCE);
     }
     return datasource.retrieveData(params);
   }
@@ -258,7 +267,7 @@ public class ExecutionManager implements IEventPublisher {
   private byte[] loadTemplateAttachment(String attachmentId) throws IOException {
     SysAttachment attachment = attachmentService.getDataById(attachmentId);
     if (Objects.isNull(attachment)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_TEMPLATE);
     }
     try (ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
       fileStorageService.download(attachmentService.toFileInfo(attachment)).outputStream(bao);
@@ -276,7 +285,7 @@ public class ExecutionManager implements IEventPublisher {
   private ITemplateRender getTemplateRender(String type) {
     ITemplateRender templateRender = this.templateRenderFactory.getTemplateRender(type);
     if (Objects.isNull(templateRender)) {
-      throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_TEMPLATE);
     }
     return templateRender;
   }

@@ -9,7 +9,10 @@ import com.wangboot.model.entity.impl.CommonTreeEntity;
 import com.wangboot.system.listener.EntityChangeListener;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 实体类。
@@ -31,13 +34,13 @@ public class SysDepartment extends CommonTreeEntity<String> {
   private String id;
 
   @NotBlank(message = "message.name_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String name;
 
   @Size(max = 200)
   private String fullname = "";
 
-  @Size(max = 200)
+  @Size(max = 90)
   private String leader = "";
 
   @Override

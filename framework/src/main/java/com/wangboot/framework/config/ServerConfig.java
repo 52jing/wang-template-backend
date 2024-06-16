@@ -11,8 +11,6 @@ import com.wangboot.core.auth.authorization.IAuthorizerService;
 import com.wangboot.core.auth.frontend.FrontendManager;
 import com.wangboot.core.auth.frontend.IFrontendService;
 import com.wangboot.core.auth.frontend.provider.SimpleFrontendServiceProvider;
-import com.wangboot.core.auth.interceptor.AuthenticationInterceptor;
-import com.wangboot.core.auth.interceptor.PermissionInterceptor;
 import com.wangboot.core.auth.middleware.filter.AccessTokenTypeFilter;
 import com.wangboot.core.auth.middleware.filter.BlacklistFilter;
 import com.wangboot.core.auth.middleware.filter.LoginRestrictionFilter;
@@ -28,9 +26,14 @@ import com.wangboot.core.auth.middleware.refreshtoken.RefreshTokenTypeCheck;
 import com.wangboot.core.auth.security.LoginRestriction;
 import com.wangboot.core.auth.token.ITokenManager;
 import com.wangboot.core.auth.user.IUserService;
+import com.wangboot.core.event.IEventBus;
 import com.wangboot.core.reliability.blacklist.IBlacklistHolder;
+import com.wangboot.core.web.interceptor.AuthenticationInterceptor;
 import com.wangboot.core.web.interceptor.InMaintenanceInterceptor;
+import com.wangboot.core.web.interceptor.PermissionInterceptor;
 import com.wangboot.core.web.interceptor.RequestRecordInterceptor;
+import com.wangboot.model.attachment.exporter.ExcelExporter;
+import com.wangboot.model.attachment.exporter.IExporter;
 import com.wangboot.starter.autoconfiguration.WbProperties;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -78,6 +81,7 @@ public class ServerConfig {
       IAuthorizerService authorizerService,
       ITokenManager tokenManager,
       IAuthenticator authenticator,
+      IEventBus eventBus,
       IBlacklistHolder blacklistHolder,
       LoginRestriction loginRestriction) {
     AuthFlow authFlow =
@@ -88,7 +92,8 @@ public class ServerConfig {
             userService,
             frontendService,
             authorizerService,
-            authenticator);
+            authenticator,
+            eventBus);
     // 登录中间件
     authFlow.addLoginMiddleware(new StaffOnlyCheck());
     if (wbProperties.getCaptcha().isEnabled()) {
@@ -118,22 +123,23 @@ public class ServerConfig {
 
   /** 认证拦截器 */
   @Bean
-  public AuthenticationInterceptor authenticationInterceptor(AuthFlow authFlow) {
-    AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authFlow);
+  public AuthenticationInterceptor authenticationInterceptor(
+      AuthFlow authFlow, IEventBus eventBus) {
+    AuthenticationInterceptor interceptor = new AuthenticationInterceptor(authFlow, eventBus);
     interceptor.setTokenType(wbProperties.getAuth().getType());
     return interceptor;
   }
 
   /** 权限拦截器 */
   @Bean
-  public PermissionInterceptor permissionInterceptor() {
-    return new PermissionInterceptor();
+  public PermissionInterceptor permissionInterceptor(IEventBus eventBus) {
+    return new PermissionInterceptor(eventBus);
   }
 
   /** 请求记录拦截器 */
   @Bean
-  public RequestRecordInterceptor requestRecordInterceptor() {
-    return new RequestRecordInterceptor();
+  public RequestRecordInterceptor requestRecordInterceptor(IEventBus eventBus) {
+    return new RequestRecordInterceptor(eventBus);
   }
 
   /** 维护拦截器 */
@@ -141,6 +147,12 @@ public class ServerConfig {
   public InMaintenanceInterceptor inMaintenanceInterceptor() {
     return new InMaintenanceInterceptor(
         wbProperties.isInMaintenance(), wbProperties.getMaintenanceNotice());
+  }
+
+  /** 导出器 */
+  @Bean
+  public IExporter exporter() {
+    return new ExcelExporter("export");
   }
 
   /** Jackson 配置 */

@@ -38,26 +38,16 @@ public enum ErrorCode implements IErrorCode {
   FILE_EXCEED_MAX_SIZE(400, "420001", "error.file_exceed_max_size"),
   UPLOAD_FAILED(400, "420002", "error.upload_failed"),
   NOT_ALLOWED_FORMAT(400, "420003", "error.not_allowed_format"),
-  EXPORT_FAILED(400, "420003", "error.export_failed"),
+  EXPORT_FAILED(400, "420004", "error.export_failed"),
   // 数据和校验错误
   CREATE_FAILED(400, "430001", "error.create_failed"),
   UPDATE_FAILED(400, "430002", "error.update_failed"),
   DELETE_FAILED(400, "430003", "error.delete_failed"),
   DELETE_CASCADE_FAILED(400, "430004", "error.delete_cascade_failed"),
   DUPLICATED_RECORD(400, "430005", "error.duplicated_record"),
-  // 渲染错误
-  INVALID_TEMPLATE(400, "440001", "error.invalid_template"),
-  INVALID_DATASOURCE(400, "440001", "error.invalid_datasource"),
-  INVALID_DATASOURCE_CONFIG(400, "440002", "error.invalid_datasource_config"),
-  PARAM_IS_REQUIRED(400, "440003", "error.param_is_required"),
-  RENDER_FAILED(400, "440004", "error.render_failed"),
-  RETRIEVE_EMPTY_DATA(400, "440005", "error.retrieve_empty_data"),
-  CONNECT_DATASOURCE_FAILED(400, "440006", "error.connect_datasource_failed"),
   // 其他错误
   CRYPTO_ERROR(500, "510001", "error.crypto_error"),
-  IN_MAINTENANCE(503, "510002", "error.in_maintenance"),
-  ANALYSIS_NOT_ENABLED(500, "510003", "error.analysis_not_enabled"),
-  ANALYSIS_FAILED(500, "510004", "error.analysis_failed");
+  IN_MAINTENANCE(503, "510002", "error.in_maintenance");
 
   /** Http Status Code */
   @Getter private final int statusCode;

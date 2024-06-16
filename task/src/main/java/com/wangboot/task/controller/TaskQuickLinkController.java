@@ -1,6 +1,5 @@
 package com.wangboot.task.controller;
 
-import com.wangboot.core.auth.annotation.RestPermissionPrefix;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
 import com.wangboot.model.entity.controller.RestfulApiController;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wwtg99
  */
 @RestController
-@RestPermissionPrefix(group = "task", name = "quick_link")
 @RequestMapping("/task/quick_link")
 @EnableApi(ControllerApiGroup.FULL)
 public class TaskQuickLinkController

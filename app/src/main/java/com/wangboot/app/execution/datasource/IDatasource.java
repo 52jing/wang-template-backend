@@ -39,8 +39,6 @@ public interface IDatasource {
     return BeanUtil.toBean(retrieveData(params), dataClass);
   }
 
-  /**
-   * 关闭数据源
-   */
+  /** 关闭数据源 */
   void close();
 }

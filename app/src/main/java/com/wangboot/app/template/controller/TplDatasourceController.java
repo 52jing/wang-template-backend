@@ -1,5 +1,6 @@
 package com.wangboot.app.template.controller;
 
+import com.wangboot.app.execution.RenderErrorCode;
 import com.wangboot.app.execution.datasource.DatasourceParamHolder;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.template.entity.TplDatasource;
@@ -10,6 +11,7 @@ import com.wangboot.core.auth.annotation.RestPermissionAction;
 import com.wangboot.core.auth.annotation.RestPermissionPrefix;
 import com.wangboot.core.auth.authorization.resource.ApiResource;
 import com.wangboot.core.errorcode.ErrorCodeException;
+import com.wangboot.core.event.IEventBus;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.utils.ResponseUtils;
 import com.wangboot.framework.exception.ErrorCode;
@@ -44,7 +46,8 @@ public class TplDatasourceController
     implements IRestfulReadController<String, TplDatasource>,
         IRestfulWriteController<String, TplDatasource> {
 
-  @Getter @Setter private ApplicationEventPublisher applicationEventPublisher;
+  @Getter
+  private final IEventBus eventBus;
 
   @Getter private final TplDatasourceService entityService;
 
@@ -171,7 +174,7 @@ public class TplDatasourceController
     }
     IDatasource ds = this.getEntityService().connectDatasource(datasource);
     if (Objects.isNull(ds)) {
-      throw new ErrorCodeException(ErrorCode.CONNECT_DATASOURCE_FAILED);
+      throw new ErrorCodeException(RenderErrorCode.CONNECT_DATASOURCE_FAILED);
     }
     return ResponseUtils.success(DetailBody.ok(true));
   }

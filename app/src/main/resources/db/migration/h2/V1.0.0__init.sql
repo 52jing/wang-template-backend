@@ -1,20 +1,20 @@
 DROP TABLE IF EXISTS wb_sys_frontend;
 CREATE TABLE wb_sys_frontend(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    description TEXT NOT NULL  , --描述
-    author TEXT(128) NOT NULL  , --作者
-    domain TEXT(255) NOT NULL  , --域名
-    client_type TEXT(32) NOT NULL  , --客户端类型
-    allow_register tinyint NOT NULL  , --是否允许注册
-    staff_only tinyint NOT NULL  , --是否内部使用
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    description VARCHAR(900) NOT NULL,
+    author VARCHAR(90) NOT NULL,
+    domain VARCHAR(255) NOT NULL,
+    client_type VARCHAR(32) NOT NULL,
+    allow_register BOOLEAN NOT NULL,
+    staff_only BOOLEAN NOT NULL,
     PRIMARY KEY (id)
-)  ; --前端
+);
 
 
 CREATE INDEX wb_sys_frontend_created_by_idx ON wb_sys_frontend(created_by);
@@ -26,32 +26,32 @@ CREATE INDEX wb_sys_frontend_client_type_idx ON wb_sys_frontend(client_type);
 
 DROP TABLE IF EXISTS wb_sys_user;
 CREATE TABLE wb_sys_user(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    username TEXT(128) NOT NULL  , --用户名
-    nickname TEXT(128) NOT NULL  , --昵称
-    password TEXT(255) NOT NULL  , --密码
-    email TEXT(255) NOT NULL  , --邮箱
-    tel TEXT(128) NOT NULL  , --手机
-    active tinyint NOT NULL  , --是否激活
-    superuser tinyint NOT NULL  , --是否超级管理员
-    staff tinyint NOT NULL  , --是否内部用户
-    expired_time NUMERIC   , --失效时间
-    sex TEXT(255)   , --性别
-    department_id TEXT(64)   , --部门ID
-    job_id TEXT(64)   , --岗位ID
-    province TEXT(255) NOT NULL  , --省份
-    city TEXT(255) NOT NULL  , --城市
-    area TEXT(255) NOT NULL  , --区
-    town TEXT(255) NOT NULL  , --县
-    address TEXT NOT NULL  , --详细地址
-    need_change_pwd tinyint NOT NULL  , --是否需要修改密码
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    username VARCHAR(90) NOT NULL,
+    nickname VARCHAR(90) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    tel VARCHAR(90) NOT NULL,
+    active BOOLEAN NOT NULL,
+    superuser BOOLEAN NOT NULL,
+    staff BOOLEAN NOT NULL,
+    expired_time TIMESTAMP,
+    sex VARCHAR(64),
+    department_id VARCHAR(64),
+    job_id VARCHAR(64),
+    province VARCHAR(255) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    area VARCHAR(255) NOT NULL,
+    town VARCHAR(255) NOT NULL,
+    address VARCHAR(900) NOT NULL,
+    need_change_pwd BOOLEAN NOT NULL,
     PRIMARY KEY (id)
-)  ; --用户
+);
 
 
 CREATE INDEX wb_sys_user_created_by_idx ON wb_sys_user(created_by);
@@ -70,19 +70,19 @@ CREATE INDEX wb_sys_user_job_id_idx ON wb_sys_user(job_id);
 
 DROP TABLE IF EXISTS wb_sys_department;
 CREATE TABLE wb_sys_department(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    parent_id TEXT(64)   , --父节点ID
-    sort INTEGER NOT NULL  , --排序
-    name TEXT(128) NOT NULL  , --名称
-    fullname TEXT(255) NOT NULL  , --全称
-    leader TEXT(128) NOT NULL  , --负责人
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    parent_id VARCHAR(64),
+    sort INTEGER NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    fullname VARCHAR(255) NOT NULL,
+    leader VARCHAR(90) NOT NULL,
     PRIMARY KEY (id)
-)  ; --部门
+);
 
 
 CREATE INDEX wb_sys_department_created_by_idx ON wb_sys_department(created_by);
@@ -95,16 +95,16 @@ CREATE INDEX wb_sys_department_name_idx ON wb_sys_department(name);
 
 DROP TABLE IF EXISTS wb_sys_job;
 CREATE TABLE wb_sys_job(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    type TEXT(128) NOT NULL  , --类型
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    type VARCHAR(90) NOT NULL,
     PRIMARY KEY (id)
-)  ; --岗位
+);
 
 
 CREATE INDEX wb_sys_job_created_by_idx ON wb_sys_job(created_by);
@@ -116,15 +116,15 @@ CREATE INDEX wb_sys_job_type_idx ON wb_sys_job(type);
 
 DROP TABLE IF EXISTS wb_sys_role;
 CREATE TABLE wb_sys_role(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
     PRIMARY KEY (id)
-)  ; --角色
+);
 
 
 CREATE INDEX wb_sys_role_created_by_idx ON wb_sys_role(created_by);
@@ -135,18 +135,17 @@ CREATE INDEX wb_sys_role_name_idx ON wb_sys_role(name);
 
 DROP TABLE IF EXISTS wb_sys_policy;
 CREATE TABLE wb_sys_policy(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    label TEXT(128) NOT NULL  , --显示名
-    readonly tinyint NOT NULL  , --是否只读
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    label VARCHAR(90) NOT NULL,
+    readonly BOOLEAN NOT NULL,
     PRIMARY KEY (id)
-)  ; --策略
-
+);
 
 CREATE INDEX wb_sys_policy_created_by_idx ON wb_sys_policy(created_by);
 CREATE INDEX wb_sys_policy_created_time_idx ON wb_sys_policy(created_time);
@@ -156,17 +155,17 @@ CREATE INDEX wb_sys_policy_name_idx ON wb_sys_policy(name);
 
 DROP TABLE IF EXISTS wb_sys_permission;
 CREATE TABLE wb_sys_permission(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    label TEXT(128) NOT NULL  , --显示名
-    readonly tinyint NOT NULL  , --是否只读
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    label VARCHAR(90) NOT NULL,
+    readonly BOOLEAN NOT NULL,
     PRIMARY KEY (id)
-)  ; --权限
+);
 
 
 CREATE INDEX wb_sys_permission_created_by_idx ON wb_sys_permission(created_by);
@@ -177,11 +176,11 @@ CREATE INDEX wb_sys_permission_name_idx ON wb_sys_permission(name);
 
 DROP TABLE IF EXISTS wb_sys_role_policy_rel;
 CREATE TABLE wb_sys_role_policy_rel(
-    id TEXT(64) NOT NULL  , --ID
-    role_id TEXT(64) NOT NULL  , --角色ID
-    policy_id TEXT(64) NOT NULL  , --策略ID
+    id VARCHAR(64) NOT NULL,
+    role_id VARCHAR(64) NOT NULL,
+    policy_id VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
-)  ; --角色策略关系
+);
 
 
 CREATE INDEX wb_sys_role_policy_rel_role_id_idx ON wb_sys_role_policy_rel(role_id);
@@ -190,11 +189,11 @@ CREATE UNIQUE INDEX wb_sys_role_policy_rel_role_id_policy_id_idx ON wb_sys_role_
 
 DROP TABLE IF EXISTS wb_sys_policy_permission_rel;
 CREATE TABLE wb_sys_policy_permission_rel(
-    id TEXT(64) NOT NULL  , --ID
-    policy_id TEXT(64) NOT NULL  , --策略ID
-    permission_id TEXT(64) NOT NULL  , --权限ID
+    id VARCHAR(64) NOT NULL,
+    policy_id VARCHAR(64) NOT NULL,
+    permission_id VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
-)  ; --策略权限关系
+);
 
 
 CREATE INDEX wb_sys_policy_permission_policy_id_idx ON wb_sys_policy_permission_rel(policy_id);
@@ -203,15 +202,15 @@ CREATE UNIQUE INDEX wb_sys_policy_permission_policy_id_permission_id_idx ON wb_s
 
 DROP TABLE IF EXISTS wb_sys_data_scope;
 CREATE TABLE wb_sys_data_scope(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
     PRIMARY KEY (id)
-)  ; --数据权限
+);
 
 
 CREATE INDEX wb_sys_data_scope_created_by_idx ON wb_sys_data_scope(created_by);
@@ -222,11 +221,11 @@ CREATE INDEX wb_sys_data_scope_name_idx ON wb_sys_data_scope(name);
 
 DROP TABLE IF EXISTS wb_sys_user_role_rel;
 CREATE TABLE wb_sys_user_role_rel(
-    id TEXT(64) NOT NULL  , --ID
-    user_id TEXT(64) NOT NULL  , --用户ID
-    role_id TEXT(64) NOT NULL  , --角色ID
+    id VARCHAR(64) NOT NULL,
+    user_id VARCHAR(64) NOT NULL,
+    role_id VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
-)  ; --用户角色关系
+);
 
 
 CREATE INDEX wb_sys_user_role_rel_user_id_idx ON wb_sys_user_role_rel(user_id);
@@ -235,11 +234,11 @@ CREATE INDEX wb_sys_user_role_rel_user_id_role_id_idx ON wb_sys_user_role_rel(us
 
 DROP TABLE IF EXISTS wb_sys_policy_data_scope_rel;
 CREATE TABLE wb_sys_policy_data_scope_rel(
-    id TEXT(64) NOT NULL  , --ID
-    policy_id TEXT(64) NOT NULL  , --策略ID
-    data_scope_id TEXT(64) NOT NULL  , --数据权限ID
+    id VARCHAR(64) NOT NULL,
+    policy_id VARCHAR(64) NOT NULL,
+    data_scope_id VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
-)  ; --策略数据权限关系
+);
 
 
 CREATE INDEX wb_sys_policy_data_scope_rel_policy_id_idx ON wb_sys_policy_data_scope_rel(policy_id);
@@ -248,20 +247,20 @@ CREATE UNIQUE INDEX wb_sys_policy_data_scope_rel_policy_id_datascope_id_idx ON w
 
 DROP TABLE IF EXISTS wb_sys_menu;
 CREATE TABLE wb_sys_menu(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    parent_id TEXT(64)   , --父节点ID
-    sort INTEGER NOT NULL  , --排序
-    name TEXT(128) NOT NULL  , --名称
-    caption TEXT(128) NOT NULL  , --子标题
-    path TEXT(255) NOT NULL  , --路径
-    icon TEXT(255) NOT NULL  , --图标
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    parent_id VARCHAR(64),
+    sort INTEGER NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    caption VARCHAR(90) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    icon VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-)  ; --菜单
+);
 
 
 CREATE INDEX wb_sys_menu_created_by_idx ON wb_sys_menu(created_by);
@@ -274,11 +273,11 @@ CREATE INDEX wb_sys_menu_name_idx ON wb_sys_menu(name);
 
 DROP TABLE IF EXISTS wb_sys_policy_menu_rel;
 CREATE TABLE wb_sys_policy_menu_rel(
-    id TEXT(64) NOT NULL  , --ID
-    policy_id TEXT(64) NOT NULL  , --策略ID
-    menu_id TEXT(64) NOT NULL  , --菜单ID
+    id VARCHAR(64) NOT NULL,
+    policy_id VARCHAR(64) NOT NULL,
+    menu_id VARCHAR(64) NOT NULL,
     PRIMARY KEY (id)
-)  ; --策略菜单关系
+);
 
 
 CREATE INDEX wb_sys_policy_menu_rel_policy_id_idx ON wb_sys_policy_menu_rel(policy_id);
@@ -287,19 +286,19 @@ CREATE UNIQUE INDEX wb_sys_policy_menu_rel_policy_id_menu_id_idx ON wb_sys_polic
 
 DROP TABLE IF EXISTS wb_sys_param;
 CREATE TABLE wb_sys_param(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    param_group TEXT(128) NOT NULL  , --配置组
-    param_key TEXT(128) NOT NULL  , --配置键
-    param_val TEXT   , --配置值
-    param_type TEXT(32) NOT NULL  , --配置值类型
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    param_group VARCHAR(90) NOT NULL,
+    param_key VARCHAR(90) NOT NULL,
+    param_val VARCHAR(900),
+    param_type VARCHAR(32) NOT NULL,
     PRIMARY KEY (id)
-)  ; --配置
+);
 
 
 CREATE INDEX wb_sys_param_created_by_idx ON wb_sys_param(created_by);
@@ -312,20 +311,20 @@ CREATE UNIQUE INDEX wb_sys_param_param_key_idx ON wb_sys_param(param_key);
 
 DROP TABLE IF EXISTS wb_sys_user_dict;
 CREATE TABLE wb_sys_user_dict(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    dict_group TEXT(128) NOT NULL  , --字典组
-    dict_code TEXT(128) NOT NULL  , --字典代码
-    dict_val TEXT   , --字典值
-    dict_type TEXT(32) NOT NULL  , --字典值类型
-    sort INTEGER NOT NULL  , --排序
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    dict_group VARCHAR(90) NOT NULL,
+    dict_code VARCHAR(90) NOT NULL,
+    dict_val VARCHAR(900),
+    dict_type VARCHAR(32) NOT NULL,
+    sort INTEGER NOT NULL,
     PRIMARY KEY (id)
-)  ; --用户字典
+);
 
 
 CREATE INDEX wb_sys_user_dict_created_by_idx ON wb_sys_user_dict(created_by);
@@ -337,20 +336,20 @@ CREATE UNIQUE INDEX wb_sys_user_dict_dict_group_dict_code_idx ON wb_sys_user_dic
 
 DROP TABLE IF EXISTS wb_sys_user_log;
 CREATE TABLE wb_sys_user_log(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    event TEXT(32) NOT NULL  , --事件
-    status TEXT(32) NOT NULL  , --状态
-    message TEXT(255) NOT NULL  , --消息
-    user_id TEXT(64)   , --用户ID
-    username TEXT(128) NOT NULL  , --用户名
-    frontend_id TEXT(64)   , --前端ID
-    frontend_name TEXT(128) NOT NULL  , --前端名
-    ip TEXT(255) NOT NULL  , --来源IP
-    ua TEXT(255) NOT NULL  , --用户客户端
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    event VARCHAR(32) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    user_id VARCHAR(64),
+    username VARCHAR(90) NOT NULL,
+    frontend_id VARCHAR(64),
+    frontend_name VARCHAR(90) NOT NULL,
+    ip VARCHAR(255) NOT NULL,
+    ua VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
-)  ; --用户活动日志
+);
 
 
 CREATE INDEX wb_sys_user_log_created_by_idx ON wb_sys_user_log(created_by);
@@ -362,16 +361,16 @@ CREATE INDEX wb_sys_user_log_ip_idx ON wb_sys_user_log(ip);
 
 DROP TABLE IF EXISTS wb_sys_operation_log;
 CREATE TABLE wb_sys_operation_log(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    event TEXT(32) NOT NULL  , --事件
-    resource TEXT(255) NOT NULL  , --资源名称
-    resource_id TEXT(64) NOT NULL  , --资源ID
-    obj TEXT   , --资源对象
-    username TEXT(128) NOT NULL  , --用户名
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    event VARCHAR(32) NOT NULL,
+    resource VARCHAR(255) NOT NULL,
+    resource_id VARCHAR(64) NOT NULL,
+    obj TEXT,
+    username VARCHAR(90) NOT NULL,
     PRIMARY KEY (id)
-)  ; --操作日志
+);
 
 
 CREATE INDEX wb_sys_operation_log_created_by_idx ON wb_sys_operation_log(created_by);
@@ -382,18 +381,18 @@ CREATE INDEX wb_sys_operation_log_username_idx ON wb_sys_operation_log(username)
 
 DROP TABLE IF EXISTS wb_task_quick_link;
 CREATE TABLE wb_task_quick_link(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    icon TEXT(255) NOT NULL  , --图标
-    path TEXT(255) NOT NULL  , --路径
-    sort INTEGER NOT NULL  , --排序
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    icon VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    sort INTEGER NOT NULL,
     PRIMARY KEY (id)
-)  ; --快捷菜单
+);
 
 
 CREATE INDEX wb_task_quick_link_created_by_idx ON wb_task_quick_link(created_by);
@@ -405,17 +404,17 @@ CREATE INDEX wb_task_quick_link_sort_idx ON wb_task_quick_link(sort);
 
 DROP TABLE IF EXISTS wb_task_inside_message;
 CREATE TABLE wb_task_inside_message(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    title TEXT(255) NOT NULL  , --标题
-    content TEXT NOT NULL  , --内容
-    type TEXT(32) NOT NULL  , --类型
-    from_user_id TEXT(64)   , --来源用户ID
-    to_user_id TEXT(64) NOT NULL  , --目标用户ID
-    read_time NUMERIC   , --读取时间
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    from_user_id VARCHAR(64),
+    to_user_id VARCHAR(64) NOT NULL,
+    read_time TIMESTAMP,
     PRIMARY KEY (id)
-)  ; --站内消息
+);
 
 
 CREATE INDEX wb_task_inside_message_created_by_idx ON wb_task_inside_message(created_by);
@@ -425,19 +424,19 @@ CREATE INDEX wb_task_inside_message_to_user_id_idx ON wb_task_inside_message(to_
 
 DROP TABLE IF EXISTS wb_sys_announcement;
 CREATE TABLE wb_sys_announcement(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    title TEXT(255) NOT NULL  , --标题
-    content TEXT NOT NULL  , --内容
-    type TEXT(32) NOT NULL  , --类型
-    display tinyint NOT NULL  , --是否展示
-    sort INTEGER NOT NULL  , --排序
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    display BOOLEAN NOT NULL,
+    sort INTEGER NOT NULL,
     PRIMARY KEY (id)
-)  ; --公告
+);
 
 
 CREATE INDEX wb_sys_announcement_created_by_idx ON wb_sys_announcement(created_by);
@@ -449,34 +448,33 @@ CREATE INDEX wb_sys_announcement_sort_idx ON wb_sys_announcement(sort);
 
 DROP TABLE IF EXISTS wb_sys_attachment;
 CREATE TABLE wb_sys_attachment(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    url TEXT(512) NOT NULL  , --文件访问地址
-    size BIGINT NOT NULL  , --文件大小
-    filename TEXT(255) NOT NULL  , --文件名称
-    original_filename TEXT(255) NOT NULL  , --原始文件名
-    base_path TEXT(255) NOT NULL  , --基础存储路径
-    path TEXT(255) NOT NULL  , --存储路径
-    ext TEXT(128) NOT NULL  , --文件扩展名
-    content_type TEXT(128) NOT NULL  , --MIME类型
-    platform TEXT(128) NOT NULL  , --存储平台
-    th_url TEXT(512) NOT NULL  , --缩略图访问路径
-    th_filename TEXT(255) NOT NULL  , --缩略图名称
-    th_size BIGINT NOT NULL  , --缩略图大小
-    th_content_type TEXT(128) NOT NULL  , --缩略图MIME类型
-    hash_info TEXT NOT NULL  , --哈希信息
-    attr TEXT NOT NULL  , --附加属性
-    object_id TEXT(64)   , --关联对象ID
-    object_type TEXT(255) NOT NULL  , --关联对象类型
-    deleted shortint NOT NULL  DEFAULT 0, --删除标示
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    url VARCHAR(900) NOT NULL,
+    size BIGINT NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    base_path VARCHAR(255) NOT NULL,
+    path VARCHAR(255) NOT NULL,
+    ext VARCHAR(90) NOT NULL,
+    content_type VARCHAR(90) NOT NULL,
+    platform VARCHAR(90) NOT NULL,
+    th_url VARCHAR(900) NOT NULL,
+    th_filename VARCHAR(255) NOT NULL,
+    th_size BIGINT NOT NULL,
+    th_content_type VARCHAR(90) NOT NULL,
+    hash_info VARCHAR(900) NOT NULL,
+    attr VARCHAR(900) NOT NULL,
+    object_id VARCHAR(64),
+    object_type VARCHAR(255) NOT NULL,
+    deleted TINYINT NOT NULL DEFAULT  0,
     PRIMARY KEY (id)
-)  ; --附件
+);
 
 
 CREATE INDEX wb_sys_attachment_created_by_idx ON wb_sys_attachment(created_by);
 CREATE INDEX wb_sys_attachment_created_time_idx ON wb_sys_attachment(created_time);
-CREATE INDEX wb_sys_attachment_url_idx ON wb_sys_attachment(url);
 CREATE INDEX wb_sys_attachment_content_type_idx ON wb_sys_attachment(content_type);
 CREATE INDEX wb_sys_attachment_platform_idx ON wb_sys_attachment(platform);
 CREATE INDEX wb_sys_attachment_object_idx ON wb_sys_attachment(object_type,object_id);
@@ -484,18 +482,18 @@ CREATE INDEX wb_sys_attachment_deleted_idx ON wb_sys_attachment(deleted);
 
 DROP TABLE IF EXISTS wb_sys_bg_task;
 CREATE TABLE wb_sys_bg_task(
-    id TEXT(64) NOT NULL  , --ID
-    created_by TEXT(64)   , --创建人
-    created_time NUMERIC   , --创建时间
-    updated_by TEXT(64)   , --更新人
-    updated_time NUMERIC   , --更新时间
-    remark TEXT(512) NOT NULL  , --备注
-    name TEXT(128) NOT NULL  , --名称
-    type TEXT(32) NOT NULL  , --类型
-    status TEXT(32) NOT NULL  , --状态
-    result TEXT(512) NOT NULL  , --结果
+    id VARCHAR(64) NOT NULL,
+    created_by VARCHAR(64),
+    created_time TIMESTAMP,
+    updated_by VARCHAR(64),
+    updated_time TIMESTAMP,
+    remark VARCHAR(900) NOT NULL,
+    name VARCHAR(90) NOT NULL,
+    type VARCHAR(32) NOT NULL,
+    status VARCHAR(32) NOT NULL,
+    result TEXT NOT NULL,
     PRIMARY KEY (id)
-)  ; --后台任务
+);
 
 
 CREATE INDEX wb_sys_bg_task_created_by_idx ON wb_sys_bg_task(created_by);
@@ -504,7 +502,6 @@ CREATE INDEX wb_sys_bg_task_updated_by_idx ON wb_sys_bg_task(updated_by);
 CREATE INDEX wb_sys_bg_task_updated_time_idx ON wb_sys_bg_task(updated_time);
 CREATE INDEX wb_sys_bg_task_type_idx ON wb_sys_bg_task(type);
 CREATE INDEX wb_sys_bg_task_status_idx ON wb_sys_bg_task(status);
-
 
 -- views
 create view wb_sys_user_view as

@@ -9,7 +9,7 @@ import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.response.ListBody;
 import com.wangboot.core.web.task.IBackgroundTask;
 import com.wangboot.core.web.utils.ResponseUtils;
-import com.wangboot.model.attachment.IExcelExporter;
+import com.wangboot.model.attachment.exporter.IExporter;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
 import com.wangboot.model.entity.controller.EnableApi;
@@ -28,6 +28,7 @@ import com.wangboot.system.service.SysJobService;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.dromara.x.file.storage.core.FileStorageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,9 +49,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class SysJobController extends RestfulApiController<String, SysJob, SysJobService>
     implements IBgExportApi<SysJobExcel> {
 
-  @Getter private final IExcelExporter exporter;
+  @Getter private final IExporter exporter;
 
   @Getter private final SysBgTaskService bgTaskService;
+
+  @Getter private final FileStorageService fileStorageService;
 
   @Override
   public String[] configSearchableFields() {

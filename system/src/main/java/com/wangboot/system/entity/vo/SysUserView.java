@@ -6,7 +6,10 @@ import com.mybatisflex.annotation.Table;
 import com.wangboot.system.entity.SysRole;
 import com.wangboot.system.entity.SysUser;
 import java.util.List;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -42,3 +42,4 @@ logs/
 ### Others ###
 .DS_Store
 tmp/
+data/

@@ -1,8 +1,7 @@
 package com.wangboot.app.analysis.model;
 
-import lombok.*;
-
 import java.util.List;
+import lombok.*;
 
 @Data
 @ToString

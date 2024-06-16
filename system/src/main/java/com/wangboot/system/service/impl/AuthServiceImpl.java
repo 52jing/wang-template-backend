@@ -1,6 +1,5 @@
 package com.wangboot.system.service.impl;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.wangboot.core.auth.AuthFlow;
 import com.wangboot.core.auth.context.ILoginUser;
@@ -12,9 +11,9 @@ import com.wangboot.core.auth.model.ILogoutBody;
 import com.wangboot.core.auth.model.IRefreshTokenBody;
 import com.wangboot.core.auth.token.TokenPair;
 import com.wangboot.core.auth.user.IUserModel;
-import com.wangboot.core.auth.utils.AuthUtils;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.core.web.utils.ServletUtils;
+import com.wangboot.core.event.IEventBus;
+import com.wangboot.core.web.utils.AuthUtils;
 import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.framework.utils.WUtils;
 import com.wangboot.system.entity.SysDataScope;
@@ -25,7 +24,10 @@ import com.wangboot.system.entity.table.SysUserTableDef;
 import com.wangboot.system.entity.vo.SysUserView;
 import com.wangboot.system.model.ChangePasswordBody;
 import com.wangboot.system.model.RegisterBody;
-import com.wangboot.system.service.*;
+import com.wangboot.system.service.AuthService;
+import com.wangboot.system.service.SysMenuService;
+import com.wangboot.system.service.SysUserService;
+import com.wangboot.system.service.SysUserViewService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +52,8 @@ public class AuthServiceImpl implements AuthService {
   private final SysMenuService menuService;
 
   private final PasswordEncoder passwordEncoder;
+
+  private final IEventBus eventBus;
 
   @Override
   @NonNull
@@ -80,15 +84,14 @@ public class AuthServiceImpl implements AuthService {
     user.setTel(registerBody.getTel());
     boolean ret = this.userService.saveData(user);
     if (ret) {
-      SpringUtil.publishEvent(
+      this.eventBus.publishEvent(
           new UserEvent(
-              UserEventLog.builder()
-                  .status(LogStatus.SUCCESS)
-                  .event("register")
-                  .username(registerBody.getUsername())
-                  .message("user registered")
-                  .build(),
-              ServletUtils.getRequest()));
+              new UserEventLog(
+                  "register",
+                  LogStatus.SUCCESS,
+                  registerBody.getUsername(),
+                  null,
+                  "user registered")));
       return user;
     } else {
       throw new ErrorCodeException(ErrorCode.REGISTER_FAILED);

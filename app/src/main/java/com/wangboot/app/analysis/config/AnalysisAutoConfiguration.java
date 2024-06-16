@@ -16,7 +16,10 @@ public class AnalysisAutoConfiguration {
 
   @Bean
   public MoonShotClient moonShotClient() {
-    String baseUrl = StringUtils.hasText(analysisProperties.getMoonShot().getBaseUrl()) ? analysisProperties.getMoonShot().getBaseUrl() : MoonShotClient.MOONSHOT_BASE;
+    String baseUrl =
+        StringUtils.hasText(analysisProperties.getMoonShot().getBaseUrl())
+            ? analysisProperties.getMoonShot().getBaseUrl()
+            : MoonShotClient.MOONSHOT_BASE;
     String accessToken = analysisProperties.getMoonShot().getAccessToken();
     if (StringUtils.hasText(accessToken)) {
       return new MoonShotClient(baseUrl, accessToken, null);

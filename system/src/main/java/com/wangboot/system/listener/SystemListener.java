@@ -59,7 +59,7 @@ public class SystemListener {
   @EventListener
   @Async
   public void listenUserEvent(UserEvent event) {
-    UserEventLog userEventLog = event.getSourceObject();
+    UserEventLog userEventLog = (UserEventLog) event.getSource();
     ILoginUser loginUser = userEventLog.getLoginUser();
     SysUserLog userLog =
         SysUserLog.builder()
@@ -104,7 +104,7 @@ public class SystemListener {
   @EventListener
   @Async
   public void listenOperationEvent(OperationEvent event) {
-    OperationLog operationLog = event.getSourceObject();
+    OperationLog operationLog = (OperationLog) event.getSource();
     String e = operationLog.getEvent();
     if (OperationEventType.CREATED_EVENT.equals(e)
         || OperationEventType.UPDATED_EVENT.equals(e)
@@ -139,7 +139,7 @@ public class SystemListener {
   @EventListener
   @Async
   public void listenBgTaskEvent(BgTaskEvent event) {
-    BgTaskObject taskObject = event.getSourceObject();
+    BgTaskObject taskObject = (BgTaskObject) event.getSource();
     SysBgTask task = bgTaskService.getDataById(taskObject.getId());
     if (Objects.isNull(task)) {
       return;

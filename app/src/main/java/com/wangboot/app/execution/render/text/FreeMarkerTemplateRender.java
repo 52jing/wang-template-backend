@@ -1,5 +1,6 @@
 package com.wangboot.app.execution.render.text;
 
+import com.wangboot.app.execution.RenderErrorCode;
 import com.wangboot.app.execution.render.BaseTemplateRender;
 import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.template.entity.TplTemplate;
@@ -49,7 +50,7 @@ public class FreeMarkerTemplateRender extends BaseTemplateRender {
       writer.flush();
     } catch (TemplateException e) {
       log.error(e.getMessage());
-      throw new ErrorCodeException(ErrorCode.INVALID_TEMPLATE);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_TEMPLATE);
     }
   }
 }

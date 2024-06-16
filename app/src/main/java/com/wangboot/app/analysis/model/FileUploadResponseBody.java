@@ -14,5 +14,4 @@ public class FileUploadResponseBody {
   private String purpose;
   private String status;
   private String status_details;
-
 }

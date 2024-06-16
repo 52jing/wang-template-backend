@@ -1,7 +1,7 @@
 package com.wangboot.system.service;
 
 import com.wangboot.model.flex.IFlexRestfulService;
-import com.wangboot.system.entity.*;
+import com.wangboot.system.entity.SysPermission;
 
 /**
  * 服务层。

@@ -16,7 +16,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 实体类。
@@ -38,15 +41,15 @@ public class SysUserDict extends CommonEntity implements IdEntity<String>, IUniq
   private String id;
 
   @NotBlank(message = "message.name_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String name;
 
   @NotBlank(message = "message.group_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String dictGroup;
 
   @NotBlank(message = "message.code_not_blank")
-  @Size(max = 100)
+  @Size(max = 90)
   private String dictCode;
 
   private String dictVal;

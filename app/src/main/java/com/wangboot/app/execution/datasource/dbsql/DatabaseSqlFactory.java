@@ -2,6 +2,7 @@ package com.wangboot.app.execution.datasource.dbsql;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wangboot.app.execution.RenderErrorCode;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.execution.datasource.IDatasourceFactory;
 import com.wangboot.core.errorcode.ErrorCodeException;
@@ -36,7 +37,7 @@ public class DatabaseSqlFactory implements IDatasourceFactory {
       return datasource;
     } catch (JsonProcessingException e) {
       log.error(e.getMessage());
-      throw new ErrorCodeException(ErrorCode.INVALID_DATASOURCE_CONFIG);
+      throw new ErrorCodeException(RenderErrorCode.INVALID_DATASOURCE_CONFIG);
     }
   }
 }

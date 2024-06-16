@@ -9,8 +9,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class AnalysisProperties {
   public static final String PREFIX = "analysis";
 
-  @NestedConfigurationProperty
-  private MoonShot moonShot;
+  @NestedConfigurationProperty private MoonShot moonShot;
   private boolean indicatorAnalysis = false;
 
   @Data

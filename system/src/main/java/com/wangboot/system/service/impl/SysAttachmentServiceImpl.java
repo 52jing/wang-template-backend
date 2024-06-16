@@ -95,6 +95,16 @@ public class SysAttachmentServiceImpl extends ServiceImpl<SysAttachmentMapper, S
   public void deleteFilePartByUploadId(String s) {}
 
   @Override
+  public String getObjectTypeField() {
+    return SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_TYPE.getName();
+  }
+
+  @Override
+  public String getObjectIdField() {
+    return SysAttachmentTableDef.SYS_ATTACHMENT.OBJECT_ID.getName();
+  }
+
+  @Override
   public <I extends Serializable> List<SysAttachment> getAttachmentsByObject(
       String objectType, I objectId) {
     QueryWrapper wrapper =

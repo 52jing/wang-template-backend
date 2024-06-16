@@ -1,9 +1,8 @@
 package com.wangboot.app.analysis.model;
 
+import java.util.List;
 import lombok.Data;
 import lombok.ToString;
-
-import java.util.List;
 
 @Data
 @ToString
@@ -21,7 +20,6 @@ public class ChatCompletionsResponseBody {
     private long index;
     private ChatMessage message;
     private String finishReason;
-
   }
 
   @Data

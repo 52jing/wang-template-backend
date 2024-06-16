@@ -13,13 +13,14 @@ import com.wangboot.model.entity.event.EnableOperationLog;
 import com.wangboot.model.entity.impl.CommonEntity;
 import com.wangboot.system.entity.table.SysUserTableDef;
 import com.wangboot.system.listener.EntityChangeListener;
-
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 实体类。
@@ -43,10 +44,10 @@ public class SysUser extends CommonEntity implements IdEntity<String>, IUniqueEn
   private String id;
 
   @NotBlank(message = "message.username_not_blank")
-  @Size(min = 3, max = 100)
+  @Size(min = 3, max = 90)
   private String username;
 
-  @Size(min = 3, max = 100)
+  @Size(min = 3, max = 90)
   private String nickname = "";
 
   @JsonIgnore private String password = "";

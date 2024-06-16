@@ -4,21 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.wangboot.app.analysis.exception.MoonShotRequestException;
 import com.wangboot.app.analysis.model.*;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 @Slf4j
 public class MoonShotClient {
 
   public static final String MOONSHOT_BASE = "https://api.moonshot.cn/v1";
-  private final static String JSON_MEDIA_TYPE = "application/json;charset=utf-8";
-  private final static String FORM_MEDIA_TYPE = "multipart/form-data";
+  private static final String JSON_MEDIA_TYPE = "application/json;charset=utf-8";
+  private static final String FORM_MEDIA_TYPE = "multipart/form-data";
 
   private final OkHttpClient httpClient;
   private final String baseUrl;
@@ -29,7 +28,12 @@ public class MoonShotClient {
     this.baseUrl = baseUrl;
     this.accessToken = accessToken;
     if (Objects.isNull(httpClient)) {
-      this.httpClient = new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS).callTimeout(30, TimeUnit.SECONDS).build();
+      this.httpClient =
+          new OkHttpClient.Builder()
+              .connectTimeout(30, TimeUnit.SECONDS)
+              .readTimeout(30, TimeUnit.SECONDS)
+              .callTimeout(30, TimeUnit.SECONDS)
+              .build();
     } else {
       this.httpClient = httpClient;
     }
@@ -46,18 +50,25 @@ public class MoonShotClient {
   }
 
   @Nullable
-  public FileUploadResponseBody uploadFile(byte[] bytes, String filename, String contentType) throws IOException {
+  public FileUploadResponseBody uploadFile(byte[] bytes, String filename, String contentType)
+      throws IOException {
     if (Objects.isNull(bytes) || !StringUtils.hasText(filename)) {
       return null;
     }
     RequestBody fileBody = RequestBody.create(bytes, MediaType.parse(contentType));
-    MultipartBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM).addFormDataPart("file", filename, fileBody).addFormDataPart("purpose", "file-extract").build();
-    Request request = new Request.Builder()
-      .url(this.baseUrl + "/files")
-      .addHeader("Authorization", "Bearer " + this.accessToken)
-      .header("Content-Type", FORM_MEDIA_TYPE)
-      .post(requestBody)
-      .build();
+    MultipartBody requestBody =
+        new MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("file", filename, fileBody)
+            .addFormDataPart("purpose", "file-extract")
+            .build();
+    Request request =
+        new Request.Builder()
+            .url(this.baseUrl + "/files")
+            .addHeader("Authorization", "Bearer " + this.accessToken)
+            .header("Content-Type", FORM_MEDIA_TYPE)
+            .post(requestBody)
+            .build();
     final Call call = this.httpClient.newCall(request);
     Response response = call.execute();
     if (response.isSuccessful()) {
@@ -83,11 +94,12 @@ public class MoonShotClient {
     if (!StringUtils.hasText(fileId)) {
       return null;
     }
-    Request request = new Request.Builder()
-      .url(this.baseUrl + "/files/" + fileId + "/content")
-      .addHeader("Authorization", "Bearer " + this.accessToken)
-      .get()
-      .build();
+    Request request =
+        new Request.Builder()
+            .url(this.baseUrl + "/files/" + fileId + "/content")
+            .addHeader("Authorization", "Bearer " + this.accessToken)
+            .get()
+            .build();
     final Call call = this.httpClient.newCall(request);
     Response response = call.execute();
     if (response.isSuccessful()) {
@@ -109,16 +121,20 @@ public class MoonShotClient {
   }
 
   @Nullable
-  public ChatCompletionsResponseBody chatCompletions(@Nullable ChatCompletionsRequestBody body) throws IOException {
+  public ChatCompletionsResponseBody chatCompletions(@Nullable ChatCompletionsRequestBody body)
+      throws IOException {
     if (Objects.isNull(body)) {
       return null;
     }
-    RequestBody requestBody = RequestBody.create(this.objectMapper.writeValueAsString(body), MediaType.parse(JSON_MEDIA_TYPE));
-    Request request = new Request.Builder()
-      .url(this.baseUrl + "/chat/completions")
-      .addHeader("Authorization", "Bearer " + this.accessToken)
-      .post(requestBody)
-      .build();
+    RequestBody requestBody =
+        RequestBody.create(
+            this.objectMapper.writeValueAsString(body), MediaType.parse(JSON_MEDIA_TYPE));
+    Request request =
+        new Request.Builder()
+            .url(this.baseUrl + "/chat/completions")
+            .addHeader("Authorization", "Bearer " + this.accessToken)
+            .post(requestBody)
+            .build();
     final Call call = this.httpClient.newCall(request);
     Response response = call.execute();
     if (response.isSuccessful()) {
