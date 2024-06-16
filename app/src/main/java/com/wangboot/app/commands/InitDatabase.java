@@ -124,8 +124,8 @@ public class InitDatabase implements IBaseCommand {
                 false),
             new SysUser(
                 "4",
-                "guest",
-                "Guest",
+                "report",
+                "Report",
                 passwordEncoder.encode(DEFAULT_PWD),
                 "",
                 "",
@@ -242,7 +242,13 @@ public class InitDatabase implements IBaseCommand {
                 4),
             new SysMenu("support", "运维审计", "日志操作审计", "manage_history", "", null, 50),
             new SysMenu("user_log", "用户日志", "", "event", "/log/user_log", "support", 1),
-            new SysMenu("operation_log", "操作日志", "", "source", "/log/operation_log", "support", 2));
+            new SysMenu("operation_log", "操作日志", "", "source", "/log/operation_log", "support", 2),
+            new SysMenu("render", "报告生成", "", "work", "", null, 2),
+            new SysMenu("datasource_management", "数据源管理", "", "dataset", "/template/datasource", "render", 1),
+            new SysMenu("template_management", "模板管理", "", "article", "/template/template", "render", 2),
+            new SysMenu("render_execution", "执行列表", "", "assignment", "/template/render_execution", "render", 3),
+          new SysMenu("analysis", "文档分析", "", "fact_check", "/analysis", null, 3)
+        );
     DataPorter<String, SysMenu> porter = new DataPorter<>(data, menuService);
     return porter.syncData();
   }
@@ -257,7 +263,6 @@ public class InitDatabase implements IBaseCommand {
                 ParamConstants.INIT_DATABASE_KEY,
                 "0",
                 ParamType.BOOL),
-            new SysParam("1-1", "服务", "server", "", "", ParamType.STR),
             new SysParam(
                 "2-1",
                 "密码最短长度",
@@ -328,7 +333,7 @@ public class InitDatabase implements IBaseCommand {
     List<SysAnnouncement> data =
         Lists.newArrayList(
             new SysAnnouncement(
-                "1", "欢迎使用 WangBoot！", "WangBoot", AnnouncementType.IMPORTANT, true, 1, null));
+                "1", "Welcome to WangTemplate！", "WangTemplate", AnnouncementType.IMPORTANT, true, 1, null));
     DataPorter<String, SysAnnouncement> porter = new DataPorter<>(data, announcementService);
     return porter.syncData();
   }
@@ -351,6 +356,9 @@ public class InitDatabase implements IBaseCommand {
     this.permissionGenerators.add(new PermissionGenerator("用户字典", "system", "user_dict"));
     this.permissionGenerators.add(new PermissionGenerator("用户日志", "log", "user_log", true, false));
     this.permissionGenerators.add(new PermissionGenerator("快捷菜单", "task", "quick_link"));
+    this.permissionGenerators.add(new PermissionGenerator("数据源", "template", "datasource"));
+    this.permissionGenerators.add(new PermissionGenerator("模板", "template", "template"));
+    this.permissionGenerators.add(new PermissionGenerator("渲染执行", "template", "render_execution"));
   }
 
   private int syncPermission() {
@@ -375,9 +383,11 @@ public class InitDatabase implements IBaseCommand {
     String policyManageMenu = "manage_menu";
     String policyCommonMenu = "common_menu";
     String policyFile = "common_file";
+    String renderPolicy = "render";
     data2.add(new SysPolicy(policyManageMenu, policyManageMenu, "管理功能菜单", true, null, null, null));
     data2.add(new SysPolicy(policyCommonMenu, policyCommonMenu, "通用功能菜单", true, null, null, null));
     data2.add(new SysPolicy(policyFile, policyFile, "通用文件策略", true, null, null, null));
+    data2.add(new SysPolicy(renderPolicy, renderPolicy, "报告生成策略", true, null, null, null));
     DataPorter<String, SysPolicy> porter2 = new DataPorter<>(data2, policyService);
     m = porter2.syncData();
     n += m;
@@ -393,6 +403,16 @@ public class InitDatabase implements IBaseCommand {
     data3.add(
         new SysPolicyPermissionRel(
             policyFile + "_" + attachmentDownload, policyFile, attachmentDownload));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_datasource_view", renderPolicy, "template:datasource:view"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_datasource_create", renderPolicy, "template:datasource:create"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_datasource_update", renderPolicy, "template:datasource:update"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_datasource_delete", renderPolicy, "template:datasource:delete"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_template_view", renderPolicy, "template:template:view"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_template_create", renderPolicy, "template:template:create"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_template_update", renderPolicy, "template:template:update"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_template_delete", renderPolicy, "template:template:delete"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_render_execution_view", renderPolicy, "template:render_execution:view"));
+    data3.add(new SysPolicyPermissionRel(renderPolicy + "_render_execution_create", renderPolicy, "template:render_execution:create"));
     DataPorter<String, SysPolicyPermissionRel> porter3 =
         new DataPorter<>(data3, policyPermissionRelService);
     porter3.syncData();
@@ -444,18 +464,26 @@ public class InitDatabase implements IBaseCommand {
                 policyManageMenu + "_operation_log", policyManageMenu, "operation_log"),
             new SysPolicyMenuRel(policyCommonMenu + "_home", policyCommonMenu, "home"),
             new SysPolicyMenuRel(policyCommonMenu + "_dashboard", policyCommonMenu, "dashboard"),
-            new SysPolicyMenuRel(policyCommonMenu + "_quick_link", policyCommonMenu, "quick_link"));
+            new SysPolicyMenuRel(policyCommonMenu + "_quick_link", policyCommonMenu, "quick_link"),
+              new SysPolicyMenuRel(renderPolicy + "_render", renderPolicy, "render"),
+          new SysPolicyMenuRel(renderPolicy + "_datasource_management", renderPolicy, "datasource_management"),
+          new SysPolicyMenuRel(renderPolicy + "_template_management", renderPolicy, "template_management"),
+          new SysPolicyMenuRel(renderPolicy + "_render_execution", renderPolicy, "render_execution")
+        );
     DataPorter<String, SysPolicyMenuRel> porter4 = new DataPorter<>(data4, policyMenuRelService);
     porter4.syncData();
     // 添加角色
     final String roleIdSystem = "1";
     final String roleIdAudit = "2";
     final String roleIdCommon = "3";
+    final String roleIdRender = "4";
     List<SysRole> data5 =
         Lists.newArrayList(
             new SysRole(roleIdSystem, "系统管理员", null),
             new SysRole(roleIdAudit, "系统审计员", null),
-            new SysRole(roleIdCommon, "普通后台用户", null));
+            new SysRole(roleIdCommon, "普通后台用户", null),
+            new SysRole(roleIdRender, "报告分析用户", null)
+          );
     DataPorter<String, SysRole> porter5 = new DataPorter<>(data5, roleService);
     m = porter5.syncData();
     n += m;
@@ -504,6 +532,18 @@ public class InitDatabase implements IBaseCommand {
     data6.add(
         new SysRolePolicyRel(prefixCommon + policyCommonMenu, roleIdCommon, policyCommonMenu));
     data6.add(new SysRolePolicyRel(prefixCommon + policyFile, roleIdCommon, policyFile));
+    // 报告分析用户
+    final String prefixRender = "render_";
+    data6.add(new SysRolePolicyRel(prefixRender + renderPolicy, roleIdRender, renderPolicy));
+    data6.add(
+      new SysRolePolicyRel(
+        prefixRender + quickLinkReadPolicy, prefixRender, quickLinkReadPolicy));
+    data6.add(
+      new SysRolePolicyRel(
+        prefixRender + quickLinkWritePolicy, prefixRender, quickLinkWritePolicy));
+    data6.add(
+      new SysRolePolicyRel(prefixRender + policyCommonMenu, prefixRender, policyCommonMenu));
+    data6.add(new SysRolePolicyRel(prefixCommon + policyFile, roleIdCommon, policyFile));
     DataPorter<String, SysRolePolicyRel> porter6 = new DataPorter<>(data6, rolePolicyRelService);
     porter6.syncData();
     // 添加用户角色关系
@@ -511,7 +551,7 @@ public class InitDatabase implements IBaseCommand {
         Lists.newArrayList(
             new SysUserRoleRel("manager_role", "2", roleIdSystem),
             new SysUserRoleRel("reporter_role", "3", roleIdAudit),
-            new SysUserRoleRel("guest_role", "4", roleIdCommon));
+            new SysUserRoleRel("render_role", "4", roleIdRender));
     DataPorter<String, SysUserRoleRel> porter7 = new DataPorter<>(data7, userRoleRelService);
     porter7.syncData();
     return n;
