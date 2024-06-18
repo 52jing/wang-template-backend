@@ -19,6 +19,14 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam>
     implements SysParamService {
 
   @Override
+  public void setParamConfig(String key, String value) {
+    this.updateChain()
+      .where(SysParamTableDef.SYS_PARAM.PARAM_KEY.eq(key))
+      .set(SysParamTableDef.SYS_PARAM.PARAM_VAL, value)
+      .update();
+  }
+
+  @Override
   public String getParamConfig(String key) {
     if (!StringUtils.hasText(key)) {
       return "";

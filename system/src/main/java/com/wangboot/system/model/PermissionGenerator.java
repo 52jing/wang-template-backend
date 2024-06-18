@@ -3,7 +3,9 @@ package com.wangboot.system.model;
 import com.wangboot.core.auth.authorization.resource.ApiResource;
 import com.wangboot.system.entity.SysPermission;
 import com.wangboot.system.entity.SysPolicy;
+import com.wangboot.system.entity.relation.SysPolicyMenuRel;
 import com.wangboot.system.entity.relation.SysPolicyPermissionRel;
+import com.wangboot.system.entity.relation.SysRolePolicyRel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,12 +43,12 @@ public class PermissionGenerator {
   private final ApiResource deleteResource;
 
   public PermissionGenerator(
-      String label,
-      String group,
-      String name,
-      boolean readPerm,
-      boolean writePerm,
-      boolean readonly) {
+    String label,
+    String group,
+    String name,
+    boolean readPerm,
+    boolean writePerm,
+    boolean readonly) {
     this.label = label;
     this.group = group;
     this.name = name;
@@ -64,6 +66,41 @@ public class PermissionGenerator {
   }
 
   /**
+   * 生成策略权限关系
+   *
+   * @param policyId 策略ID
+   * @param permissionId 权限ID
+   * @return 策略权限关系
+   */
+  public static SysPolicyPermissionRel createPolicyPermissionRel(
+    String policyId, String permissionId) {
+    return new SysPolicyPermissionRel(
+      policyId + DEL_UNDERSCORE + permissionId, policyId, permissionId);
+  }
+
+  /**
+   * 生成策略菜单关系
+   *
+   * @param policyId 策略ID
+   * @param menuId 菜单ID
+   * @return 策略菜单关系
+   */
+  public static SysPolicyMenuRel createPolicyMenuRel(String policyId, String menuId) {
+    return new SysPolicyMenuRel(policyId + DEL_UNDERSCORE + menuId, policyId, menuId);
+  }
+
+  /**
+   * 生成角色策略关系
+   *
+   * @param roleId 角色ID
+   * @param policyId 策略ID
+   * @return 角色策略关系
+   */
+  public static SysRolePolicyRel createRolePolicyRel(String roleId, String policyId) {
+    return new SysRolePolicyRel(roleId + DEL_UNDERSCORE + policyId, roleId, policyId);
+  }
+
+  /**
    * 生成权限集合
    *
    * @return 权限集合
@@ -72,31 +109,31 @@ public class PermissionGenerator {
     List<SysPermission> perms = new ArrayList<>();
     if (this.readPerm) {
       perms.add(
-          new SysPermission(
-              this.viewResource.getResourceName(),
-              this.viewResource.getResourceName(),
-              this.getPermissionLabel(VIEW_LABEL),
-              this.readonly));
+        new SysPermission(
+          this.viewResource.getResourceName(),
+          this.viewResource.getResourceName(),
+          this.getPermissionLabel(VIEW_LABEL),
+          this.readonly));
     }
     if (this.writePerm) {
       perms.add(
-          new SysPermission(
-              this.createResource.getResourceName(),
-              this.createResource.getResourceName(),
-              this.getPermissionLabel(CREATE_LABEL),
-              this.readonly));
+        new SysPermission(
+          this.createResource.getResourceName(),
+          this.createResource.getResourceName(),
+          this.getPermissionLabel(CREATE_LABEL),
+          this.readonly));
       perms.add(
-          new SysPermission(
-              this.updateResource.getResourceName(),
-              this.updateResource.getResourceName(),
-              this.getPermissionLabel(UPDATE_LABEL),
-              this.readonly));
+        new SysPermission(
+          this.updateResource.getResourceName(),
+          this.updateResource.getResourceName(),
+          this.getPermissionLabel(UPDATE_LABEL),
+          this.readonly));
       perms.add(
-          new SysPermission(
-              this.deleteResource.getResourceName(),
-              this.deleteResource.getResourceName(),
-              this.getPermissionLabel(DELETE_LABEL),
-              this.readonly));
+        new SysPermission(
+          this.deleteResource.getResourceName(),
+          this.deleteResource.getResourceName(),
+          this.getPermissionLabel(DELETE_LABEL),
+          this.readonly));
     }
     return perms;
   }
@@ -108,8 +145,8 @@ public class PermissionGenerator {
    */
   public List<String> generatePermissionIds() {
     return this.generatePermissions().stream()
-        .map(SysPermission::getId)
-        .collect(Collectors.toList());
+      .map(SysPermission::getId)
+      .collect(Collectors.toList());
   }
 
   /**
@@ -167,29 +204,13 @@ public class PermissionGenerator {
     List<SysPolicyPermissionRel> rels = new ArrayList<>();
     if (this.readPerm) {
       String policyId = this.getReadPolicyId();
-      rels.add(
-          new SysPolicyPermissionRel(
-              policyId + DEL_UNDERSCORE + this.viewResource.getResourceName(),
-              policyId,
-              this.viewResource.getResourceName()));
+      rels.add(createPolicyPermissionRel(policyId, this.viewResource.getResourceName()));
     }
     if (this.writePerm) {
       String policyId = this.getWritePolicyId();
-      rels.add(
-          new SysPolicyPermissionRel(
-              policyId + DEL_UNDERSCORE + this.viewResource.getResourceName(),
-              policyId,
-              this.createResource.getResourceName()));
-      rels.add(
-          new SysPolicyPermissionRel(
-              policyId + DEL_UNDERSCORE + this.updateResource.getResourceName(),
-              policyId,
-              this.updateResource.getResourceName()));
-      rels.add(
-          new SysPolicyPermissionRel(
-              policyId + DEL_UNDERSCORE + this.deleteResource.getResourceName(),
-              policyId,
-              this.deleteResource.getResourceName()));
+      rels.add(createPolicyPermissionRel(policyId, this.createResource.getResourceName()));
+      rels.add(createPolicyPermissionRel(policyId, this.updateResource.getResourceName()));
+      rels.add(createPolicyPermissionRel(policyId, this.deleteResource.getResourceName()));
     }
     return rels;
   }
