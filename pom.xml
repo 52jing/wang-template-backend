@@ -14,7 +14,7 @@
 
     <properties>
         <!-- 版本 -->
-        <revision>1.0.0-SNAPSHOT</revision>
+        <revision>1.0.0</revision>
         <!-- 工具库版本 -->
         <utils.version>0.5.0</utils.version>
         <java.version>1.8</java.version>

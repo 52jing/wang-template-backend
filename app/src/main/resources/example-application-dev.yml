@@ -53,7 +53,7 @@ logging:
 
 # 应用配置
 app:
-  namespace: wangboot
+  namespace: wangTemplate
   secret: abcdefghijklmnopqrstuvwxyz
   debug: true
   timezone: Asia/Shanghai
@@ -80,7 +80,7 @@ management:
   #        include: health,prometheus
   metrics:
     tags:
-      application: wangboot
+      application: wangtemplate
 
 dromara:
   # 文件存储配置
