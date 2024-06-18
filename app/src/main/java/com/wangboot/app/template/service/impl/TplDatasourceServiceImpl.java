@@ -14,7 +14,6 @@ import com.wangboot.app.template.mapper.TplDatasourceMapper;
 import com.wangboot.app.template.service.TplDatasourceParamService;
 import com.wangboot.app.template.service.TplDatasourceService;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.exception.UpdateFailedException;
 import java.util.*;

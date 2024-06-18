@@ -21,9 +21,9 @@ public class SysParamServiceImpl extends ServiceImpl<SysParamMapper, SysParam>
   @Override
   public void setParamConfig(String key, String value) {
     this.updateChain()
-      .where(SysParamTableDef.SYS_PARAM.PARAM_KEY.eq(key))
-      .set(SysParamTableDef.SYS_PARAM.PARAM_VAL, value)
-      .update();
+        .where(SysParamTableDef.SYS_PARAM.PARAM_KEY.eq(key))
+        .set(SysParamTableDef.SYS_PARAM.PARAM_VAL, value)
+        .update();
   }
 
   @Override

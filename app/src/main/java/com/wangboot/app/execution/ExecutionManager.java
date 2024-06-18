@@ -231,7 +231,8 @@ public class ExecutionManager {
         dp -> {
           // 检查必填
           if (dp.getRequired() && !params.containsKey(dp.getName())) {
-            throw new ErrorCodeException(RenderErrorCode.PARAM_IS_REQUIRED, new String[] {dp.getName()});
+            throw new ErrorCodeException(
+                RenderErrorCode.PARAM_IS_REQUIRED, new String[] {dp.getName()});
           }
           // 填充默认值
           if (!params.containsKey(dp.getName())) {

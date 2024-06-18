@@ -1,46 +1,20 @@
 package com.wangboot.app.controller;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
-import com.mybatisflex.core.query.QueryWrapper;
-import com.wangboot.core.auth.annotation.RequireAuthority;
 import com.wangboot.core.auth.event.LogStatus;
 import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.errorcode.HttpErrorCode;
 import com.wangboot.core.utils.ISystemDict;
-import com.wangboot.core.web.crypto.ExcludeEncryption;
 import com.wangboot.core.web.response.DetailBody;
-import com.wangboot.core.web.response.ListBody;
 import com.wangboot.core.web.utils.ResponseUtils;
-import com.wangboot.framework.exception.ErrorCode;
-import com.wangboot.model.entity.exception.NotFoundException;
-import com.wangboot.starter.autoconfiguration.WbProperties;
-import com.wangboot.system.entity.SysAnnouncement;
-import com.wangboot.system.entity.SysAttachment;
-import com.wangboot.system.entity.SysFrontend;
-import com.wangboot.system.entity.SysUserDict;
-import com.wangboot.system.entity.table.SysUserDictTableDef;
-import com.wangboot.system.entity.vo.AttachmentVo;
 import com.wangboot.system.model.AnnouncementType;
 import com.wangboot.system.model.ClientType;
 import com.wangboot.system.model.ParamType;
-import com.wangboot.system.service.SysAnnouncementService;
-import com.wangboot.system.service.SysAttachmentService;
-import com.wangboot.system.service.SysFrontendService;
-import com.wangboot.system.service.SysUserDictService;
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.dromara.x.file.storage.core.FileInfo;
-import org.dromara.x.file.storage.core.FileStorageService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -98,5 +72,4 @@ public class CustomerController {
       throw new ErrorCodeException(HttpErrorCode.BAD_REQUEST);
     }
   }
-
 }

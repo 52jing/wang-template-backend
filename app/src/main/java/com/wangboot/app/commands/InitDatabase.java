@@ -15,16 +15,15 @@ import com.wangboot.system.entity.relation.SysRolePolicyRel;
 import com.wangboot.system.entity.relation.SysUserRoleRel;
 import com.wangboot.system.model.PermissionGenerator;
 import com.wangboot.system.service.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * 初始化数据<br>
@@ -56,8 +55,7 @@ public class InitDatabase extends BaseInitDatabaseCommand {
 
   public static final String INIT_PARAM_KEY = "init_app_data";
 
-  @Getter
-  private final IParamConfig paramConfig;
+  @Getter private final IParamConfig paramConfig;
   private final SysMenuService menuService;
   private final SysPermissionService permissionService;
   private final SysPolicyService policyService;
@@ -71,7 +69,7 @@ public class InitDatabase extends BaseInitDatabaseCommand {
 
   private int syncMenu() {
     List<SysMenu> data =
-      Arrays.asList(
+        Arrays.asList(
             new SysMenu(MenuIds.RENDER, "报告生成", "", "work", "", null, 2),
             new SysMenu(
                 MenuIds.DATASOURCE_MANAGEMENT,
@@ -82,7 +80,13 @@ public class InitDatabase extends BaseInitDatabaseCommand {
                 "render",
                 1),
             new SysMenu(
-                MenuIds.TEMPLATE_MANAGEMENT, "模板管理", "", "article", "/template/template", "render", 2),
+                MenuIds.TEMPLATE_MANAGEMENT,
+                "模板管理",
+                "",
+                "article",
+                "/template/template",
+                "render",
+                2),
             new SysMenu(
                 MenuIds.RENDER_EXECUTION,
                 "文档生成",
@@ -118,8 +122,18 @@ public class InitDatabase extends BaseInitDatabaseCommand {
     List<SysPolicy> data2 = new ArrayList<>();
     this.permissionGenerators.forEach(g -> data2.addAll(g.generatePolicies()));
     // 添加其他策略
-    data2.add(new SysPolicy(PolicyIds.RENDER_MENU, PolicyIds.RENDER_MENU, "报告生成菜单", true, null, null, null));
-    data2.add(new SysPolicy(PolicyIds.ANALYSIS_POLICY, PolicyIds.ANALYSIS_POLICY, "报告分析策略", true, null, null, null));
+    data2.add(
+        new SysPolicy(
+            PolicyIds.RENDER_MENU, PolicyIds.RENDER_MENU, "报告生成菜单", true, null, null, null));
+    data2.add(
+        new SysPolicy(
+            PolicyIds.ANALYSIS_POLICY,
+            PolicyIds.ANALYSIS_POLICY,
+            "报告分析策略",
+            true,
+            null,
+            null,
+            null));
     DataPorter<String, SysPolicy> porter2 = new DataPorter<>(data2, policyService);
     m = porter2.syncData();
     n += m;
@@ -128,24 +142,25 @@ public class InitDatabase extends BaseInitDatabaseCommand {
     this.permissionGenerators.forEach(g -> data3.addAll(g.generatePolicyPermissionRel()));
     // 其他策略权限关系
     data3.add(
-      PermissionGenerator.createPolicyPermissionRel(PolicyIds.ANALYSIS_POLICY, analysisUpload));
+        PermissionGenerator.createPolicyPermissionRel(PolicyIds.ANALYSIS_POLICY, analysisUpload));
     DataPorter<String, SysPolicyPermissionRel> porter3 =
         new DataPorter<>(data3, policyPermissionRelService);
     porter3.syncData();
     // 添加策略菜单关系
     List<SysPolicyMenuRel> data4 =
         Arrays.asList(
-          PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.RENDER),
-          PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.DATASOURCE_MANAGEMENT),
-          PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.TEMPLATE_MANAGEMENT),
-          PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.RENDER_EXECUTION),
-          PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.ANALYSIS));
+            PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.RENDER),
+            PermissionGenerator.createPolicyMenuRel(
+                PolicyIds.RENDER_MENU, MenuIds.DATASOURCE_MANAGEMENT),
+            PermissionGenerator.createPolicyMenuRel(
+                PolicyIds.RENDER_MENU, MenuIds.TEMPLATE_MANAGEMENT),
+            PermissionGenerator.createPolicyMenuRel(
+                PolicyIds.RENDER_MENU, MenuIds.RENDER_EXECUTION),
+            PermissionGenerator.createPolicyMenuRel(PolicyIds.RENDER_MENU, MenuIds.ANALYSIS));
     DataPorter<String, SysPolicyMenuRel> porter4 = new DataPorter<>(data4, policyMenuRelService);
     porter4.syncData();
     // 添加角色
-    List<SysRole> data5 =
-        Lists.newArrayList(
-            new SysRole(RoleIds.RENDER, "报告分析用户", null));
+    List<SysRole> data5 = Lists.newArrayList(new SysRole(RoleIds.RENDER, "报告分析用户", null));
     DataPorter<String, SysRole> porter5 = new DataPorter<>(data5, roleService);
     m = porter5.syncData();
     n += m;
@@ -153,44 +168,49 @@ public class InitDatabase extends BaseInitDatabaseCommand {
     List<SysRolePolicyRel> data6 = new ArrayList<>();
     // 系统管理员
     this.permissionGenerators.forEach(
-      g ->
-        data6.add(
-          PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.SYSTEM_ID, g.getWritePolicyId())
-          ));
+        g ->
+            data6.add(
+                PermissionGenerator.createRolePolicyRel(
+                    InitSystemDatabase.RoleIds.SYSTEM_ID, g.getWritePolicyId())));
     this.permissionGenerators.forEach(
-      g ->
-        data6.add(
-          PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.SYSTEM_ID, g.getReadPolicyId())
-          ));
-    data6.add(PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.SYSTEM_ID, PolicyIds.RENDER_MENU));
-    data6.add(PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.SYSTEM_ID, PolicyIds.ANALYSIS_POLICY));
+        g ->
+            data6.add(
+                PermissionGenerator.createRolePolicyRel(
+                    InitSystemDatabase.RoleIds.SYSTEM_ID, g.getReadPolicyId())));
+    data6.add(
+        PermissionGenerator.createRolePolicyRel(
+            InitSystemDatabase.RoleIds.SYSTEM_ID, PolicyIds.RENDER_MENU));
+    data6.add(
+        PermissionGenerator.createRolePolicyRel(
+            InitSystemDatabase.RoleIds.SYSTEM_ID, PolicyIds.ANALYSIS_POLICY));
     // 系统审计员
     this.permissionGenerators.forEach(
-      g ->
-        data6.add(
-          PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.AUDIT_ID, g.getReadPolicyId())
-          ));
-    data6.add(PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.AUDIT_ID, PolicyIds.RENDER_MENU));
-    data6.add(PermissionGenerator.createRolePolicyRel(InitSystemDatabase.RoleIds.AUDIT_ID, PolicyIds.ANALYSIS_POLICY));
+        g ->
+            data6.add(
+                PermissionGenerator.createRolePolicyRel(
+                    InitSystemDatabase.RoleIds.AUDIT_ID, g.getReadPolicyId())));
+    data6.add(
+        PermissionGenerator.createRolePolicyRel(
+            InitSystemDatabase.RoleIds.AUDIT_ID, PolicyIds.RENDER_MENU));
+    data6.add(
+        PermissionGenerator.createRolePolicyRel(
+            InitSystemDatabase.RoleIds.AUDIT_ID, PolicyIds.ANALYSIS_POLICY));
     // 报告分析用户
     this.permissionGenerators.forEach(
-      g ->
-        data6.add(
-          PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, g.getWritePolicyId())
-          ));
+        g ->
+            data6.add(
+                PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, g.getWritePolicyId())));
     this.permissionGenerators.forEach(
-      g ->
-        data6.add(
-          PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, g.getReadPolicyId())
-          ));
+        g ->
+            data6.add(
+                PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, g.getReadPolicyId())));
     data6.add(PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, PolicyIds.RENDER_MENU));
     data6.add(PermissionGenerator.createRolePolicyRel(RoleIds.RENDER, PolicyIds.ANALYSIS_POLICY));
     DataPorter<String, SysRolePolicyRel> porter6 = new DataPorter<>(data6, rolePolicyRelService);
     porter6.syncData();
     // 添加用户角色关系
     List<SysUserRoleRel> data7 =
-        Lists.newArrayList(
-            new SysUserRoleRel("render_role", "4", RoleIds.RENDER));
+        Lists.newArrayList(new SysUserRoleRel("render_role", "4", RoleIds.RENDER));
     DataPorter<String, SysUserRoleRel> porter7 = new DataPorter<>(data7, userRoleRelService);
     porter7.syncData();
     return n;
@@ -223,5 +243,4 @@ public class InitDatabase extends BaseInitDatabaseCommand {
   protected void setInitialized() {
     this.getParamConfig().setParamConfig(INIT_PARAM_KEY, "1");
   }
-
 }

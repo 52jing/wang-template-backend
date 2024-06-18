@@ -28,6 +28,12 @@
 易于整合到其他系统中，作为报告生成功能的模块。
 ```
 
+4. 更智能
+
+```
+整合了大文本人工智能服务，可提供更智能化的报告生成能力。
+```
+
 ## 核心技术栈
 
 | 技术栈 | 版本 |
@@ -35,7 +41,6 @@
 | Java | 8+ |
 | Spring | 5.3.31 |
 | Spring Boot | 2.7.18 |
-| Hutool | 5.8.28 |
 
 ### 支持的数据源类型
 
@@ -66,7 +71,7 @@ WangTemplateBackend
 
 ### 配置文件
 
-添加配置文件 `application-prod.yml` 或 `application-prod.properties`。
+添加配置文件 `application-prod.yml` 或 `application-prod.properties`，可参考 `app/src/main/resources/example-application-dev.yml` 文件。
 
 ### 配置数据库
 
@@ -128,6 +133,17 @@ dromara:
         base-path: local-plus/ # 基础路径
         path-patterns: /file/** # 访问路径
         storage-path: ./data # 存储路径
+```
+
+### 配置报告分析（人工智能）
+
+```yaml
+analysis:
+  # 启用报告指标分析
+  indicatorAnalysis: true
+  # 使用 Kimi 大模型，请填入 Kimi API 密钥，参考 https://platform.moonshot.cn/docs/intro#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97
+  moonShot:
+    accessToken:
 ```
 
 ## 模版说明

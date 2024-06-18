@@ -14,7 +14,6 @@ import com.wangboot.core.errorcode.ErrorCodeException;
 import com.wangboot.core.event.IEventBus;
 import com.wangboot.core.web.response.DetailBody;
 import com.wangboot.core.web.utils.ResponseUtils;
-import com.wangboot.framework.exception.ErrorCode;
 import com.wangboot.model.entity.FieldConstants;
 import com.wangboot.model.entity.IRestfulService;
 import com.wangboot.model.entity.controller.ControllerApiGroup;
@@ -30,8 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
@@ -46,8 +43,7 @@ public class TplDatasourceController
     implements IRestfulReadController<String, TplDatasource>,
         IRestfulWriteController<String, TplDatasource> {
 
-  @Getter
-  private final IEventBus eventBus;
+  @Getter private final IEventBus eventBus;
 
   @Getter private final TplDatasourceService entityService;
 

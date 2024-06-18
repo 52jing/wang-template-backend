@@ -12,17 +12,16 @@ import com.wangboot.system.model.PermissionGenerator;
 import com.wangboot.system.service.SysMenuService;
 import com.wangboot.system.service.SysParamService;
 import com.wangboot.system.service.SysPolicyMenuRelService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -45,7 +44,7 @@ public class InitTaskDatabase extends BaseInitDatabaseCommand {
     List<SysMenu> data =
         Collections.singletonList(
             new SysMenu(
-              quickLinkId,
+                quickLinkId,
                 "快捷菜单",
                 "",
                 "link",
@@ -56,9 +55,11 @@ public class InitTaskDatabase extends BaseInitDatabaseCommand {
     int n = porter.syncData();
     // 添加策略菜单关系
     List<SysPolicyMenuRel> data2 =
-      Arrays.asList(
-        PermissionGenerator.createPolicyMenuRel(InitSystemDatabase.AdditionalPolicyIds.POLICY_MANAGE_MENU, quickLinkId),
-        PermissionGenerator.createPolicyMenuRel(InitSystemDatabase.AdditionalPolicyIds.POLICY_COMMON_MENU, quickLinkId));
+        Arrays.asList(
+            PermissionGenerator.createPolicyMenuRel(
+                InitSystemDatabase.AdditionalPolicyIds.POLICY_MANAGE_MENU, quickLinkId),
+            PermissionGenerator.createPolicyMenuRel(
+                InitSystemDatabase.AdditionalPolicyIds.POLICY_COMMON_MENU, quickLinkId));
     DataPorter<String, SysPolicyMenuRel> porter2 = new DataPorter<>(data2, policyMenuRelService);
     porter2.syncData();
     return n;

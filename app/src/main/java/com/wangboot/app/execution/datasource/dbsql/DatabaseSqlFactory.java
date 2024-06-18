@@ -6,7 +6,6 @@ import com.wangboot.app.execution.RenderErrorCode;
 import com.wangboot.app.execution.datasource.IDatasource;
 import com.wangboot.app.execution.datasource.IDatasourceFactory;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.framework.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;

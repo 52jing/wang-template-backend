@@ -5,6 +5,12 @@ server:
     # 应用的访问路径
     context-path: /api
 
+spring:
+  flyway:
+    enabled: true
+    locations:
+      - classpath:db/migration/mysql
+
 mybatis-flex:
   # 数据源配置
   datasource:
@@ -59,12 +65,18 @@ app:
   crypto:
     enabled: false
 
+# 报告分析
+analysis:
+  indicatorAnalysis: false
+  moonShot:
+    accessToken:
+
 # 管理端口
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
   #        include: health,prometheus
   metrics:
     tags:

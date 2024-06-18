@@ -5,7 +5,6 @@ import com.wangboot.app.execution.render.BaseTemplateRender;
 import com.wangboot.app.execution.render.RenderContext;
 import com.wangboot.app.template.entity.TplTemplate;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.framework.exception.ErrorCode;
 import freemarker.cache.ByteArrayTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;

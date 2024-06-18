@@ -2,7 +2,6 @@ package com.wangboot.app.execution.render;
 
 import com.wangboot.app.execution.RenderErrorCode;
 import com.wangboot.core.errorcode.ErrorCodeException;
-import com.wangboot.framework.exception.ErrorCode;
 import java.util.Objects;
 import lombok.Getter;
 import org.springframework.util.StringUtils;

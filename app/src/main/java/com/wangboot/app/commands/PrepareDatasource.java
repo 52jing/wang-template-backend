@@ -5,9 +5,8 @@ import com.wangboot.app.execution.datasource.DatasourceProcessor;
 import com.wangboot.app.template.entity.TplDatasource;
 import com.wangboot.app.template.entity.table.TplDatasourceTableDef;
 import com.wangboot.app.template.service.TplDatasourceService;
-import java.util.List;
-
 import com.wangboot.framework.command.IBaseCommand;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

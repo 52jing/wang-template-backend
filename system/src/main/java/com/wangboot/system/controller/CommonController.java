@@ -57,7 +57,8 @@ public class CommonController {
 
   private static Map<String, String[]> buildUploadAccepts() {
     Map<String, String[]> map = new HashMap<>();
-    map.put("template", ArrayUtil.addAll(ContentTypes.TEXT_FILE, ContentTypes.OFFICE_WORD_DOCUMENTS));
+    map.put(
+        "template", ArrayUtil.addAll(ContentTypes.TEXT_FILE, ContentTypes.OFFICE_WORD_DOCUMENTS));
     map.put(
         "announcement",
         ArrayUtil.addAll(
