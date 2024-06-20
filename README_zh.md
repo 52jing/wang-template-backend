@@ -1,5 +1,11 @@
 <h4 align="right"><a href="./README.md">English</a> | <strong>简体中文</strong></h4>
 
+<p align="center">
+   <img src="https://img.shields.io/badge/license-Apache-blue.svg" alt="license">
+   <img src="https://img.shields.io/badge/JDK-8+-green.svg" alt="jdk">
+   <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="springboot">
+</p> 
+
 # Wang-Template: 简洁易用的报告生成系统
 
 ## 描述
@@ -211,7 +217,7 @@ Word 模板基于 [poi-tl](https://deepoove.com/poi-tl/) ，模版语法可参�
 
 ### 文本模版
 
-文本 模版基于 [FreeMarker](https://freemarker.apache.org/) ，模板语法可参考官方文档。
+文本模版基于 [FreeMarker](https://freemarker.apache.org/) ，模板语法可参考官方文档。
 
 ## 后续计划
 
