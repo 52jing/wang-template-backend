@@ -6,13 +6,21 @@
    <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="springboot">
 </p> 
 
-# Wang-Template: A Simple Report Render Platform
+# Wang-Template: A Template Based Report Render Platform
 
 ## Introduction
 
 This system is a report rendering module extracted from the actual production platform, as a stand-alone report generation system.
 
-This system is BS architecture, this project is a back-end service, front-end project address.
+This system is BS architecture, this project is a backend service: 
+
+- Github: [https://github.com/52jing/wang-template-backend](https://github.com/52jing/wang-template-backend)
+- Gitee: [https://gitee.com/i52jing/wang-template-backend](https://gitee.com/i52jing/wang-template-backend)
+
+Frontend service at:
+
+- Github: [https://github.com/52jing/wang-template-admin](https://github.com/52jing/wang-template-admin)
+- Gitee: [https://gitee.com/i52jing/wang-template-admin](https://gitee.com/i52jing/wang-template-admin)
 
 ## Features
 
@@ -68,6 +76,69 @@ WangTemplateBackend
 |-- system  -- System management module
 |-- task  -- Task management module
 ```
+
+## Deployment
+
+### Quick Start
+
+Use docker compose to quickly deploy:
+
+- Github: [https://github.com/52jing/wang-template-compose](https://github.com/52jing/wang-template-compose)
+- Gitee: [https://gitee.com/i52jing/wang-template-compose](https://gitee.com/i52jing/wang-template-compose)
+
+### Deploy Backend
+
+#### Docker
+
+Build Image
+
+```
+docker build -t wang-template-backend:1.0 .
+```
+
+Mount config file and start container
+
+```
+docker run -d --name wang-template-backend -p 8000:8000 -v <path-to-config>/application-prod.yml:/opt/config/application-prod.yml wang-template-backend:1.0
+```
+
+#### Manually
+
+Package by Maven
+
+```
+mvn clean package -DskipTests
+```
+
+Jar file is under app/target/app.jar, add config file and start jar.
+
+### Deploy Frontend
+
+#### Docker
+
+Build Image
+
+```
+docker build -t wang-template-admin:1.0 .
+```
+
+Start Container
+
+```
+docker run -d --name wang-template-admin -p 8001:80 wang-template-admin:1.0
+```
+
+#### Manually
+
+Build by Vite
+
+```
+yarn build
+```
+
+Files are under dist/spa directory.
+
+Note: Since the frontend defaults to the same domain and port for backend services, you need to use a front load-balancing proxy, or configure the backend request base path when build the frontend (see Environment Variables).
 
 ## Snapshots
 

@@ -6,13 +6,21 @@
    <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="springboot">
 </p> 
 
-# Wang-Template: 简洁易用的报告生成系统
+# Wang-Template: 简洁易用的基于模版的报告生成系统
 
 ## 描述
 
 本系统是从实际生产平台中抽离出来的报告渲染模块，作为了一款独立的报告生成系统。
 
-本系统是前后端分离的架构，此项目是后端服务，前端项目地址。
+本系统是前后端分离的架构，此项目是后端服务，项目地址：
+
+- Github: [https://github.com/52jing/wang-template-backend](https://github.com/52jing/wang-template-backend)
+- Gitee: [https://gitee.com/i52jing/wang-template-backend](https://gitee.com/i52jing/wang-template-backend)
+
+前端项目地址：
+
+- Github: [https://github.com/52jing/wang-template-admin](https://github.com/52jing/wang-template-admin)
+- Gitee: [https://gitee.com/i52jing/wang-template-admin](https://gitee.com/i52jing/wang-template-admin)
 
 ## 特点
 
@@ -68,6 +76,69 @@ WangTemplateBackend
 |-- system  -- 系统管理模块
 |-- task  -- 任务模块
 ```
+
+## 部署
+
+### 快速部署
+
+参考 Docker Compose 的快速部署项目：
+
+- Github: [https://github.com/52jing/wang-template-compose](https://github.com/52jing/wang-template-compose)
+- Gitee: [https://gitee.com/i52jing/wang-template-compose](https://gitee.com/i52jing/wang-template-compose)
+
+### 后端部署
+
+#### 使用 Docker 部署
+
+Docker 构建
+
+```
+docker build -t wang-template-backend:1.0 .
+```
+
+挂载配置文件启动
+
+```
+docker run -d --name wang-template-backend -p 8000:8000 -v <path-to-config>/application-prod.yml:/opt/config/application-prod.yml wang-template-backend:1.0
+```
+
+#### 手动部署
+
+使用 Maven 构建打包。
+
+```
+mvn clean package -DskipTests
+```
+
+打包后的 jar 在 app/target/app.jar，编辑配置文件并启动。
+
+### 前端部署
+
+#### 使用 Docker 部署
+
+Docker 构建
+
+```
+docker build -t wang-template-admin:1.0 .
+```
+
+启动容器
+
+```
+docker run -d --name wang-template-admin -p 8001:80 wang-template-admin:1.0
+```
+
+#### 手动部署
+
+使用 Vite 构建打包。
+
+```
+yarn build
+```
+
+打包后的文件在 dist/spa 目录下。
+
+注意：由于前端默认同域同端口的后端服务，需要使用前置的负载均衡代理，或者前端打包时配置后端请求基础路径（见环境变量）。
 
 ## 系统截图
 
